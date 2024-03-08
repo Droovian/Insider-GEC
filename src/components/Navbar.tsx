@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "./ui/button";
 import { Input } from "@/components/ui/input";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 export default function Navbar(){
     return (
@@ -18,8 +19,12 @@ export default function Navbar(){
                 <Button variant='ghost'>Search</Button>
             </div>
             <div className="flex items-center space-x-10 mr-4">
-                <Button variant='secondary' size='default'>Log In</Button>
-                <Button variant='secondary'>Sign Up</Button>
+                <Button variant='secondary' size='default'>
+                    <Link href='/api/auth/signin'>Log In</Link>
+                </Button>
+                <Button variant='secondary'>
+                    <Link href='/signup'>Sign Up</Link>
+                </Button>
                 <Button onClick={() => signOut()} variant='destructive'>SignOut</Button>
             </div>
         </header>
