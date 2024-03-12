@@ -22,9 +22,12 @@ export default async function Home() {
           </div>
         ) : null}
 
-        <div className="mx-auto bg-gray-300 text-black w-1/2 h-16 shadow-md flex justify-center items-center">
+        <div className="mx-auto bg-gray-300 text-black w-1/2 h-16 shadow-md flex space-x-10 justify-center items-center">
             <Button variant='default'>
               <Link href='/create'>Create Post</Link>
+            </Button>
+            <Button variant='default'>
+              <Link href='/my-posts'>View My Posts</Link>
             </Button>
         </div>
     </div>
