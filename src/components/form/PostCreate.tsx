@@ -61,7 +61,7 @@ export default function UserForm() {
       })
 
       if(response.ok){
-        toast.success("Successfully added post to the db");
+        toast.success("Post added!");
       }
       else{
         toast.error('Error occurred while adding post');
