@@ -17,7 +17,7 @@ export default async function Home() {
         <Navbar/>
         {session?.user ? (
           <div>
-            <p className="text-white">Hello {session?.user.username}
+            <p className="text-white">Hello {session?.user.username || session.user.name}
             </p>
           </div>
         ) : null}
