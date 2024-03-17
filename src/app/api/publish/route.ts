@@ -20,13 +20,23 @@ export async function POST(req: Request) {
     if (session) {
       console.log(session);
 
-      const userName = session?.user.username;
+      const userName = session?.user.username || session?.user.name;
 
-      const fetchUser = await db.user.findUnique({
+      const fetchUser = await db.user.findFirst({
         where: {
-          username: userName,
+          OR: [
+            { username: userName },
+            { name: userName }
+          ]
         },
       });
+
+      if (!fetchUser) {
+        return NextResponse.json(
+            { message: "User not found" },
+            { status: 404 }
+        );
+      }
 
       const userId = fetchUser?.id;
 

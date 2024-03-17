@@ -29,7 +29,7 @@ export default function Navbar(){
             </div>
             <div className="flex items-center space-x-10 mr-4">
                 {session?.user ? (
-                    <Button onClick={() => signOut()} variant='destructive'>SignOut</Button>
+                    <Button onClick={() => signOut()} variant='destructive'>Sign Out</Button>
                 ) : (
                     <>
                         <Button variant='secondary' size='default'>

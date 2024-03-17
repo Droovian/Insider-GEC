@@ -7,11 +7,17 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import Card from "@/components/card/Card";
 import Sidebar from "@/components/sidebar/Sidebar";
+import { getPosts } from "@/lib/data";
+import { Suspense } from "react";
+import Loader from "@/components/card/loader";
 
 export default async function Home() {
 
   const session = await getServerSession(authOptions);
+  const posts = await getPosts();
 
+  console.log('posts are', posts);
+  
   console.log(session);
   
   return (
@@ -23,17 +29,19 @@ export default async function Home() {
             </p>
           </div>
         ) : null}
-        <div className="flex">
           {/* Sidebar */}
+          <div className="flex w-full">
           <Sidebar/>
 
           {/* Main content */}
-          <div className="w-3/4 p-4">
+          <div className="w-full p-4">
 
             {/* Card Component */}
-            <div className="flex justify-center items-center mt-4">
-              <Card/>
-            </div>
+            <Suspense fallback={<Loader/>}>
+              <div className="flex justify-center items-center mt-4">
+                <Card/>
+              </div>
+            </Suspense>
 
             {/* Buttons */}
             {/* <div className="mx-auto bg-gray-300 rounded-2xl text-black w-1/2 h-16 shadow-md flex space-x-10 justify-center items-center mt-4">
