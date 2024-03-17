@@ -21,7 +21,6 @@ const Card: FC<Post> = async ({ title, content, category }) => {
           <div className='flex items-center justify-between m-5 text-sm underline'>
             <div className='flex items-center gap-2'>
               <div className='h-10 w-10 rounded-full bg-black'></div>
-              <p className='text-gray-700'>user 69</p>
             </div>
             <p className='text-gray-700'>Category: {post.category}</p>
           </div>
