@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
+import CreatePostLayout from "@/app/(posts)/create/layout";
 export default function Navbar(){
 
     const {data:session} = useSession();
@@ -19,7 +20,12 @@ export default function Navbar(){
                 <Link href='/'>
                 <Avatar>
                     <AvatarImage src={url} alt='default-user' />
-                    <AvatarFallback>Insider</AvatarFallback>
+                    <AvatarFallback>{session?.user ? (
+          <>
+            <p className="text-black">{session?.user.username || session.user.name}
+            </p>
+          </>
+        ) : null}</AvatarFallback>
                 </Avatar>
                 </Link>
             </div>
@@ -27,11 +33,15 @@ export default function Navbar(){
                 <Input placeholder="Search..." className="text-black p-3"/>
                 <Button variant='ghost'>Search</Button>
             </div>
+
+                        
+
             <div className="flex items-center space-x-10 mr-4">
                 {session?.user ? (
                     <Button onClick={() => signOut()} variant='destructive'>Sign Out</Button>
                 ) : (
                     <>
+                        
                         <Button variant='secondary' size='default'>
                             <Link href='/api/auth/signin'>Log In</Link>
                         </Button>
