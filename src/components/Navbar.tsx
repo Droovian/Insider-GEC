@@ -8,6 +8,7 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import CreatePostLayout from "@/app/(posts)/create/layout";
+import { SheetDemo } from "./sidebar/Drawer";
 export default function Navbar(){
 
     const {data:session} = useSession();
@@ -16,7 +17,12 @@ export default function Navbar(){
     
     return (
         <header className="w-full h-20 border-b border-gray-400 flex justify-between p-3 mx-3">
-            <div className="flex items-center">
+         <div>
+            <div className="sm:hidden">
+                <SheetDemo />
+            </div>    
+        </div>  
+            <div className="hidden sm:flex items-center">
                 <Link href='/'>
                 <Avatar>
                     <AvatarImage src={url} alt='default-user' />

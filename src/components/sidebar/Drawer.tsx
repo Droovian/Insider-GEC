@@ -1,159 +1,90 @@
 "use client"
-import { FC } from 'react'
-import SidebarButton from './NavButton'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useSession } from "next-auth/react";
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+}from "@/components/ui/sheet"
+import Sidebar from "./Sidebar"
+import SidebarButton from "./NavButton"
 import { BookHeart, Calendar, Dumbbell, GraduationCap, Home, School, Users } from 'lucide-react'
+import Link from "next/link"
 
-import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+const SHEET_SIDES = ["left"] as const
 
-const drawerWidth = 240;
+type SheetDemo = (typeof SHEET_SIDES)[number]
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
-  open?: boolean;
-}>(({ theme, open }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(3),
-  transition: theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: `-${drawerWidth}px`,
-  ...(open && {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  }),
-}));
-
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
-}));
-
-export default function DrawerDemo() {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
+export function SheetDemo() {
+  const {data:session} = useSession();
+    
+    const url = `${session?.user?.image}`;
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {['Home', 'Popular'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['Events', 'Academics','Sports','Campus'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        
-      </Drawer>
-      <Main open={open}>
-        <DrawerHeader />
+    <div className="grid grid-cols-2 gap-2">
+      {SHEET_SIDES.map((side) => (
+        <Sheet key={side}>
+          <SheetTrigger asChild>
+            <div>
 
-      </Main>
-    </Box>
-  );
+            <Button variant="outline">=</Button>
+            </div>
+          </SheetTrigger>
+          <SheetContent side={side}>
+            <SheetHeader>
+            <SheetTitle>
+            <div className=" flex items-center">
+                <Link href='/'>
+                <Avatar>
+                    <AvatarImage src={url} alt='default-user' />
+                    <AvatarFallback>{session?.user ? (
+          <>
+            <p className="text-black">{session?.user.username || session.user.name}
+            </p>
+          </>
+        ) : null}</AvatarFallback>
+                </Avatar>
+                </Link>
+            </div>
+            </SheetTitle>
+              <SheetDescription>
+              <div className=" bg-white p-4 rounded-md">
+                  <div >
+                      <Button className="w-full border hover:bg-gray-200 p-2 mt-2" variant='secondary'>
+                          <Link href='/create'>Create Post</Link>
+                      </Button>
+                  </div>
+                    <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
+                    <SidebarButton text='Home' icon={<Home />}/>
+                    <SidebarButton text='Popular' icon={<BookHeart />}/>
+                    <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
+                    <span className='text-gray-400 text-sm mb-2'>TOPICS</span>
+                    <SidebarButton text='Events' icon={<Calendar />}/>
+                    <SidebarButton text='Academics' icon={<GraduationCap />}/>
+                    <SidebarButton text='Sports' icon={<Dumbbell />}/>
+                    <SidebarButton text='Campus' icon={<School />} />
+                    <SidebarButton text='Relationships' icon={<Users />} />
+                    <SidebarButton text='Relationships' icon={<Users />} />
+                    <SidebarButton text='Relationships' icon={<Users />} />
+                    <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
+                    <span className='text-gray-400 text-sm mb-2'>Explore</span>
+              </div>
+              </SheetDescription>
+            </SheetHeader>
+            
+
+            
+          </SheetContent>
+        </Sheet>
+      ))}
+    </div>
+  )
 }

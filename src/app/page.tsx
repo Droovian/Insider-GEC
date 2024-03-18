@@ -12,7 +12,7 @@ import { Suspense } from "react";
 import Loader from "@/components/card/loader";
 import Recent from "@/components/card/Recent";
 import { Drawer } from "vaul";
-import DrawerDemo from "@/components/sidebar/Drawer";
+import  { SheetDemo } from "@/components/sidebar/Drawer";
 
 export default async function Home() {
 
@@ -44,20 +44,18 @@ export default async function Home() {
 
       <div className="flex flex-col flex-grow">
         {/* Mobile-only drawer */}
-        <div className="sm:hidden">
-          {/* <DrawerDemo /> */}
-        </div>
+        
         {/* Main content area with responsive grid */}
-        <div className="flex flex-wrap px-4 py-8">
+        <div className="flex flex-wrap px-4 pt-2 pb-8">
           <Suspense fallback={<Loader />}>
             {/* Left card (full width on mobile, 3/5 on larger screens) */}
-            <div className="w-full  lg:w-3/4 p-4 md:w-full">
+            <div className="w-full  xl:w-3/4 p-4 md:w-full">
               <Card />
             </div>
           </Suspense>
           <Suspense fallback={<Loader />}>
             {/* Right card (always 2/5 width) */}
-            <div className="w-full  lg:w-1/4 pl-1 ml-0 hidden lg:block">
+            <div className="w-full  lg:w-1/4 pl-1 ml-0 hidden xl:block">
               <Recent />
             </div>
           </Suspense>
