@@ -56,7 +56,7 @@ export default async function Home() {
           <Suspense fallback={<Loader />}>
             {/* Right card (always 2/5 width) */}
             <div className="w-full  lg:w-1/4 pl-1 ml-0 hidden xl:block">
-              <Recent />
+              
             </div>
           </Suspense>
         </div>
