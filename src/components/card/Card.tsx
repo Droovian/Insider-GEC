@@ -17,7 +17,7 @@ const Card: FC<Post> = async ({ title, content, category }) => {
   console.log(posts);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 gap-4">
       {posts.map((post) => (
         <div
           key={post.id}
