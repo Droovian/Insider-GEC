@@ -68,8 +68,8 @@ export default function Posts() {
   }
 
   return (
-    <div className="bg-gray-200 width-full h-full">
-      <h1 className="bg-gray-200 text-black inline border-b scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-5">
+    <div>
+      <h1 className="text-black inline border-b scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-5">
       Your Posts...
       </h1>
       {userPosts && userPosts.length > 0 ? (

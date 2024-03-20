@@ -15,7 +15,7 @@ const SignIn = () => {
       </div>
       <UserAuthForm />
       <p className='px-8 text-center text-sm text-muted-foreground'>
-        New to Breaddit?
+        New to Insider?
         <Link 
           href='/signup'
           className='hover:text-brand text-sm underline underline-offset-4'>

@@ -10,15 +10,7 @@ export async function GET(req: Request){
 
     if(session?.user){
 
-        const userName = session?.user.username;
-
-        const fetchUser = await db.user.findUnique({
-            where: {
-            username: userName,
-            },
-        });
-
-      const userId = fetchUser?.id;
+        const userId = session?.user.id;
 
       if(userId){
 

@@ -10,10 +10,13 @@ interface SidebarProps {
 
 const Sidebar: FC<SidebarProps> = ({ }) => {
     return (  
-    <div className="pl-14 invisible sm:visible w-[230px] bg-gray-100 p-4 rounded-md">
-            <div >
+    <div className="invisible sm:visible w-[230px] bg-gray-100 p-4 rounded-md">
+            <div>
                 <Button className="w-full border hover:bg-gray-200 p-2 mt-2" variant='secondary'>
                     <Link href='/create'>Create Post</Link>
+                </Button>
+                <Button className="w-full border hover:bg-gray-200 p-2 mt-2" variant='secondary'>
+                    <Link href='/my-posts'>View My Posts</Link>
                 </Button>
             </div>
             <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>

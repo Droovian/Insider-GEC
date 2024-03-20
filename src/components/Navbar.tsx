@@ -21,13 +21,8 @@ export default function Navbar(){
             <div className="hidden sm:flex items-center">
                 <Link href='/'>
                 <Avatar>
-                    <AvatarImage src={url} alt='default-user' />
-                    <AvatarFallback>{session?.user ? (
-          <>
-            <p className="text-black">{session?.user.username || session.user.name}
-            </p>
-          </>
-        ) : null}</AvatarFallback>
+                    <AvatarImage src={url} />
+                    <AvatarFallback>DN</AvatarFallback>
                 </Avatar>
                 </Link>
             </div>

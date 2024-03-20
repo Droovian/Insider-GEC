@@ -2,25 +2,21 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { Button } from "@/components/ui/button";
-import { signOut } from "next-auth/react";
 import Link from "next/link";
 import Card from "@/components/card/Card";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { getPosts } from "@/lib/data";
 import { Suspense } from "react";
 import Loader from "@/components/card/loader";
-import Recent from "@/components/card/Recent";
-import { Drawer } from "vaul";
-import  { SheetDemo } from "@/components/sidebar/Drawer";
-
+import doSomething from "./api/testing/route"; // using this for deleting data from prisma
 export default async function Home() {
 
   const session = await getServerSession(authOptions);
   const posts = await getPosts();
 
+  // await doSomething();
   console.log('posts are', posts);
-  console.log(session);
+
   console.log(session);
   
   return (

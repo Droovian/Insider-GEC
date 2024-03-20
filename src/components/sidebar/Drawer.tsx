@@ -41,7 +41,7 @@ export function SheetDemo() {
           <SheetContent side={side}>
             <SheetHeader>
             <SheetTitle>
-            <div className=" flex items-center">
+            <div className="flex items-center">
                 <Link href='/'>
                 <Avatar>
                     <AvatarImage src={url} alt='default-user' />
@@ -61,6 +61,9 @@ export function SheetDemo() {
                       <Button className="w-full border hover:bg-gray-200 p-2 mt-2" variant='secondary'>
                           <Link href='/create'>Create Post</Link>
                       </Button>
+                      <Button className="w-full border hover:bg-gray-200 p-2 mt-2" variant='secondary'>
+                        <Link href='/my-posts'>View My Posts</Link>
+                    </Button>
                   </div>
                     <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
                     <SidebarButton text='Home' icon={<Home />}/>

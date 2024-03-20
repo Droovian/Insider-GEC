@@ -33,7 +33,6 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
   return (
     <div className={cn('flex justify-center', className)} {...props}>
       <Button
-        isLoading={isLoading}
         type='button'
         size='sm'
         className='w-full'
