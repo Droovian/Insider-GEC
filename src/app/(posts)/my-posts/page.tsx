@@ -68,14 +68,14 @@ export default function Posts() {
   }
 
   return (
-    <div className="h-full">
-      <h1 className="text-black inline border-b scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-5">
+    <div className="bg-gray-200 width-full h-full">
+      <h1 className="bg-gray-200 text-black inline border-b scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-5">
       Your Posts...
       </h1>
       {userPosts && userPosts.length > 0 ? (
-        <ul className="flex flex-col space-y-5 mt-10">
+        <ul className=" flex flex-col space-y-5 mt-10">
           {userPosts.map((post: Post) => (
-            <div className="border shadow-lg transition-transform transform hover:scale-105 p-3"
+            <div className="border rounded-lg transition-transform transform hover:scale-105 p-3"
             style={{ transitionDuration: '0.3s' }}>
                 <div className="flex justify-between">
                     <div className="flex justify-between w-full mr-32">

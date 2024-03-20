@@ -20,7 +20,7 @@ export default async function Home() {
   const posts = await getPosts();
 
   console.log('posts are', posts);
-  
+  console.log(session);
   console.log(session);
   
   return (
