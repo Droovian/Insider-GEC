@@ -7,13 +7,17 @@ import { NextApiRequest } from "next";
 export default async function GET(req:Request){
 
     try{
-    const fetchData = await db.post.findMany();
-
-    console.log(fetchData);
+    
+     await db.post.findMany({
+        orderBy:{
+            createdAt: 'desc',
+        },
+    });
 
     return NextResponse.json({
         message: "Successfully fetched data"
     })
+    
     }
     catch(error){
         return NextResponse.json({

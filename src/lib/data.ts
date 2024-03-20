@@ -3,12 +3,17 @@ import { unstable_noStore as noStore } from "next/cache";
 
 export async function getPosts(){
 
+    // await new Promise((r) => setTimeout(r, 2000)); use this to replicate for loader
     noStore();
 
     try {
         console.log("Trying to fetch data:");
     
-        const res = await db.post.findMany();
+        const res = await db.post.findMany({
+            orderBy: {
+                createdAt: 'desc',
+            },
+        });
 
         return res;
 

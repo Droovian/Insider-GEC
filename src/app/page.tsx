@@ -1,8 +1,6 @@
-import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import Link from "next/link";
 import Card from "@/components/card/Card";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { getPosts } from "@/lib/data";
@@ -12,6 +10,7 @@ import doSomething from "./api/testing/route"; // using this for deleting data f
 export default async function Home() {
 
   const session = await getServerSession(authOptions);
+
   const posts = await getPosts();
 
   // await doSomething();
@@ -42,20 +41,22 @@ export default async function Home() {
         {/* Mobile-only drawer */}
         
         {/* Main content area with responsive grid */}
+        <Suspense fallback={<Loader />}>
         <div className="flex flex-wrap px-4 pt-2 pb-8">
-          <Suspense fallback={<Loader />}>
+          
             {/* Left card (full width on mobile, 3/5 on larger screens) */}
             <div className="w-full  xl:w-3/4 p-4 md:w-full">
               <Card />
             </div>
-          </Suspense>
-          <Suspense fallback={<Loader />}>
+          
+         
             {/* Right card (always 2/5 width) */}
             <div className="w-full  lg:w-1/4 pl-1 ml-0 hidden xl:block">
               
             </div>
-          </Suspense>
+         
         </div>
+        </Suspense>
       </div>
     </div>
     </div>
