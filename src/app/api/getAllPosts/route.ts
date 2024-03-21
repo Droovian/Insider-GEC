@@ -1,13 +1,9 @@
 import { db } from "@/lib/db";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { NextRequest, NextResponse } from "next/server";
-import { NextApiRequest } from "next";
+import { NextResponse } from "next/server";
 
 export async function GET(req:Request){
 
     try{
-    
      const posts = await db.post.findMany({
         orderBy:{
             createdAt: 'desc',

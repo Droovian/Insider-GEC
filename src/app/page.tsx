@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import Card from "@/components/card/Card";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { getPosts } from "@/lib/data";
-import { Suspense } from "react";
+import GeneralFeed from "@/components/homepage/GeneralFeed";
 import Loader from "@/components/card/loader";
 import doSomething from "./api/testing/route"; // using this for deleting data from prisma
 
@@ -42,9 +42,7 @@ export default async function Home() {
           
             {/* Left card (full width on mobile, 3/5 on larger screens) */}
             <div className="w-full  xl:w-3/4 p-4 md:w-full">
-            <Suspense fallback={<Loader />}>
-              <Card />
-            </Suspense>
+              <GeneralFeed />
             </div>
           
          
