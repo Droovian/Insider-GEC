@@ -7,14 +7,10 @@ import { getPosts } from "@/lib/data";
 import { Suspense } from "react";
 import Loader from "@/components/card/loader";
 import doSomething from "./api/testing/route"; // using this for deleting data from prisma
+
 export default async function Home() {
 
   const session = await getServerSession(authOptions);
-
-  const posts = await getPosts();
-
-  // await doSomething();
-  console.log('posts are', posts);
 
   console.log(session);
   
@@ -41,12 +37,14 @@ export default async function Home() {
         {/* Mobile-only drawer */}
         
         {/* Main content area with responsive grid */}
-        <Suspense fallback={<Loader />}>
+        
         <div className="flex flex-wrap px-4 pt-2 pb-8">
           
             {/* Left card (full width on mobile, 3/5 on larger screens) */}
             <div className="w-full  xl:w-3/4 p-4 md:w-full">
+            <Suspense fallback={<Loader />}>
               <Card />
+            </Suspense>
             </div>
           
          
@@ -56,7 +54,7 @@ export default async function Home() {
             </div>
          
         </div>
-        </Suspense>
+        
       </div>
     </div>
     </div>

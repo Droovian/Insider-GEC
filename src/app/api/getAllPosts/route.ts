@@ -4,19 +4,17 @@ import { authOptions } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { NextApiRequest } from "next";
 
-export default async function GET(req:Request){
+export async function GET(req:Request){
 
     try{
     
-     await db.post.findMany({
+     const posts = await db.post.findMany({
         orderBy:{
             createdAt: 'desc',
         },
     });
 
-    return NextResponse.json({
-        message: "Successfully fetched data"
-    })
+    return NextResponse.json(posts);
     
     }
     catch(error){

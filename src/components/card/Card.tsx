@@ -1,22 +1,56 @@
+"use client";
 import { MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
-import { FC } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { getPosts } from '@/lib/data'; // Assuming this fetches posts
 import { Button } from '../ui/button';
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import axios from 'axios';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface Post {
+  id?:number;
   title?: string;
   content?: string;
   category?: string;
   createdAt?:Date;
 }
 
-const Card: FC<Post> = async ({ title, content, category }) => {
-  // Fetch posts if children are not provided (optional)
-  const posts = await getPosts();
+const Card: FC<Post> = ({ title, content, category }) => {
+
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [posts]);
+
+  const fetchPosts = async () => {
+    try {
+      const fetchedPosts = await axios.get<Post[]>("http://localhost:3000/api/getAllPosts");
+    
+       const receivedData = fetchedPosts?.data;
+       console.log(typeof(receivedData));
+       
+      setPosts(receivedData);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+  }
 
   console.log(posts);
+
+  if (loading) {
+    return <div>Loading...</div>; // Render loading indicator while data is being fetched
+  }
 
   return (
     <div className="grid grid-cols-1 gap-4">
@@ -33,7 +67,16 @@ const Card: FC<Post> = async ({ title, content, category }) => {
             </Avatar>
             </div>
             <Button className="rounded-full bg-white hover:bg-gray-200 text-black">
-              <HiOutlineDotsHorizontal />
+              <DropdownMenu>
+              <DropdownMenuTrigger>
+                <HiOutlineDotsHorizontal />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>Report</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Share</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             </Button>
           </div>
           <div className="m-4 border-2 border-gray-150 rounded-md hover:bg-gray-300 transition duration-300">
@@ -50,7 +93,7 @@ const Card: FC<Post> = async ({ title, content, category }) => {
               <ThumbsDown />
               <MessageCircle />
             </div>
-           <p className='p-2 font-light text-sm'>{post.createdAt.toLocaleDateString()}</p> 
+           <p className='p-2 font-light text-sm'>{post?.createdAt?.toLocaleString()}</p> 
           </div>
           
         </div>
