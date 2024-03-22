@@ -3,9 +3,8 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import { Suspense } from "react";
 import { IoTrashBinOutline } from "react-icons/io5";
-import { CiEdit } from "react-icons/ci";
+import { GeistSans } from 'geist/font/sans';
 
 import {
   AlertDialog,
@@ -69,7 +68,7 @@ export default function Posts() {
 
   return (
     <div>
-      <h1 className="text-black inline border-b scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-5">
+      <h1 className={`${GeistSans.className} text-black inline border-b scroll-m-20 font-extrabold text-2xl tracking-tight lg:text-5xl mb-5`}>
       Your Posts...
       </h1>
       {userPosts && userPosts.length > 0 ? (
@@ -80,8 +79,8 @@ export default function Posts() {
                 <div className="flex justify-between">
                     <div className="flex justify-between w-full mr-32">
                       <div>
-                        <li className="text-xl font-bold" key={post.id}>{post.title}</li>
-                        <p key={post.id}>{post.content}</p>
+                        <li className="text-xl font-semibold" key={post.id}>{post.title}</li>
+                        <p key={post.id} className="font-light">{post.content}</p>
                       </div>
                    
                     <div className="flex justify-center items-center">

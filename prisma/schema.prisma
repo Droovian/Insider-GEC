@@ -34,6 +34,8 @@ model Post {
   author    User     @relation(fields: [authorId], references: [id])
   published Boolean @default(false)
   category  String
+
+  reports Report[]
 }
 
 model User {
@@ -76,6 +78,16 @@ model Session {
   userId       Int
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Report {
+  id        Int       @id @default(autoincrement())
+  postId    Int
+  reason    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  post      Post      @relation(fields: [postId], references: [id])
 }
 
 
