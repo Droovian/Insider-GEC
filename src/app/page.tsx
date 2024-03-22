@@ -1,7 +1,6 @@
 import Navbar from "@/components/Navbar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import Card from "@/components/card/Card";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { getPosts } from "@/lib/data";
 import GeneralFeed from "@/components/homepage/GeneralFeed";

@@ -8,6 +8,7 @@ import { FC, useEffect, useRef } from 'react'
 import { useSession } from "next-auth/react";
 import { MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "./ui/button";
 
 interface Post {
     id?:number;
@@ -26,10 +27,10 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
 
     const { ref, entry } = useIntersection({
         root: lastPostRef.current,
-        threshold: 0.5,
+        threshold: 1,
     })
 
-    const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } = useInfiniteQuery(
         ['posts'],
         async ({ pageParam = 1 }) => {
             const query = `http://localhost:3000/api/getAllPosts?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}`
@@ -43,12 +44,6 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
             initialData: { pages: [initialPosts], pageParams: [1] }
         }
     );
-
-    useEffect(() => {
-        if (entry?.isIntersecting) {
-            fetchNextPage(); // Load more posts when the last post comes into view
-        }
-    }, [entry, fetchNextPage]);
 
     const posts = data?.pages.flatMap((page) => page) ?? initialPosts;
 
@@ -84,11 +79,23 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
                     </div>
                 </div>
             ))}
-            {isFetchingNextPage && (
-                <div className="loading-message">
+
+            <Button variant='link' onClick={() => fetchNextPage()}
+            disabled={!hasNextPage || isFetchingNextPage}>
+                {
+                    isFetchingNextPage ? 'Loading more...'
+                    : hasNextPage ? 'Load More'
+                    : 'Nothing more to load'
+                }
+            </Button>
+            {isFetching && !isFetchingNextPage ?  (
+                <div className="loading-message mx-auto">
                     <Loader2 className='w-6 h-6 text-zinc-500 animate-spin' />
                 </div>
-            )}
+            ): null
+            }
+
+            
         </div>
     );
 };

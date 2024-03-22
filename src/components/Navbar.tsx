@@ -16,7 +16,7 @@ export default function Navbar(){
     const url = `${session?.user?.image}`;
     
     return (
-        <header className="w-full h-20 border-b border-gray-400 flex justify-between p-3 mx-3">
+        <header className="w-full h-fit border-b border-gray-400 flex justify-between p-3 mx-3">
              
             <div className="hidden sm:flex items-center">
                 <Link href='/'>
@@ -27,14 +27,13 @@ export default function Navbar(){
                 </Link>
             </div>
 
-            <div>
-                <div className="sm:hidden">
-                    <SheetDemo />
-                </div>    
-            </div> 
-            <div className="invisible sm:visible flex space-x-3 items-center w-1/4">
-                <Input placeholder="Search..." className="text-black p-3"/>
-                <Button variant='ghost'>Search</Button>
+            <div className="sm:hidden">
+                <SheetDemo />
+             </div>    
+         
+            <div className="invisible sm:visible flex space-x-4 w-1/3 items-center">
+                <Input placeholder="Search for post..." className="text-black p-3"/>
+                <Button variant='default'>Search</Button>
             </div>
 
                         
@@ -45,10 +44,10 @@ export default function Navbar(){
                 ) : (
                     <>
                         
-                        <Button variant='secondary' size='default'>
+                        <Button variant='default' size='sm'>
                             <Link href='/api/auth/signin'>Log In</Link>
                         </Button>
-                        <Button variant='secondary'>
+                        <Button variant='default' size='sm'>
                             <Link href='/signup'>Sign Up</Link>
                         </Button>
                     </>
