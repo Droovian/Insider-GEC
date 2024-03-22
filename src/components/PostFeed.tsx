@@ -21,6 +21,7 @@ import { Button } from "./ui/button";
     DrawerTrigger,
   } from "@/components/ui/drawer"
 import { Textarea } from "./ui/textarea";
+import { DialogDemo } from "./ui/modal";
 
 interface Post {
     id?:number;
@@ -139,9 +140,18 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
                     </div>
                     <div className="flex justify-between p-2">
                         <div className='flex gap-4 p-2'>
-                            <ThumbsUp />
-                            <ThumbsDown />
-                            <MessageCircle />
+                                <div className="flex justify-center items-center h-full">
+                                    <ThumbsUp />
+                                </div>
+                                <div className="flex justify-center items-center h-full">
+                                <ThumbsDown />
+                                </div>
+                                <div> 
+                                    <DialogDemo/>
+                                </div>
+                                <div>
+                                    {/* <Comments/>     */}
+                                </div>                           
                         </div>
                     </div>
                 </div>
