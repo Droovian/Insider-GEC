@@ -2,11 +2,9 @@ import Navbar from "@/components/Navbar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Sidebar from "@/components/sidebar/Sidebar";
-import { getPosts } from "@/lib/data";
 import GeneralFeed from "@/components/homepage/GeneralFeed";
-import Loader from "@/components/card/loader";
-import doSomething from "./api/testing/route"; // using this for deleting data from prisma
-
+import doSomething from "./api/testing/route"; // i'm using this for deleting data from prisma
+import Recent from "@/components/card/Recent";
 export default async function Home() {
 
   const session = await getServerSession(authOptions);
@@ -27,8 +25,6 @@ export default async function Home() {
                     <div className="hidden sm:block absolute top-0 right-0 h-full w-0.5 bg-gray-300"></div>
                     </div>
 
-
-
                     <div className="ml-64 pt-16">
                       <div className="flex flex-col h-screen overflow-y-auto">
                         <div className="flex flex-wrap px-4 pt-2 pb-8">
@@ -36,6 +32,7 @@ export default async function Home() {
                             <GeneralFeed />
                           </div>
                           <div className="w-full lg:w-1/4 pl-1 ml-0 hidden xl:block">
+                              <Recent/>
                           </div>
                         </div>
                       </div>
@@ -53,11 +50,13 @@ export default async function Home() {
                           <div className="w-full xl:w-3/4 p-4 md:w-full">
                             <GeneralFeed />
                           </div>
-                          <div className="w-full lg:w-1/4 pl-1 ml-0 hidden xl:block">
+
+                          <div className="w-full lg:w-1/4 pl-1 ml-0 xl:block">
                           </div>
                         </div>
                       </div>
                     </div>
+                   
                   </div>
 
     </>

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,36 +7,36 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { MessageCircle } from "lucide-react"
-import { Textarea } from "./textarea"
+} from "@/components/ui/dialog";
+import { ScrollArea } from "./scroll-area";
 
 export function Comments() {
   return (
-    
     <Dialog>
       <DialogTrigger asChild>
         <div className="right-0 pl-5">
-
-        <Button className="rounded-full" variant="ghost">View Comments</Button>
+          <Button className="rounded-full" variant="link">
+            View Comments
+          </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Comment</DialogTitle>
-            <DialogDescription>
-                   
-            </DialogDescription>
+          <DialogTitle>Comments</DialogTitle>
+          <DialogDescription>
+          </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          
-          
-        </div>
+
+        <ScrollArea className="h-[200px] w-[350px] sm:h-[300px] sm:w-[400px] rounded-md mx-auto border p-4">
+            <ul>
+              <li>Hello world</li>
+            </ul>
+        </ScrollArea>
+
         <DialogFooter>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

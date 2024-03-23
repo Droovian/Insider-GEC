@@ -139,21 +139,17 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-between p-2">
-                        <div className='flex gap-4 p-2'>
-                                <div className="flex justify-center items-center h-full">
-                                    <ThumbsUp />
-                                </div>
-                                <div className="flex justify-center items-center h-full">
-                                <ThumbsDown />
-                                </div>
-                                <div> 
-                                    <DialogDemo/>
-                                </div>
-                                <div>
-                                    <Comments/>    
-                                </div>                           
-                        </div>
+                    <div className="flex items-center justify-start p-4 gap-4">
+                        <Button className="rounded-full" variant='ghost'>
+                            <ThumbsUp />
+                        </Button>
+                            
+                        <Button className="rounded-full" variant='ghost'>
+                            <ThumbsDown />
+                        </Button>
+
+                            <DialogDemo postId={post.id}/>
+                            <Comments/>                                  
                     </div>
                 </div>
             ))}

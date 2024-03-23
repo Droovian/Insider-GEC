@@ -36,6 +36,7 @@ model Post {
   category  String
 
   reports Report[]
+  comments Comment[]
 }
 
 model User {
@@ -90,6 +91,14 @@ model Report {
   post      Post      @relation(fields: [postId], references: [id])
 }
 
+model Comment {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  content   String
+  createdAt DateTime @default(now())
+
+  post      Post     @relation(fields: [postId], references: [id])
+}
 
 model VerificationToken {
   identifier String
