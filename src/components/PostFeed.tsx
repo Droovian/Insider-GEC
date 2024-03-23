@@ -22,6 +22,7 @@ import { Button } from "./ui/button";
   } from "@/components/ui/drawer"
 import { Textarea } from "./ui/textarea";
 import { DialogDemo } from "./ui/modal";
+import { Comments } from "./ui/comments";
 
 interface Post {
     id?:number;
@@ -150,7 +151,7 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
                                     <DialogDemo/>
                                 </div>
                                 <div>
-                                    {/* <Comments/>     */}
+                                    <Comments/>    
                                 </div>                           
                         </div>
                     </div>
