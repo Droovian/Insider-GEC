@@ -23,6 +23,9 @@ export async function GET(req:Request){
         orderBy:{
             createdAt: 'desc',
         },
+        include:{
+            votes: true,
+        }
     });
 
     return NextResponse.json(posts);

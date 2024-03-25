@@ -1,6 +1,6 @@
 'use client'
 
-import { QueryClientProvider, QueryClient } from 'react-query'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { SessionProvider } from 'next-auth/react'
 import { FC, ReactNode } from 'react'
 
@@ -10,7 +10,7 @@ interface LayoutProps {
 
 const queryClient = new QueryClient()
 
-const Providers: FC<LayoutProps> = ({ children }) => {
+const TProvider: FC<LayoutProps> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <SessionProvider>{children}</SessionProvider>
@@ -18,4 +18,4 @@ const Providers: FC<LayoutProps> = ({ children }) => {
   )
 }
 
-export default Providers
+export default TProvider

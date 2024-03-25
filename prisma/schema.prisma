@@ -24,6 +24,11 @@ datasource db {
 // }
 
 
+enum VoteType {
+  UP
+  DOWN
+}
+
 model Post {
   id        Int      @id @default(autoincrement())
   title     String
@@ -32,41 +37,43 @@ model Post {
   likes     Int
   authorId  Int
   author    User     @relation(fields: [authorId], references: [id])
-  published Boolean @default(false)
+  published Boolean  @default(false)
   category  String
 
-  reports Report[]
+  votes    Vote[]
+  reports  Report[]
   comments Comment[]
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String?   @unique
-  password  String?
-  createdAt DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id            Int       @id @default(autoincrement())
+  username      String?   @unique
+  password      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
   name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  Post Post[]
+  Post          Post[]
+  votes         Vote[]
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             Int
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            Int
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -82,13 +89,13 @@ model Session {
 }
 
 model Report {
-  id        Int       @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   postId    Int
   reason    String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  post      Post      @relation(fields: [postId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
 }
 
 model Comment {
@@ -97,7 +104,17 @@ model Comment {
   content   String
   createdAt DateTime @default(now())
 
-  post      Post     @relation(fields: [postId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
+}
+
+model Vote {
+  user   User     @relation(fields: [userId], references: [id])
+  userId Int
+  post   Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId Int
+  type   VoteType
+
+  @@id([userId, postId])
 }
 
 model VerificationToken {
