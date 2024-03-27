@@ -1,4 +1,5 @@
 "use client";
+import type { Vote} from '@prisma/client'
 import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config";
 import { useIntersection } from '@mantine/hooks'
 import { useInfiniteQuery } from 'react-query';
@@ -23,6 +24,8 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { DialogDemo } from "./ui/modal";
 import { Comments } from "./ui/comments";
+import PostVoteClient from './post-vote/PostVoteClient';
+
 
 interface Post {
     id?:number;
@@ -30,6 +33,7 @@ interface Post {
     content?: string;
     category?: string;
     createdAt?:Date;
+    votes: Vote [];
 }
 
 interface PostFeedProps {
@@ -40,7 +44,8 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
     const [reportReason, setReportReason] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [reportSubmitted, setReportSubmitted] = useState<boolean>(false);
-
+   
+    
     const reportPost = async (postId?: number) => {
         try {
             setIsSubmitting(true); 
@@ -83,96 +88,126 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
             initialData: { pages: [initialPosts], pageParams: [1] }
         }
     );
-
+    useEffect(() => {
+        if (entry?.isIntersecting) {
+          fetchNextPage() // Load more posts when the last post comes into view
+        }
+      }, [entry, fetchNextPage])   
     const posts = data?.pages.flatMap((page) => page) ?? initialPosts;
-
+    const {data:session} = useSession();
+    
     return (
         <div className="grid grid-cols-1 gap-4">
-            {posts.map((post, index) => (
-                <div
-                    key={post.id}
-                    className="rounded-lg bg-white border shadow-md hover:shadow-lg transition duration-300"
-                >
-                    <div className="flex items-center justify-between m-5 text-sm">
-                        <div className="flex items-center justify-between gap-2">
-                            <Avatar>
-                                <AvatarImage src="https://github.com/shadcn.png" />
-                                <AvatarFallback>CN</AvatarFallback>
-                            </Avatar>
+            {posts.map((post, index) => { 
+               const votesAmt = post.votes ? post.votes.reduce((acc, vote) => {
+                if (vote.type === 'UP') return acc + 1;
+                if (vote.type === 'DOWN') return acc - 1;
+                return acc;
+            }, 0) : 0;
+            
+            // if (!post.votes) {
+            //     console.log("Votes do not exist for this post:", post);
+               
+            // }
+            let currentVote
+             
+                currentVote = post.votes.find(
+                    (vote) => vote.userId === session?.user.id
+                  )
+                //   console.log(currentVote?.type)
+                
+            
+            //   if(post.id == 2){
+            //         console.log("post" + " " + currentVote?.type)
+            //   }
+                return (
+                    <div
+                        key={post.id}
+                        className="rounded-lg bg-white border shadow-md hover:shadow-lg transition duration-300"
+                    >
+                        
+                        <div className="flex items-center justify-between m-5 text-sm">
+                            <div className="flex items-center justify-between gap-2">
+                                
+                                <Avatar>
+                                    <AvatarImage src="https://github.com/shadcn.png" />
+                                    <AvatarFallback>CN</AvatarFallback>
+                                </Avatar>
+                            </div>
+                            <Drawer>
+                                <DrawerTrigger>
+                                    <SlOptions />
+                                </DrawerTrigger>
+                                <DrawerContent>
+                                    <DrawerHeader>
+                                        <DrawerTitle className="text-center">Why do you want to report this?</DrawerTitle>
+                                    </DrawerHeader>
+                                    <Textarea
+                                        value={reportReason}
+                                        onChange={(e) => { setReportReason(e.target.value) }}
+                                        className="w-1/2 mx-auto"
+                                    />
+                                    <DrawerFooter>
+                                        <Button variant='default' className="mx-auto" size='sm'
+                                            onClick={() => { reportPost(post.id) }}>Submit</Button>
+                                        <DrawerClose>
+                                            <Button variant="outline" size='sm'
+                                                onClick={() => { setReportReason(''); }}>Cancel</Button>
+                                        </DrawerClose>
+                                        {isSubmitting && (
+                                            <Loader2 className='mx-auto w-6 h-6 text-zinc-500 animate-spin' />
+                                        )}
+                                        {reportSubmitted && (
+                                            <p className="text-black text-lg text-center">
+                                                Report submitted successfully!
+                                            </p>
+                                        )}
+                                    </DrawerFooter>
+                                </DrawerContent>
+                            </Drawer>
                         </div>
-                        <Drawer>
-                        <DrawerTrigger>
-                            <SlOptions/>
-                        </DrawerTrigger>
-                        <DrawerContent>
-                            <DrawerHeader>
-                            <DrawerTitle className="text-center">Why do you want to report this?</DrawerTitle>
-                            </DrawerHeader>
-                            <Textarea
-                            value={reportReason}
-                            onChange={(e) => {setReportReason(e.target.value)}}
-                            className="w-1/2 mx-auto"/>
-                            <DrawerFooter>
-                            <Button variant='default' className="mx-auto" size='sm'
-                            onClick={() => {reportPost(post.id)}}>Submit</Button>
-                            <DrawerClose>
-                                <Button variant="outline" size='sm'
-                                onClick={() => { setReportReason(''); }}>Cancel</Button>
-                            </DrawerClose>
-                            {isSubmitting && (
-                                    <Loader2 className='mx-auto w-6 h-6 text-zinc-500 animate-spin' />
-                            )}
-                            {reportSubmitted && (
-                                <p className="text-black text-lg text-center">
-                                    Report submitted successfully!
-                                </p>     
-                            )}
-                            </DrawerFooter>
-                        </DrawerContent>
-                        </Drawer>
-                    </div>
-                    <div className="m-4 border-2 border-gray-150 rounded-md hover:bg-gray-300 transition duration-300">
-                        <div className="p-4">
-                            <h1 className={`text-xl mb-2 font-semibold`}>{post.title || "Hello"}</h1>
-                            <div className="overflow-auto">
-                                <p className='font-light text-sm'>{post.content || "content"}</p>
+                        <div className="m-4 border-2 border-gray-150 rounded-md hover:bg-gray-300 transition duration-300">
+                            <div className="p-4">
+                                <h1 className={`text-xl mb-2 font-semibold`}>{post.title || "Hello"}</h1>
+                                <div className="overflow-auto">
+                                    <p className='font-light text-sm'>{post.content || "content"}</p>
+                                </div>
                             </div>
                         </div>
+                        <div className="flex items-center justify-start p-4 gap-4">
+                            {/* <Button className="rounded-full" variant='ghost'>
+                                <ThumbsUp />
+                            </Button>
+    
+                            <Button className="rounded-full" variant='ghost'>
+                                <ThumbsDown />
+                            </Button> */}
+                            <PostVoteClient postId={post.id} initialVotesAmt={votesAmt} initialVote={ currentVote?.type }/>
+                            <DialogDemo postId={post.id} />
+                            <Comments />
+                        </div>
                     </div>
-                    <div className="flex items-center justify-start p-4 gap-4">
-                        <Button className="rounded-full" variant='ghost'>
-                            <ThumbsUp />
-                        </Button>
-                            
-                        <Button className="rounded-full" variant='ghost'>
-                            <ThumbsDown />
-                        </Button>
-
-                            <DialogDemo postId={post.id}/>
-                            <Comments/>                                  
-                    </div>
-                </div>
-            ))}
-
+                );
+            })}
+    
             <Button variant='link' onClick={() => fetchNextPage()}
-            disabled={!hasNextPage || isFetchingNextPage}>
+                disabled={!hasNextPage || isFetchingNextPage}>
                 {
                     isFetchingNextPage ? 'Loading more...'
-                    : hasNextPage ? 'Load More'
-                    : 'Nothing more to load'
+                        : hasNextPage ? 'Load More'
+                            : 'Nothing more to load'
                 }
             </Button>
-            {isFetching && !isFetchingNextPage ?  (
+            {isFetching && !isFetchingNextPage ? (
                 <div className="loading-message mx-auto">
                     <Loader2 className='w-6 h-6 text-zinc-500 animate-spin' />
                 </div>
-            ): null
+            ) : null
             }
-
-            
+    
+    
         </div>
     );
-};
-
+        }
 
 export default PostFeed;
