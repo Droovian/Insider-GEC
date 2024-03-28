@@ -10,6 +10,7 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { useSession } from "next-auth/react";
 import { MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { CldImage } from 'next-cloudinary';
 import { Button } from "./ui/button";
   import {
     Drawer,
@@ -32,6 +33,7 @@ interface Post {
     title?: string;
     content?: string;
     category?: string;
+    imageUrl?:string | null;
     createdAt?:Date;
     votes: Vote [];
 }
@@ -169,6 +171,19 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
                         <div className="m-4 border-2 border-gray-150 rounded-md hover:bg-gray-300 transition duration-300">
                             <div className="p-4">
                                 <h1 className={`text-xl mb-2 font-semibold`}>{post.title || "Hello"}</h1>
+                                {
+                                post.imageUrl? (
+                                <div>
+                                    <CldImage
+                                    className='rounded-xl'
+                                    width={100}
+                                    height={100}
+                                    src={post.imageUrl || ""}
+                                    alt='random-image'
+                                    />
+                                </div>
+                                ) : null
+                                }
                                 <div className="overflow-auto">
                                     <p className='font-light text-sm'>{post.content || "content"}</p>
                                 </div>

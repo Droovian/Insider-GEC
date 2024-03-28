@@ -39,7 +39,7 @@ model Post {
   author    User     @relation(fields: [authorId], references: [id])
   published Boolean  @default(false)
   category  String
-
+  imageUrl String?
   votes    Vote[]
   reports  Report[]
   comments Comment[]

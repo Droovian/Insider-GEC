@@ -7,7 +7,7 @@ import { authOptions } from "@/lib/auth";
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
 
-  const { title, content, category } = await req.json();
+  const { title, content, category, imageUrl } = await req.json();
 
   if (!title || !content || !category) {
     return NextResponse.json(
@@ -49,6 +49,7 @@ export async function POST(req: Request) {
             authorId: userId,
             published: true,
             category,
+            imageUrl: imageUrl
           },
         });
 

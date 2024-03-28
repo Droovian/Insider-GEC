@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { CldUploadWidget } from "next-cloudinary"
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -26,22 +26,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useState } from "react";
 
-
+export type CloudinaryUploadResult = {
+  info: {
+    url: string;
+  };
+  event: "success";
+};
 
 const formSchema = z.object({
   title: z.string().min(3).max(100),
   content: z.string().min(10).max(300),
-  category: z.string()
+  category: z.string(),
+  imageUrl: z.string().optional()
 });
 
 export default function UserForm() {
+  const [imageUrl, setImageUrl] = useState("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
       content: "",
-      category: ""
+      category: "",
+      imageUrl: ""
     },
   });
 
@@ -56,7 +65,8 @@ export default function UserForm() {
         body: JSON.stringify({
           title: data.title,
           content: data.content,
-          category: data.category
+          category: data.category,
+          imageUrl: imageUrl
         })
       })
 
@@ -128,6 +138,29 @@ export default function UserForm() {
         )}
       />
 
+          <FormField
+            control={form.control}
+            name="imageUrl"
+            render={({ field }) => (
+              <CldUploadWidget
+                onSuccess={(result: any) => {
+                  const imageUrl = result?.info?.url;
+                  console.log(imageUrl);
+                  setImageUrl(imageUrl);
+                }}
+                uploadPreset="kp93h5mr"
+              >
+                {({ open }) => {
+                  return (
+                    <Button type="button" onClick={() => open()}>
+                      Upload an Image
+                    </Button>
+                  );
+                }}
+              </CldUploadWidget>
+            )}
+          />
+ 
       <Button type="submit">Submit</Button>
     </form>
   </Form>
