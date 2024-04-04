@@ -1,4 +1,5 @@
 "use client";
+
 import type { Vote} from '@prisma/client'
 import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config";
 import { useIntersection } from '@mantine/hooks'
@@ -8,7 +9,6 @@ import { Loader2 } from "lucide-react";
 import { SlOptions } from "react-icons/sl";
 import { FC, useEffect, useRef, useState } from 'react'
 import { useSession } from "next-auth/react";
-import { MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { CldImage } from 'next-cloudinary';
 import { Button } from "./ui/button";
@@ -26,7 +26,7 @@ import { Textarea } from "./ui/textarea";
 import { DialogDemo } from "./ui/modal";
 import { Comments } from "./ui/comments";
 import PostVoteClient from './post-vote/PostVoteClient';
-
+import { useRouter } from 'next/navigation';
 
 interface Post {
     id?:number;
@@ -42,12 +42,13 @@ interface PostFeedProps {
     initialPosts: Post[];
 }
 
+
 const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
     const [reportReason, setReportReason] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [reportSubmitted, setReportSubmitted] = useState<boolean>(false);
    
-    
+    const router = useRouter();
     const reportPost = async (postId?: number) => {
         try {
             setIsSubmitting(true); 
@@ -99,42 +100,34 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
     const {data:session} = useSession();
     
     return (
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1">
             {posts.map((post, index) => { 
                const votesAmt = post.votes ? post.votes.reduce((acc, vote) => {
                 if (vote.type === 'UP') return acc + 1;
                 if (vote.type === 'DOWN') return acc - 1;
                 return acc;
             }, 0) : 0;
-            
-            // if (!post.votes) {
-            //     console.log("Votes do not exist for this post:", post);
-               
-            // }
             let currentVote
              
                 currentVote = post.votes.find(
                     (vote) => vote.userId === session?.user.id
                   )
-                //   console.log(currentVote?.type)
-                
-            
-            //   if(post.id == 2){
-            //         console.log("post" + " " + currentVote?.type)
-            //   }
                 return (
                     <div
                         key={post.id}
-                        className="rounded-lg bg-white border shadow-md hover:shadow-lg transition duration-300"
+                        onClick={() => {
+                            router.push(`/post/${post.id}`);
+                        }}
+                        className="hover:bg-gray-200 w-full sm:w-3/4 mx-auto mt-1"
                     >
                         
-                        <div className="flex items-center justify-between m-5 text-sm">
-                            <div className="flex items-center justify-between gap-2">
-                                
+                        <div className="flex items-center justify-between text-sm mx-4">
+                            <div className="p-2 flex items-center justify-between">
                                 <Avatar>
                                     <AvatarImage src="https://github.com/shadcn.png" />
                                     <AvatarFallback>CN</AvatarFallback>
                                 </Avatar>
+                                <p className='font-normal text-xs ml-3'>{post && post.createdAt ? new Date(post.createdAt).toDateString() : 'Invalid Date'}</p>
                             </div>
                             <Drawer>
                                 <DrawerTrigger>
@@ -168,9 +161,9 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
                                 </DrawerContent>
                             </Drawer>
                         </div>
-                        <div className="m-4 border-2 border-gray-150 rounded-md hover:bg-gray-300 transition duration-300">
+                        <div className="mx-4 rounded-md">
                             <div className="p-4">
-                                <h1 className={`text-xl mb-2 font-semibold`}>{post.title || "Hello"}</h1>
+                                <h1 className={`text-xl mb-2 font-semibold text-gray-900`}>{post.title || "Hello"}</h1>
                                 {
                                 post.imageUrl? (
                                 <div>
@@ -185,22 +178,15 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
                                 ) : null
                                 }
                                 <div className="overflow-auto">
-                                    <p className='font-light text-sm'>{post.content || "content"}</p>
+                                    <p className='font-normal text-sm text-gray-800'>{post.content || "content"}</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="flex items-center justify-start p-4 gap-4">
-                            {/* <Button className="rounded-full" variant='ghost'>
-                                <ThumbsUp />
-                            </Button>
-    
-                            <Button className="rounded-full" variant='ghost'>
-                                <ThumbsDown />
-                            </Button> */}
+                        <div className="flex items-center justify-start p-4 gap-4s">
                             <PostVoteClient postId={post.id} initialVotesAmt={votesAmt} initialVote={ currentVote?.type }/>
                             <DialogDemo postId={post.id} />
-                            <Comments />
                         </div>
+                        <hr />
                     </div>
                 );
             })}

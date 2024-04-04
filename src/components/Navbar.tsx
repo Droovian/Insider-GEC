@@ -16,7 +16,7 @@ export default function Navbar(){
     const url = `${session?.user?.image}`;
     
     return (
-        <header className="w-full h-fit border-b border-gray-400 flex justify-between p-3 mx-3">
+        <header className="w-full h-fit border-b border-gray-200 flex justify-between p-3 mx-3">
              
             <div className="hidden sm:flex items-center">
                 <Link href='/'>

@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Open_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import Provider from "./context/client-provider";
-
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { GeistSans } from 'geist/font/sans';
 import Providers from "@/components/Providers";
 import TProvider from "@/components/TProvider";
 
 const inter = Inter({ subsets: ["latin"] });
-
+const OpenSans = Open_Sans({subsets: ["latin"]});
+const montserrat = Montserrat({subsets: ["latin"]});
 export const metadata: Metadata = {
   title: "Insider GEC",
   description: "Anonymous posting app for Goa College Of Engineering Students",
@@ -25,7 +24,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <Providers >
         <TProvider>
-          <body className={GeistSans.className}>{children}</body>
+          <body className={inter.className}>{children}</body>
         </TProvider>
       </Providers>
     </html>

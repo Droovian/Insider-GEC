@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { MessageCircle } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import { Textarea } from "./textarea";
 import axios from "axios";
@@ -55,7 +55,7 @@ export const DialogDemo: FC<CommentProps> = ({ postId }) => {
     <Dialog>
       <DialogTrigger asChild>
         <Button className="rounded-full" variant="ghost">
-          <MessageCircle />
+          <MessageSquare />
         </Button>
       </DialogTrigger>
 

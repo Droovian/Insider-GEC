@@ -145,14 +145,14 @@ export default function UserForm() {
               <CldUploadWidget
                 onSuccess={(result: any) => {
                   const imageUrl = result?.info?.url;
-                  console.log(imageUrl);
+                  // console.log(imageUrl);
                   setImageUrl(imageUrl);
                 }}
                 uploadPreset="kp93h5mr"
               >
                 {({ open }) => {
                   return (
-                    <Button type="button" onClick={() => open()}>
+                    <Button type="button" variant='link' onClick={() => open()}>
                       Upload an Image
                     </Button>
                   );
@@ -160,8 +160,9 @@ export default function UserForm() {
               </CldUploadWidget>
             )}
           />
- 
-      <Button type="submit">Submit</Button>
+
+        <Button type="submit" className="ml-3">Submit</Button>
+      
     </form>
   </Form>
   <ToastContainer position="top-center" autoClose={3000} />
