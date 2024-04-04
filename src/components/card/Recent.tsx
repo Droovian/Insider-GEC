@@ -10,8 +10,8 @@ interface Post {
 const Recent: FC<Post> = () => {
 
   return (
-    <section className='w-full h-full flex-col items-center rounded-2xl'>
-      <div className='bg-gray-200 rounded-xl mt-3 h-fit mb-20'>
+    <section className='w-full h-full flex-col items-center p-2 border-l border-gray-200'>
+      <div className='bg-gray-200 rounded-xl mt-3 h-fit mb-20 p-2'>
         <h2 className="scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0 p-4">
           What's happening?
         </h2>

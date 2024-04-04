@@ -26,22 +26,6 @@ const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, init
         setCurrentVote(initialVote)
     }, [initialVote])
 
-    // useEffect(() => {
-    //     const fetchAmt = async () => {
-    //         try {
-    //             const res = await axios.get(`/api/fetchVotes/${postId}`);
-    //             setVotesAmt(res?.data.voteCount);
-    //             console.log(res);
-    //         } catch (error) {
-    //             console.log("cannot do it");
-    //         }
-    //     };
-    
-    //     const intervalId = setInterval(fetchAmt, 500);
-    
-    //     return () => clearInterval(intervalId); // Cleanup function to clear interval
-    
-    // }, []); // Make sure to include postId in the dependency array
     useEffect(()=>{
         const channelName = `votes-${postId}`;
         const cc = `votes-updated-${postId}`
@@ -95,7 +79,7 @@ const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, init
     })
 
     return (
-        <div className='flex'>
+        <div className='flex space-x-2'>
             <Button onClick={() => vote('UP')} className="rounded-full" variant='ghost'>
                 <ThumbsUp className={cn({ 'text-gray-500 fill-black': currentVote === 'UP' })} />
             </Button>

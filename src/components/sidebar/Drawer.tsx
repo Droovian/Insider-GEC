@@ -74,9 +74,6 @@ export function SheetDemo() {
                     <SidebarButton text='Academics' icon={<GraduationCap />}/>
                     <SidebarButton text='Sports' icon={<Dumbbell />}/>
                     <SidebarButton text='Campus' icon={<School />} />
-                    <SidebarButton text='Relationships' icon={<Users />} />
-                    <SidebarButton text='Relationships' icon={<Users />} />
-                    <SidebarButton text='Relationships' icon={<Users />} />
                     <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
                     <span className='text-gray-400 text-sm mb-2'>Explore</span>
               </div>
