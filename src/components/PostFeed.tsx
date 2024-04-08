@@ -1,6 +1,6 @@
 "use client";
 
-import type { Vote} from '@prisma/client'
+import type { Vote } from '@prisma/client'
 import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config";
 import { useIntersection } from '@mantine/hooks'
 import { useInfiniteQuery } from 'react-query';
@@ -12,7 +12,7 @@ import { useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { CldImage } from 'next-cloudinary';
 import { Button } from "./ui/button";
-  import {
+import {
     Drawer,
     DrawerClose,
     DrawerContent,
@@ -21,7 +21,7 @@ import { Button } from "./ui/button";
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
-  } from "@/components/ui/drawer"
+} from "@/components/ui/drawer"
 import { Textarea } from "./ui/textarea";
 import { DialogDemo } from "./ui/modal";
 import { Comments } from "./ui/comments";
@@ -29,13 +29,13 @@ import PostVoteClient from './post-vote/PostVoteClient';
 import { useRouter } from 'next/navigation';
 
 interface Post {
-    id?:number;
+    id?: number;
     title?: string;
     content?: string;
     category?: string;
-    imageUrl?:string | null;
-    createdAt?:Date;
-    votes: Vote [];
+    imageUrl?: string | null;
+    createdAt?: Date;
+    votes: Vote[];
 }
 
 interface PostFeedProps {
@@ -43,28 +43,28 @@ interface PostFeedProps {
 }
 
 
-const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
+const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
     const [reportReason, setReportReason] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [reportSubmitted, setReportSubmitted] = useState<boolean>(false);
-   
+
     const router = useRouter();
     const reportPost = async (postId?: number) => {
         try {
-            setIsSubmitting(true); 
+            setIsSubmitting(true);
             await axios.post('http://localhost:3000/api/reportPost', {
                 postId: postId,
                 reason: reportReason
             });
             setReportReason('');
-            setIsSubmitting(false); 
+            setIsSubmitting(false);
             setReportSubmitted(true);
-        
+
             setTimeout(() => {
                 setReportSubmitted(false);
             }, 2000);
         }
-        catch(error){
+        catch (error) {
             console.error('Failed to report post. Try again later');
             setIsSubmitting(false);
         }
@@ -93,34 +93,31 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
     );
     useEffect(() => {
         if (entry?.isIntersecting) {
-          fetchNextPage() // Load more posts when the last post comes into view
+            fetchNextPage() // Load more posts when the last post comes into view
         }
-      }, [entry, fetchNextPage])   
+    }, [entry, fetchNextPage])
     const posts = data?.pages.flatMap((page) => page) ?? initialPosts;
-    const {data:session} = useSession();
-    
+    const { data: session } = useSession();
+
     return (
         <div className="grid grid-cols-1">
-            {posts.map((post, index) => { 
-               const votesAmt = post.votes ? post.votes.reduce((acc, vote) => {
-                if (vote.type === 'UP') return acc + 1;
-                if (vote.type === 'DOWN') return acc - 1;
-                return acc;
-            }, 0) : 0;
-            let currentVote
-             
+            {posts.map((post, index) => {
+                const votesAmt = post.votes ? post.votes.reduce((acc, vote) => {
+                    if (vote.type === 'UP') return acc + 1;
+                    if (vote.type === 'DOWN') return acc - 1;
+                    return acc;
+                }, 0) : 0;
+                let currentVote
+
                 currentVote = post.votes.find(
                     (vote) => vote.userId === session?.user.id
-                  )
+                )
                 return (
                     <div
                         key={post.id}
-                        onClick={() => {
-                            router.push(`/post/${post.id}`);
-                        }}
                         className="hover:bg-gray-200 w-full sm:w-3/4 mx-auto mt-1"
                     >
-                        
+
                         <div className="flex items-center justify-between text-sm mx-4">
                             <div className="p-2 flex items-center justify-between">
                                 <Avatar>
@@ -161,21 +158,23 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
                                 </DrawerContent>
                             </Drawer>
                         </div>
-                        <div className="mx-4 rounded-md">
+                        <div className="mx-4 rounded-md" onClick={() => {
+                            router.push(`/post/${post.id}`);
+                        }}>
                             <div className="p-4">
                                 <h1 className={`text-xl mb-2 font-semibold text-gray-900`}>{post.title || "Hello"}</h1>
                                 {
-                                post.imageUrl? (
-                                <div>
-                                    <CldImage
-                                    className='rounded-xl'
-                                    width={100}
-                                    height={100}
-                                    src={post.imageUrl || ""}
-                                    alt='random-image'
-                                    />
-                                </div>
-                                ) : null
+                                    post.imageUrl ? (
+                                        <div>
+                                            <CldImage
+                                                className='rounded-xl'
+                                                width={100}
+                                                height={100}
+                                                src={post.imageUrl || ""}
+                                                alt='random-image'
+                                            />
+                                        </div>
+                                    ) : null
                                 }
                                 <div className="overflow-auto">
                                     <p className='font-normal text-sm text-gray-800'>{post.content || "content"}</p>
@@ -183,14 +182,14 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
                             </div>
                         </div>
                         <div className="flex items-center justify-start p-4 gap-4s">
-                            <PostVoteClient postId={post.id} initialVotesAmt={votesAmt} initialVote={ currentVote?.type }/>
+                            <PostVoteClient postId={post.id} initialVotesAmt={votesAmt} initialVote={currentVote?.type} />
                             <DialogDemo postId={post.id} />
                         </div>
                         <hr />
                     </div>
                 );
             })}
-    
+
             <Button variant='link' onClick={() => fetchNextPage()}
                 disabled={!hasNextPage || isFetchingNextPage}>
                 {
@@ -205,10 +204,10 @@ const PostFeed:FC<PostFeedProps> = ({ initialPosts }) => {
                 </div>
             ) : null
             }
-    
-    
+
+
         </div>
     );
-        }
+}
 
 export default PostFeed;
