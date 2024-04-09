@@ -24,18 +24,18 @@ model Post {
   content   String
   createdAt DateTime @default(now())
   likes     Int
-  authorId  Int
-  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
   published Boolean  @default(false)
   category  String
   imageUrl String?
   votes    Vote[]
   reports  Report[]
   comments Comment[]
+
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
+  id            String       @id @default(cuid())
   username      String?   @unique
   password      String?
   createdAt     DateTime  @default(now())
@@ -46,13 +46,12 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  Post          Post[]
   votes         Vote[]
 }
 
 model Account {
   id                String  @id @default(cuid())
-  userId            Int
+  userId            String
   type              String
   provider          String
   providerAccountId String
@@ -72,7 +71,7 @@ model Account {
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       Int
+  userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -98,7 +97,7 @@ model Comment {
 
 model Vote {
   user   User     @relation(fields: [userId], references: [id])
-  userId Int
+  userId String
   post   Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId Int
   type   VoteType
@@ -107,9 +106,10 @@ model Vote {
 }
 
 model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+  id String @id @default(cuid())
+  email String
+  token String @unique
+  expires DateTime
 
-  @@unique([identifier, token])
+  @@unique([email, token])
 }

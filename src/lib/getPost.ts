@@ -1,12 +1,17 @@
 import { db } from "@/lib/db";
+import { unstable_noStore as noStore } from 'next/cache';
 
 export async function getPost(postId: number){
 
+    noStore();
     try {
 
         const data = await db.post.findUnique({
             where:{
                 id: postId
+            },
+            include:{
+                comments: true
             }
         })
 
@@ -15,7 +20,6 @@ export async function getPost(postId: number){
 
     catch(error){
         console.error('Database error', error);
-        throw new Error('Failed to fetch post.');
     }
 
 }

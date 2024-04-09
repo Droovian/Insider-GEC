@@ -9,8 +9,8 @@ export default async function Home() {
 
   const session = await getServerSession(authOptions);
 
-  console.log(session);
-  
+    // await doSomething();
+  console.log('session',session);
   return (
     <>
                   <div className="hidden sm:block relative h-screen w-full text-black bg-gray-100 overflow-x-hidden no-scrollbar">
@@ -30,7 +30,7 @@ export default async function Home() {
                           <div className="w-full xl:w-3/4 p-4 md:w-full">
                             <GeneralFeed />
                           </div>
-                          <div className="invisible sm:visible fixed top-0 right-10 h-screen pt-16">
+                          <div className="invisible md:visible fixed top-0 right-10 h-screen pt-16">
                               <Recent/>
                           </div>
                         </div>

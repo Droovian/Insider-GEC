@@ -103,21 +103,7 @@ export default function Posts() {
       ) : (
         <p>No posts available.</p>
       )}
-      <div className="">
-        {/* <button
-          className="bg-blue-500 text-white p-2 disabled:opacity-50"
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <button
-          className="ml-2 bg-blue-500 text-white p-2 disabled:opacity-50"
-          onClick={() => paginate(currentPage + 1)}
-          disabled={indexOfLastPost >= userPosts.length}
-        >
-          Next
-        </button> */}
+      <div className="mt-3">
        
           <PaginationControls
             currentPage={currentPage}

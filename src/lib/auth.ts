@@ -3,9 +3,14 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { nanoid } from 'nanoid'
 import { NextAuthOptions, getServerSession } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
+import  CredentialsProvider  from 'next-auth/providers/credentials'
+import { compare } from 'bcrypt'
+import { redirect } from 'next/navigation'
+import { getUserById } from '../../data/user'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
   },
@@ -13,53 +18,75 @@ export const authOptions: NextAuthOptions = {
     signIn: '/signin',
   },
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    CredentialsProvider({
+
+      name: "Credentials",
+    
+      credentials: {
+        email: { label: "Username", type: "text", placeholder: "jsmith" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials) {
+        
+        if(!credentials?.email || !credentials?.password){
+          return null;
+        }
+        
+        const existingUser = await db.user.findUnique({
+          where:{
+            email: credentials?.email
+          }
+        });
+
+        if(!existingUser){
+          return null;
+        }
+
+        const passwordMatch = await compare(credentials.password, existingUser.password || '');
+
+        if(!passwordMatch){
+          return null;
+        }
+
+        return {
+          id: `${existingUser.id}`,
+          username: existingUser.username,
+          email: existingUser.email,
+        }
+      }
     }),
   ],
   callbacks: {
-    async session({ token, session }) {
-      if (token) {
-        session.user.id = token.id
-        session.user.name = token.name
-        session.user.email = token.email
-        session.user.image = token.picture
+    async signIn({ user, account }): Promise<any> {
+      const existingUser = await getUserById(user.id);
+    
+      if (!existingUser?.emailVerified) {
+        return false;
       }
 
-      return session
+      return true;
+    },
+    async jwt({ token, user }) {
+      // console.log(token, 'userDATA'+user);
+      if(user){
+        return {
+          ...token,
+          username: user.username
+        }
+      }
+      return token
     },
 
-    async jwt({ token, user }) {
-      const dbUser = await db.user.findFirst({
-        where: {
-          email: token.email,
-        },
-      })
-
-      if (!dbUser) {
-        token.id = user!.id
-        return token
-      }
-
-      if (!dbUser.username) {
-        await db.user.update({
-          where: {
-            id: dbUser.id,
-          },
-          data: {
-            username: nanoid(10),
-          },
-        })
-      }
-
+    async session({ token, session }) {
       return {
-        id: dbUser.id,
-        name: dbUser.name,
-        email: dbUser.email,
-        picture: dbUser.image,
-        username: dbUser.username,
+        ...session,
+        user: {
+          ...session.user,
+          username: token.username,
+          id: token?.sub
+        }
       }
+      return session;
     },
     redirect() {
       return '/'

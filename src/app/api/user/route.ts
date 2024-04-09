@@ -1,9 +1,9 @@
-import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { hash } from "bcrypt";
 import * as z from "zod";
-
+import { sendVerificationEmail } from "@/lib/mail";
+import { generateVerificationToken } from "@/lib/tokens";
 // Creating a schema for input validation
 
 const userSchema = z.object({
@@ -20,6 +20,8 @@ export async function POST(req: Request){
         const body = await req.json();
         const { email, username, password } = userSchema.parse(body);
 
+        // console.log(email, username, password);
+        
         const checkExistingUser = await db.user.findUnique({ // checking if user already exists
             where: {
                 username: username
@@ -42,6 +44,13 @@ export async function POST(req: Request){
                 password: hashedPassword
             }
         });
+
+        const verificationToken = await generateVerificationToken(email);
+        
+        await sendVerificationEmail(
+            verificationToken.email,
+            verificationToken.token
+        );
 
         const { password: newUserPassword , ...rest } = newUser;
 

@@ -3,6 +3,11 @@ import { db } from "@/lib/db";
 import { z } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import crypto from 'crypto';
+
+function generateHash(userId: string): string{
+  return crypto.createHash('sha256').update(userId).digest('hex');
+}
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -38,15 +43,16 @@ export async function POST(req: Request) {
         );
       }
 
-      const userId = fetchUser?.id;
+      const userId = session?.user?.id;
+      const hashedUserId = generateHash(userId);
 
-      if (userId) {
+      if (hashedUserId) {
         const post = await db.post.create({
           data: {
             title,
             content,
             likes: 0,
-            authorId: userId,
+            authorId: hashedUserId,
             published: true,
             category,
             imageUrl: imageUrl

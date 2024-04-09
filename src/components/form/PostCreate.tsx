@@ -57,7 +57,7 @@ export default function UserForm() {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
 
     try{
-      const response = await fetch("http://localhost:3000/api/publish", {
+      const response = await fetch('http://localhost:3000/api/publish', {
         method: "POST",
         headers:{
           'Content-Type': 'application/json'
