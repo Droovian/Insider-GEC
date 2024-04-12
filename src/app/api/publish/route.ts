@@ -12,8 +12,8 @@ function generateHash(userId: string): string{
 
 const rateLimitConfig:RateLimitConfig = {
   windowSize: 2,
-  windowDuration: 60,
-  windowUnit: "s"
+  windowDuration: 10,
+  windowUnit: "m"
 }
 
 const rateLimiter = createRateLimiter(rateLimitConfig);

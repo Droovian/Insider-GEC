@@ -13,7 +13,7 @@ import {
 import { MessageSquare } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import { Textarea } from "./textarea";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { FC, useState } from "react";
 import { z } from "zod";
 
@@ -43,7 +43,13 @@ export const DialogDemo: FC<CommentProps> = ({ postId }) => {
     } catch(error) {
       if (error instanceof z.ZodError) {
         setError('Comment must be between 10 and 100 characters long');
-      } else {
+      }
+      else if( error instanceof AxiosError && error.response?.status === 429){
+        setSuccess(false);
+        setError(error.response?.data.message);
+      } 
+      else {
+        setSuccess(false);
         setError('Failed to add comment');
       }
     } finally {
