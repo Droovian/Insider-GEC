@@ -19,23 +19,22 @@ enum VoteType {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   title     String
   content   String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   likes     Int
   authorId  String
-  published Boolean  @default(false)
+  published Boolean   @default(false)
   category  String
-  imageUrl String?
-  votes    Vote[]
-  reports  Report[]
-  comments Comment[]
-
+  imageUrl  String?
+  votes     Vote[]
+  reports   Report[]
+  comments  Comment[]
 }
 
 model User {
-  id            String       @id @default(cuid())
+  id            String    @id @default(cuid())
   username      String?   @unique
   password      String?
   createdAt     DateTime  @default(now())
@@ -47,6 +46,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   votes         Vote[]
+  Report        Report[]
 }
 
 model Account {
@@ -76,6 +76,16 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// model Report {
+//   id        Int      @id @default(autoincrement())
+//   postId    Int
+//   reason    String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   post Post @relation(fields: [postId], references: [id])
+// }
+
 model Report {
   id        Int      @id @default(autoincrement())
   postId    Int
@@ -83,7 +93,12 @@ model Report {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
   post Post @relation(fields: [postId], references: [id])
+
+  @@unique([postId, userId])
 }
 
 model Comment {
@@ -106,18 +121,18 @@ model Vote {
 }
 
 model VerificationToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])
 }
 
-model PasswordResetToken{
-  id String @id @default(cuid())
-  email String
-  token String @unique
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])
