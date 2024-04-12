@@ -19,23 +19,22 @@ enum VoteType {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   title     String
   content   String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   likes     Int
   authorId  String
-  published Boolean  @default(false)
+  published Boolean   @default(false)
   category  String
-  imageUrl String?
-  votes    Vote[]
-  reports  Report[]
-  comments Comment[]
-
+  imageUrl  String?
+  votes     Vote[]
+  reports   Report[]
+  comments  Comment[]
 }
 
 model User {
-  id            String       @id @default(cuid())
+  id            String    @id @default(cuid())
   username      String?   @unique
   password      String?
   createdAt     DateTime  @default(now())
@@ -47,6 +46,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   votes         Vote[]
+  Report        Report[]
 }
 
 model Account {
@@ -106,18 +106,18 @@ model Vote {
 }
 
 model VerificationToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])
 }
 
-model PasswordResetToken{
-  id String @id @default(cuid())
-  email String
-  token String @unique
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])
