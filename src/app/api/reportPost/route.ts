@@ -7,6 +7,16 @@ export async function POST(req:Request){
 
     const session = await getServerSession(authOptions);
 
+
+    if(!session){
+        return NextResponse.json({
+            message: "You need to be logged in to report a post"
+        },
+        {
+            status: 401
+        })
+    }
+
     const { postId, reason } = await req.json();
 
     if(!postId || !reason){
@@ -14,7 +24,7 @@ export async function POST(req:Request){
             message: "Please dont leave any fields empty"
         },
         {
-            status: 200
+            status: 400
         })
     }
     

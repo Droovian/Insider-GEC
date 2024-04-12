@@ -42,6 +42,10 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
+        if(!existingUser.emailVerified){
+          return null;
+        }
+
         const passwordMatch = await compare(credentials.password, existingUser.password || '');
 
         if(!passwordMatch){

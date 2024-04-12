@@ -44,17 +44,19 @@ const SignInForm = () => {
         password: values.password,
     });
 
-    if(!signInData){
-        toast.error("Incorrect Email/Password OR Email Not Verified");
+    if(signInData){
+        toast.success('Logged in successfully');
+        router.push('/');
     }
     else{
-        router.push('/');
+        toast.error('Invalid credentials');
     }
   };
 
   return (
     <>
     <Form {...form}>
+    <ToastContainer position="top-center" autoClose={3000} />
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
       <h1 className="scroll-m-20 text-3xl font-extrabold tracking-tight lg:text-4xl mb-5 flex justify-center">
       GEC - Insider
@@ -102,7 +104,7 @@ const SignInForm = () => {
         </Link>
       </p>
     </Form>
-    <ToastContainer position="top-center" autoClose={3000} />
+    
     </>
   );
 };
