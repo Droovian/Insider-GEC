@@ -11,15 +11,16 @@ import {
 } from '../ui/form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-// import { useToast } from '@/hooks/use-toast';
-const FormSchema = z.object({
+import { FormError } from '../form-error';
+import { useSearchParams } from 'next/navigation';
+import { FormSuccess } from '../form-success';
+import { useState } from 'react';
+
+const LoginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
   password: z
     .string()
@@ -28,29 +29,38 @@ const FormSchema = z.object({
 });
 
 const SignInForm = () => {
-  const router = useRouter();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+
+  const searchParams = useSearchParams();
+
+  const errorMessage = searchParams.get("error") || undefined;
+
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  const onSubmit = async(values: z.infer<typeof FormSchema>) => {
-    
-    const signInData = await signIn("credentials", {
+  const onSubmit = async(values: z.infer<typeof LoginSchema>) => {
+
+    try{
+     await signIn('credentials', {
         email: values.email,
         password: values.password,
-    });
-
-    if(signInData){
-        toast.success('Logged in successfully');
-        router.push('/');
+      }).then(() => {
+        setError("");
+        setSuccess("");
+      }).catch((error) => {
+        setError(error)
+      });
     }
-    else{
-        toast.error('Invalid credentials');
+    catch(error){
+      setError('Error occured during sign in');
     }
+      
   };
 
   return (
@@ -93,6 +103,15 @@ const SignInForm = () => {
             )}
           />
         </div>
+        {
+
+        <FormError message={errorMessage}/>
+        }
+        <Button size='sm' className='mt-3' variant='link'>
+          <Link href="/auth/reset">
+              Forgot Password?
+          </Link>
+        </Button>
         <Button className='w-full mt-6' type='submit'>
           Sign in
         </Button>
@@ -104,7 +123,7 @@ const SignInForm = () => {
         </Link>
       </p>
     </Form>
-    
+
     </>
   );
 };
