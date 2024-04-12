@@ -4,7 +4,7 @@ import type { Vote } from '@prisma/client'
 import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config";
 import { useIntersection } from '@mantine/hooks'
 import { useInfiniteQuery } from 'react-query';
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import { SlOptions } from "react-icons/sl";
 import { FC, useEffect, useRef, useState } from 'react'
@@ -27,6 +27,9 @@ import { DialogDemo } from "./ui/modal";
 import { Comments } from "./ui/comments";
 import PostVoteClient from './post-vote/PostVoteClient';
 import { useRouter } from 'next/navigation';
+import { ToastContainer,toast } from 'react-toastify';
+import { FormError } from './form-error';
+import { set } from 'zod';
 
 interface Post {
     id?: number;
@@ -47,12 +50,12 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
     const [reportReason, setReportReason] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [reportSubmitted, setReportSubmitted] = useState<boolean>(false);
-
+    const [error, setError] = useState<string>('');
     const router = useRouter();
     const reportPost = async (postId?: number) => {
         try {
             setIsSubmitting(true);
-            await axios.post('http://localhost:3000/api/reportPost', {
+            const res = await axios.post('http://localhost:3000/api/reportPost', {
                 postId: postId,
                 reason: reportReason
             });
@@ -63,9 +66,13 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
             setTimeout(() => {
                 setReportSubmitted(false);
             }, 2000);
+
         }
         catch (error) {
-            console.error('Failed to report post. Try again later');
+            if( error instanceof AxiosError){
+                console.error(error.response?.data);
+                setError(error.response?.data.message);
+            }
             setIsSubmitting(false);
         }
     }
@@ -101,6 +108,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
 
     return (
         <div className="grid grid-cols-1">
+             
             {posts.map((post, index) => {
                 const votesAmt = post.votes ? post.votes.reduce((acc, vote) => {
                     if (vote.type === 'UP') return acc + 1;
@@ -131,6 +139,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
                                     <SlOptions />
                                 </DrawerTrigger>
                                 <DrawerContent>
+                                {error && (<FormError message={error} />)}
                                     <DrawerHeader>
                                         <DrawerTitle className="text-center">Why do you want to report this?</DrawerTitle>
                                     </DrawerHeader>
@@ -140,6 +149,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
                                         className="w-1/2 mx-auto"
                                     />
                                     <DrawerFooter>
+                                       
                                         <Button variant='default' className="mx-auto" size='sm'
                                             onClick={() => { reportPost(post.id) }}>Submit</Button>
                                         <DrawerClose>
@@ -205,7 +215,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
             ) : null
             }
 
-
+           
         </div>
     );
 }

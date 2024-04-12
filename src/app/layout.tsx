@@ -22,7 +22,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
   <Provider session={session}>
     <html lang="en">
-      <Providers >
+      <Providers>
         <TProvider>
           <body className={inter.className}>{children}</body>
         </TProvider>

@@ -9,7 +9,7 @@ export default async function Home() {
 
   const session = await getServerSession(authOptions);
 
-    // await doSomething();
+  // await doSomething();
   console.log('session',session);
   return (
     <>

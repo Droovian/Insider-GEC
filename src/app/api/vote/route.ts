@@ -135,15 +135,22 @@ export async function PATCH(req: Request) {
       if(!npost) {
         return new Response('Post not found', { status: 404 })
       }
-      const votesAmt = npost.votes.reduce((acc, vote) => {
-        if (vote.type === 'UP') return acc + 1
-        if (vote.type === 'DOWN') return acc - 1
-        return acc
-      }, 0)
-      const channelName = `votes-${postId}`;
-      const cc = `votes-updated-${postId}`
-      pusherServer.trigger(channelName, cc, votesAmt)
-        
+      
+      if(session){
+        const votesAmt = npost.votes.reduce((acc, vote) => {
+          if (vote.type === 'UP') return acc + 1
+          if (vote.type === 'DOWN') return acc - 1
+          return acc
+        }, 0)
+        const channelName = `votes-${postId}`;
+        const cc = `votes-updated-${postId}`
+        pusherServer.trigger(channelName, cc, votesAmt)
+          
+      }
+      else{
+        return new Response('Unauthorized', { status: 401 })
+      }
+      
   
   
       return new Response('OK')

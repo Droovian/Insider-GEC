@@ -4,12 +4,12 @@ import { usePrevious } from '@mantine/hooks'
 import { Button } from '../ui/button'
 import { ThumbsDown, ThumbsUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation} from '@tanstack/react-query'
 import { PostVoteRequest } from '@/lib/validators/vote'
 import axios, { AxiosError } from 'axios'
 import { pusherClient } from '@/lib/pusher'
-import { set } from 'zod'
-
+import { ToastContainer, toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 interface PostVoteClientProps {
     postId?: number;
     initialVotesAmt: number;
@@ -20,8 +20,7 @@ const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, init
     const [votesAmt, setVotesAmt] = useState<number>(initialVotesAmt)
     const [currentVote, setCurrentVote] = useState(initialVote)
     const prevVote = usePrevious(currentVote)
-    const queryClient = useQueryClient()
-
+    const router = useRouter()
     useEffect(() => {
         setCurrentVote(initialVote)
     }, [initialVote])
@@ -48,15 +47,16 @@ const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, init
             await axios.patch('/api/vote', payload)
         },
         onError: (err, voteType) => {
-            if (voteType === 'UP') setVotesAmt((prev) => prev - 1)
-            else setVotesAmt((prev) => prev + 1)
-      
-            // reset current vote
-            setCurrentVote(prevVote)
+            
       
             if (err instanceof AxiosError) {
               if (err.response?.status === 401) {
-                return "please log in"
+                if (voteType === 'UP') setVotesAmt((prev) => prev - 1)
+                    else setVotesAmt((prev) => prev + 1)
+              
+                    // reset current vote
+                    setCurrentVote(prevVote)
+                router.push('/signin')
               }
             }
       
@@ -79,7 +79,10 @@ const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, init
     })
 
     return (
-        <div className='flex space-x-2'>
+        <>
+            <ToastContainer position='top-center' autoClose={3000}/>
+             <div className='flex space-x-2'>
+            
             <Button onClick={() => vote('UP')} className="rounded-full" variant='ghost'>
                 <ThumbsUp className={cn({ 'text-gray-500 fill-black': currentVote === 'UP' })} />
             </Button>
@@ -92,6 +95,8 @@ const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, init
                 <ThumbsDown className={cn({ 'text-gray-500 fill-black': currentVote === 'DOWN' })} />
             </Button>
         </div>
+        </>
+       
     )
 }
 

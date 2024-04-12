@@ -4,14 +4,32 @@ import { z } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import crypto from 'crypto';
+import { ratelimit ,createRateLimiter, RateLimitConfig} from "@/lib/ratelimiting/rateLimiter";
 
 function generateHash(userId: string): string{
   return crypto.createHash('sha256').update(userId).digest('hex');
 }
 
+const rateLimitConfig:RateLimitConfig = {
+  windowSize: 2,
+  windowDuration: 10,
+  windowUnit: "m"
+}
+
+const rateLimiter = createRateLimiter(rateLimitConfig);
+
 export async function POST(req: Request) {
+  const ip = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for");
   const session = await getServerSession(authOptions);
 
+  const { success, pending, limit, reset, remaining } = await rateLimiter.limit(ip!)
+      if (!success) {
+        console.log("Rate limit exceeded");
+        return NextResponse.json(
+          { message: "rate limit exceeded" },
+          { status: 429 }
+        );
+      }
   const { title, content, category, imageUrl } = await req.json();
 
   if (!title || !content || !category) {
@@ -46,7 +64,22 @@ export async function POST(req: Request) {
       const userId = session?.user?.id;
       const hashedUserId = generateHash(userId);
 
+
+
       if (hashedUserId) {
+
+        const postCount = await db.post.count({
+          where: {
+            authorId: hashedUserId
+          }
+        }); 
+        if( postCount >= 20){
+          return NextResponse.json(
+            { message: "Maximum limit crossed, please delete some posts to continue" },
+            { status: 422 }
+          );
+        }
+
         const post = await db.post.create({
           data: {
             title,
