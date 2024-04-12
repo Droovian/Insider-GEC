@@ -76,6 +76,16 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// model Report {
+//   id        Int      @id @default(autoincrement())
+//   postId    Int
+//   reason    String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   post Post @relation(fields: [postId], references: [id])
+// }
+
 model Report {
   id        Int      @id @default(autoincrement())
   postId    Int
@@ -83,7 +93,12 @@ model Report {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
   post Post @relation(fields: [postId], references: [id])
+
+  @@unique([postId, userId])
 }
 
 model Comment {
