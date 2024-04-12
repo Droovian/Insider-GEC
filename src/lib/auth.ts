@@ -41,13 +41,9 @@ export const authOptions: NextAuthOptions = {
 
           const validatedData = LoginSchema.safeParse(credentials);
 
-
-        const passwordMatch = await compare(credentials.password, existingUser.password || '');
-
           if(!validatedData?.success){
             throw new Error(JSON.stringify({ error: "Invalid Credentials entered!" }))
           }
-
 
           const existingUser = await db.user.findUnique({
             where:{
@@ -63,8 +59,10 @@ export const authOptions: NextAuthOptions = {
 
           if(!passwordMatch){
             throw new Error( JSON.stringify({ error: "Password did not match!" }))
+          }
 
-            return null;
+          if(!existingUser?.emailVerified){
+            throw new Error( JSON.stringify({error: "Email not verified (Check your Email)"}))
           }
 
           return {
@@ -76,17 +74,8 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account }): Promise<any> {
-      const existingUser = await getUserById(user.id);
-    
-      if (!existingUser?.emailVerified) {
-        return false;
-      }
-
-      return true;
-    },
     async jwt({ token, user }) {
-      // console.log(token, 'userDATA'+user);
+
       if(user){
         return {
           ...token,
