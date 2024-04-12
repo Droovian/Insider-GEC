@@ -1,12 +1,18 @@
 import { db } from '@/lib/db'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import { nanoid } from 'nanoid'
 import { NextAuthOptions, getServerSession } from 'next-auth'
-import GoogleProvider from 'next-auth/providers/google'
 import  CredentialsProvider  from 'next-auth/providers/credentials'
+import * as z from "zod";
 import { compare } from 'bcrypt'
-import { redirect } from 'next/navigation'
 import { getUserById } from '../../data/user'
+
+const LoginSchema = z.object({
+  email: z.string().min(1, 'Email is required').email('Invalid email'),
+  password: z
+    .string()
+    .min(1, 'Password is required')
+    .min(8, 'Password must have than 8 characters'),
+});
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -16,6 +22,7 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: '/signin',
+    error: '/signin'
   },
   providers: [
     CredentialsProvider({
@@ -27,32 +34,40 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        
-        if(!credentials?.email || !credentials?.password){
-          return null;
-        }
-        
-        const existingUser = await db.user.findUnique({
-          where:{
-            email: credentials?.email
+
+          if(!credentials?.email || !credentials?.password){
+            throw new Error(JSON.stringify({ error: "Credentials are required!" }))
           }
-        });
 
-        if(!existingUser){
-          return null;
-        }
+          const validatedData = LoginSchema.safeParse(credentials);
 
-        const passwordMatch = await compare(credentials.password, existingUser.password || '');
+          if(!validatedData?.success){
+            throw new Error(JSON.stringify({ error: "Invalid Credentials entered!" }))
+          }
 
-        if(!passwordMatch){
-          return null;
-        }
+          const existingUser = await db.user.findUnique({
+            where:{
+              email: credentials?.email
+            }
+          });
 
-        return {
-          id: `${existingUser.id}`,
-          username: existingUser.username,
-          email: existingUser.email,
-        }
+          if(!existingUser){
+            throw new Error(JSON.stringify({ error: "User does not exist!" }))
+          }
+
+          const passwordMatch = await compare(credentials.password, existingUser.password || '');
+
+          if(!passwordMatch){
+            throw new Error( JSON.stringify({ error: "Password did not match!" }))
+
+            return null;
+          }
+
+          return {
+            id: `${existingUser.id}`,
+            username: existingUser.username,
+            email: existingUser.email,
+          }
       }
     }),
   ],

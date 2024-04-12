@@ -23,7 +23,7 @@ export default function Posts() {
     const fetchUserPosts = async () => {
       try {
         if (status === "authenticated" && session?.user) {
-          const res = await axios.get(`http://localhost:3000/api/myposts`);
+          const res = await axios.get('/api/myposts');
           setUserPosts(res.data || []);
         }
       } catch (error) {
