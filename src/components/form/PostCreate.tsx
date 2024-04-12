@@ -74,7 +74,10 @@ export default function UserForm() {
         toast.success("Post added!");
       }
       else if( response.status === 429){
-        toast.error("Rate limit exceeded, wait for 1 minute");
+        toast.error("too many requests, try again later");
+      }
+      else if( response.status === 422){
+        toast.error("You have reached the maximul limit of posts, please delete some posts to continue");
       }
       else{
         toast.error('Error occurred while adding post');
