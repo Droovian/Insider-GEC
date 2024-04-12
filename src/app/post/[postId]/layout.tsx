@@ -17,7 +17,6 @@ const CreatePostLayout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className={inter.className}>
-      <Navbar />
         <div className=""> 
           <Provider session={session}>
             {children}
