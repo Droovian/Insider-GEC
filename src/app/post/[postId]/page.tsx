@@ -70,8 +70,7 @@ export default async function PostDetails( { params }: { params: {postId: string
                     <div>
                       <CloudImage
                         src={postData?.imageUrl}
-                        alt="Uploaded Image"
-                       
+                        alt="Uploaded Image"           
                       />
                     </div>
                   </>
