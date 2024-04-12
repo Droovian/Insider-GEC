@@ -64,7 +64,22 @@ export async function POST(req: Request) {
       const userId = session?.user?.id;
       const hashedUserId = generateHash(userId);
 
+
+
       if (hashedUserId) {
+
+        const postCount = await db.post.count({
+          where: {
+            authorId: hashedUserId
+          }
+        }); 
+        if( postCount >= 20){
+          return NextResponse.json(
+            { message: "Maximum limit crossed, please delete some posts to continue" },
+            { status: 422 }
+          );
+        }
+
         const post = await db.post.create({
           data: {
             title,
