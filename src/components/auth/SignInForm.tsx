@@ -16,6 +16,7 @@ import { Button } from '../ui/button';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { FormError } from '../form-error';
+import { useSearchParams } from 'next/navigation';
 import { FormSuccess } from '../form-success';
 import { useState } from 'react';
 
@@ -28,6 +29,10 @@ const LoginSchema = z.object({
 });
 
 const SignInForm = () => {
+
+  const searchParams = useSearchParams();
+
+  const errorMessage = searchParams.get("error") || undefined;
 
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
@@ -97,7 +102,10 @@ const SignInForm = () => {
             )}
           />
         </div>
-        <FormError message={error}/>
+        {
+
+        <FormError message={errorMessage}/>
+        }
         <Button size='sm' className='mt-3' variant='link'>
           <Link href="/auth/reset">
               Forgot Password?
