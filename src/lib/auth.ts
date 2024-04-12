@@ -41,9 +41,13 @@ export const authOptions: NextAuthOptions = {
 
           const validatedData = LoginSchema.safeParse(credentials);
 
+
+        const passwordMatch = await compare(credentials.password, existingUser.password || '');
+
           if(!validatedData?.success){
             throw new Error(JSON.stringify({ error: "Invalid Credentials entered!" }))
           }
+
 
           const existingUser = await db.user.findUnique({
             where:{

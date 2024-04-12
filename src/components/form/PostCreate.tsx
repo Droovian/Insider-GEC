@@ -73,6 +73,9 @@ export default function UserForm() {
       if(response.ok){
         toast.success("Post added!");
       }
+      else if( response.status === 429){
+        toast.error("Rate limit exceeded, wait for 1 minute");
+      }
       else{
         toast.error('Error occurred while adding post');
         
