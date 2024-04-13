@@ -3,6 +3,7 @@ import { CldImage } from "next-cloudinary";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button";
 import { CloudImage } from "@/components/CloudImage/cloud-image";
+import { PostComments } from "@/components/ui/post-comments";
 
 interface Comment{
     content: String,
@@ -32,10 +33,11 @@ export default async function PostDetails( { params }: { params: {postId: string
                         null
                     )
                 }
-                <div className="flex justify-between">
+                <PostComments postId={postId} />
+                {/* <div className="flex justify-between">
                 <input type="text" placeholder="Add a comment" className="border border-gray-800 text-sm p-3 w-3/4 mt-3 mb-3 rounded-lg h-1/2 outline-none text-gray-800" />
                 <Button variant='default' className="mt-4 w-20" size='default'>Add</Button>
-                </div>
+                </div> */}
                 <section className="border border-gray-800 rounded-md mt-5">
 
                     <ScrollArea className="w-full h-1/2 rounded-md border p-4">

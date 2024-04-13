@@ -14,8 +14,8 @@ export function CloudImage({src, alt} : CloudImageProps){
             src={src}
             alt="alt"
             crop="fill"
-            width= "500"
-            height="200"
+            width= "300"
+            height="300"
             sizes="50w"
             className="object-cover"
         />

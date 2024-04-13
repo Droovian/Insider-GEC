@@ -1,21 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { MessageSquare } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import { Textarea } from "./textarea";
 import axios, { AxiosError } from "axios";
 import { FC, useState } from "react";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 interface CommentProps {
   postId?: number;
@@ -23,7 +14,10 @@ interface CommentProps {
 
 const CommentSchema = z.string().min(10).max(100);
 
-export const DialogDemo: FC<CommentProps> = ({ postId }) => {
+export const PostComments: FC<CommentProps> = ({ postId }) => {
+
+  const router = useRouter();
+
   const [comment, setComment] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
@@ -54,25 +48,11 @@ export const DialogDemo: FC<CommentProps> = ({ postId }) => {
       }
     } finally {
       setLoading(false);
+      router.refresh();
     }
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="rounded-full" variant="ghost">
-          <MessageSquare />
-        </Button>
-      </DialogTrigger>
-
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Comment</DialogTitle>
-          <DialogDescription>
-            Add your comment here          
-          </DialogDescription>
-        </DialogHeader>
-
         <div className="grid gap-4 py-4">
           <div className="grid w-full gap-2">
             <Textarea
@@ -90,10 +70,5 @@ export const DialogDemo: FC<CommentProps> = ({ postId }) => {
             <Button onClick={addComment}>Add comment</Button>
           </div>
         </div>
-
-        <DialogFooter>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
   );
 }

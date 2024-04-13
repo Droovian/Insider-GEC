@@ -150,6 +150,7 @@ export default function UserForm() {
             render={({ field }) => (
               <CldUploadWidget
                 onSuccess={(result: any) => {
+                  // console.log(result);
                   const imageUrl = result?.info?.url;
                   setImageUrl(imageUrl);
                 }}
