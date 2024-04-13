@@ -6,14 +6,10 @@ import { Button } from "./ui/button";
 import { Input } from "@/components/ui/input";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import Image from "next/image";
-import CreatePostLayout from "@/app/(posts)/create/layout";
 import { SheetDemo } from "./sidebar/Drawer";
 export default function Navbar(){
 
     const {data:session} = useSession();
-    
-    const url = `${session?.user?.image}`;
     
     return (
         <header className="w-full h-fit border-b border-gray-200 flex justify-between p-3 mx-3">
@@ -21,7 +17,7 @@ export default function Navbar(){
             <div className="hidden sm:flex items-center">
                 <Link href='/'>
                 <Avatar>
-                    <AvatarImage src={url} />
+                    <AvatarImage/>
                     <AvatarFallback>DN</AvatarFallback>
                 </Avatar>
                 </Link>
@@ -35,8 +31,6 @@ export default function Navbar(){
                 <Input placeholder="Search for post..." className="text-black p-3"/>
                 <Button variant='default'>Search</Button>
             </div>
-
-                        
 
             <div className="flex items-center space-x-10 mr-4">
                 {session?.user ? (

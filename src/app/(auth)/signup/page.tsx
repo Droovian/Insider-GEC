@@ -1,5 +1,5 @@
-// import SignUpForm from "@/components/form/SignUpForm";
 import SignUpForm from "@/components/auth/SignUpForm";
+
 export default function SignUp(){
     return (
         <div className="w-1/2">

@@ -3,19 +3,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 }from "@/components/ui/sheet"
-import Sidebar from "./Sidebar"
 import SidebarButton from "./NavButton"
 import { BookHeart, Calendar, Dumbbell, GraduationCap, Home, School, Users } from 'lucide-react'
 import Link from "next/link"
@@ -66,14 +62,14 @@ export function SheetDemo() {
                     </Button>
                   </div>
                     <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
-                    <SidebarButton text='Home' icon={<Home />}/>
-                    <SidebarButton text='Popular' icon={<BookHeart />}/>
+                      <SidebarButton text='Home' icon={<Home />}/>
+                      <SidebarButton text='Popular' icon={<BookHeart />}/>
                     <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
                     <span className='text-gray-400 text-sm mb-2'>TOPICS</span>
-                    <SidebarButton text='Events' icon={<Calendar />}/>
-                    <SidebarButton text='Academics' icon={<GraduationCap />}/>
-                    <SidebarButton text='Sports' icon={<Dumbbell />}/>
-                    <SidebarButton text='Campus' icon={<School />} />
+                      <SidebarButton text='Events' icon={<Calendar />}/>
+                      <SidebarButton text='Academics' icon={<GraduationCap />}/>
+                      <SidebarButton text='Sports' icon={<Dumbbell />}/>
+                      <SidebarButton text='Campus' icon={<School />} />
                     <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
                     <span className='text-gray-400 text-sm mb-2'>Explore</span>
               </div>

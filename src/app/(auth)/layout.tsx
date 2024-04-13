@@ -22,7 +22,6 @@ export default function RootLayout({
               
             </div>
             <div className={`${inter.className} w-full sm:w-1/2 flex justify-center items-center`}>
-              {/* Content for the right side */}
               {children}
             </div>
           </div>

@@ -24,12 +24,9 @@ import {
 } from "@/components/ui/drawer"
 import { Textarea } from "./ui/textarea";
 import { DialogDemo } from "./ui/modal";
-import { Comments } from "./ui/comments";
 import PostVoteClient from './post-vote/PostVoteClient';
 import { useRouter } from 'next/navigation';
-import { ToastContainer,toast } from 'react-toastify';
 import { FormError } from './form-error';
-import { set } from 'zod';
 
 interface Post {
     id?: number;

@@ -1,8 +1,6 @@
 "use client"
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import React, { useState } from 'react';
-import { useSession } from "next-auth/react"
+
+import React from 'react';
 import UserForm from "@/components/form/PostCreate";
 
 interface PageProps {

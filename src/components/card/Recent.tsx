@@ -2,6 +2,7 @@
 
 import { Button } from '../ui/button';
 import RecentPosts from '@/lib/recent-posts';
+
 interface Post {
   title?: string;
   content?: string;

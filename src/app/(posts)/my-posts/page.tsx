@@ -54,7 +54,8 @@ export default function Posts() {
 
   const paginate = (pageNumber: number) => {
     // Ensure pageNumber is within valid range
-    if (pageNumber > 0 && pageNumber <= Math.ceil(userPosts.length / 5)) { // Assuming 5 posts per page
+    if (pageNumber > 0 && pageNumber <= Math.ceil(userPosts.length / 5)) { 
+      // Assuming 5 posts per page
       setCurrentPage(pageNumber);
     }
   }

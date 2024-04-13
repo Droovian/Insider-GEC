@@ -1,9 +1,9 @@
 import { FC } from 'react'
 
 interface SidebarButtonProps {
-  onClick?: () => void; // Function to handle button click
-  icon?: React.ReactNode; // Icon for the button
-  text?: string; // Text to display next to the icon
+  onClick?: () => void; 
+  icon?: React.ReactNode; 
+  text?: string; 
 }
 
 const SidebarButton: FC<SidebarButtonProps> = ({ onClick, icon, text }) => {
