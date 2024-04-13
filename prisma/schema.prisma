@@ -23,7 +23,6 @@ model Post {
   title     String
   content   String
   createdAt DateTime  @default(now())
-  likes     Int
   authorId  String
   published Boolean   @default(false)
   category  String
@@ -75,16 +74,6 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
-
-// model Report {
-//   id        Int      @id @default(autoincrement())
-//   postId    Int
-//   reason    String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   post Post @relation(fields: [postId], references: [id])
-// }
 
 model Report {
   id        Int      @id @default(autoincrement())
