@@ -1,7 +1,4 @@
 import { getPost } from "@/lib/getPost";
-import { CldImage } from "next-cloudinary";
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Button } from "@/components/ui/button";
 import { CloudImage } from "@/components/CloudImage/cloud-image";
 import { PostComments } from "@/components/ui/post-comments";
 import Navbar from "@/components/Navbar";
