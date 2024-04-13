@@ -6,23 +6,31 @@ import { Button } from "@/components/ui/button"
 
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-}from "@/components/ui/sheet"
+} from "@/components/ui/sheet"
 import SidebarButton from "./NavButton"
-import { BookHeart, Calendar, Dumbbell, GraduationCap, Home, School, Users } from 'lucide-react'
+import { BookHeart, Calendar, Dumbbell, GraduationCap, Home, School, Users,Hotel,Heart ,MousePointer2 ,Drum,Bolt } from 'lucide-react'
 import Link from "next/link"
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 const SHEET_SIDES = ["left"] as const
 
 type SheetDemo = (typeof SHEET_SIDES)[number]
 
 export function SheetDemo() {
-  const {data:session} = useSession();
-    
+  const { data: session } = useSession();
+  const router = useRouter();
+  const searchQuery = useSearchParams().get('query') || "";
+  const handleClick = (value: string) => {
+    router.push(`/?query=${searchQuery}&category=${value}`);
+  }
+  const url = `${session?.user?.image}`;
   return (
     <div className="grid grid-cols-2 gap-2">
       {SHEET_SIDES.map((side) => (
@@ -30,54 +38,57 @@ export function SheetDemo() {
           <SheetTrigger asChild>
             <div>
 
-            <Button variant="outline">=</Button>
+              <Button variant="outline">=</Button>
             </div>
           </SheetTrigger>
           <SheetContent side={side}>
             <SheetHeader>
-            <SheetTitle>
-            <div className="flex items-center">
-                <Link href='/'>
-                <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" alt='default-user' />
-                    <AvatarFallback>{session?.user ? 
-                    (<>
-                    <p className="text-black">
-                      {session?.user.username || session.user.name}
-                    </p>
-                      </>) : null}
-                    </AvatarFallback>
-                </Avatar>
-                </Link>
-            </div>
-            </SheetTitle>
+              <SheetTitle>
+                <div className="flex items-center">
+                  <Link href='/'>
+                    <Avatar>
+                      <AvatarImage src={url} alt='default-user' />
+                      <AvatarFallback>{session?.user ? (
+                        <>
+                          <p className="text-black">{session?.user.username || session.user.name}
+                          </p>
+                        </>
+                      ) : null}</AvatarFallback>
+                    </Avatar>
+                  </Link>
+                </div>
+              </SheetTitle>
               <SheetDescription>
-              <div className=" bg-white p-4 rounded-md">
+                <div className=" bg-white p-4 rounded-md">
                   <div >
-                      <Button className="w-full border hover:bg-gray-200 p-2 mt-2" variant='secondary'>
-                          <Link href='/create'>Create Post</Link>
-                      </Button>
-                      <Button className="w-full border hover:bg-gray-200 p-2 mt-2" variant='secondary'>
-                        <Link href='/my-posts'>View My Posts</Link>
+                    <Button className="w-full border hover:bg-gray-200 p-2 mt-2" variant='secondary'>
+                      <Link href='/create'>Create Post</Link>
+                    </Button>
+                    <Button className="w-full border hover:bg-gray-200 p-2 mt-2" variant='secondary'>
+                      <Link href='/my-posts'>View My Posts</Link>
                     </Button>
                   </div>
-                    <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
-                      <SidebarButton text='Home' icon={<Home />}/>
-                      <SidebarButton text='Popular' icon={<BookHeart />}/>
-                    <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
-                    <span className='text-gray-400 text-sm mb-2'>TOPICS</span>
-                      <SidebarButton text='Events' icon={<Calendar />}/>
-                      <SidebarButton text='Academics' icon={<GraduationCap />}/>
-                      <SidebarButton text='Sports' icon={<Dumbbell />}/>
-                      <SidebarButton text='Campus' icon={<School />} />
-                    <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
-                    <span className='text-gray-400 text-sm mb-2'>Explore</span>
-              </div>
+                  <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
+                    <SidebarButton text='Home' icon={<Home />} onClick={() => handleClick("")} />
+                  <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
+                  <span className='text-gray-400 text-sm mb-2'>TOPICS</span>
+                  <SidebarButton text='Events' icon={<Calendar />} onClick={() => handleClick("Events")} />
+                  <SidebarButton text='Academics' icon={<GraduationCap />} onClick={() => handleClick("Academics")} />
+                  <SidebarButton text='Sports' icon={<Dumbbell />} onClick={() => handleClick("Sports")} />
+                  <SidebarButton text='Campus' icon={<School />} onClick={() => handleClick("Campus")} />
+                  <SidebarButton text='Hostel' icon={<Hotel />} onClick={() => handleClick("Hostel")} />
+                  <SidebarButton text='Relationships' icon={<Heart />} onClick={() => handleClick("Relationships")} />
+                  <SidebarButton text='Council' icon={<MousePointer2 />} onClick={() => handleClick("Council")} />
+                  <SidebarButton text='Creative-corner' icon={<Drum />} onClick={() => handleClick("Creative-Corner")} />
+                  <SidebarButton text='Others' icon={<Bolt />} onClick={() => handleClick("Others")} />
+                  <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
+                  <span className='text-gray-400 text-sm mb-2'>Explore</span>
+                </div>
               </SheetDescription>
             </SheetHeader>
-            
 
-            
+
+
           </SheetContent>
         </Sheet>
       ))}
