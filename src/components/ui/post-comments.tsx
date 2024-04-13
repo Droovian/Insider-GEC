@@ -60,15 +60,15 @@ export const PostComments: FC<CommentProps> = ({ postId }) => {
               onChange={(e) => {setComment(e.target.value)}}
               placeholder="Type your message here."
             />
+          <div className="mx-auto mt-2">
+            <Button onClick={addComment}>Add comment</Button>
+          </div>
           </div>
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
           {loading && <Loader2 className="mx-auto mt-2" size={24} />}
           {success && <p className="text-green-500 text-sm">Comment added successfully!</p>}
 
-          <div className="mx-auto mt-2">
-            <Button onClick={addComment}>Add comment</Button>
-          </div>
         </div>
   );
 }
