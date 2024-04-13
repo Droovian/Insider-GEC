@@ -6,14 +6,15 @@ import { Button } from "@/components/ui/button"
 
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-}from "@/components/ui/sheet"
+} from "@/components/ui/sheet"
 import SidebarButton from "./NavButton"
-import { BookHeart, Calendar, Dumbbell, GraduationCap, Home, School, Users } from 'lucide-react'
+import { BookHeart, Calendar, Dumbbell, GraduationCap, Home, School, Users,Hotel,Heart ,MousePointer2 ,Drum,Bolt } from 'lucide-react'
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -68,14 +69,18 @@ export function SheetDemo() {
                     </Button>
                   </div>
                   <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
-                  <SidebarButton text='Home' icon={<Home />} onClick={()=>handleClick("")}/>
-                  <SidebarButton text='Popular' icon={<BookHeart />} />
+                    <SidebarButton text='Home' icon={<Home />} onClick={() => handleClick("")} />
                   <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
                   <span className='text-gray-400 text-sm mb-2'>TOPICS</span>
-                  <SidebarButton text='Events' icon={<Calendar />} onClick={()=>handleClick("Events")}/>
-                  <SidebarButton text='Academics' icon={<GraduationCap />} onClick={()=>handleClick("Academics")}/>
-                  <SidebarButton text='Sports' icon={<Dumbbell />} onClick={()=>handleClick("Sports")}/>
-                  <SidebarButton text='Campus' icon={<School />} onClick={()=>handleClick("Campus")}/>
+                  <SidebarButton text='Events' icon={<Calendar />} onClick={() => handleClick("Events")} />
+                  <SidebarButton text='Academics' icon={<GraduationCap />} onClick={() => handleClick("Academics")} />
+                  <SidebarButton text='Sports' icon={<Dumbbell />} onClick={() => handleClick("Sports")} />
+                  <SidebarButton text='Campus' icon={<School />} onClick={() => handleClick("Campus")} />
+                  <SidebarButton text='Hostel' icon={<Hotel />} onClick={() => handleClick("Hostel")} />
+                  <SidebarButton text='Relationships' icon={<Heart />} onClick={() => handleClick("Relationships")} />
+                  <SidebarButton text='Council' icon={<MousePointer2 />} onClick={() => handleClick("Council")} />
+                  <SidebarButton text='Creative-corner' icon={<Drum />} onClick={() => handleClick("Creative-Corner")} />
+                  <SidebarButton text='Others' icon={<Bolt />} onClick={() => handleClick("Others")} />
                   <div className='mt-2 mb-2 w-full h-[1px] bg-gray-400'></div>
                   <span className='text-gray-400 text-sm mb-2'>Explore</span>
                 </div>
