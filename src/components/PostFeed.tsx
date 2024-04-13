@@ -119,7 +119,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
                 )
                 return (
                     <div
-                        key={post.id}
+                        key={post?.id}
                         className="hover:bg-gray-200 w-full sm:w-3/4 mx-auto mt-1"
                     >
 

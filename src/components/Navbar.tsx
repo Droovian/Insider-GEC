@@ -17,7 +17,7 @@ export default function Navbar(){
             <div className="hidden sm:flex items-center">
                 <Link href='/'>
                 <Avatar>
-                    <AvatarImage/>
+                    <AvatarImage src="https://github.com/shadcn.png"/>
                     <AvatarFallback>DN</AvatarFallback>
                 </Avatar>
                 </Link>

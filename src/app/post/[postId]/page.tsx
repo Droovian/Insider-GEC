@@ -1,7 +1,6 @@
 import { getPost } from "@/lib/getPost";
 import { CldImage } from "next-cloudinary";
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 interface Comment{
@@ -12,7 +11,7 @@ interface Comment{
 
 export default async function PostDetails( { params }: { params: {postId: string}}){
 
-    const postId = parseInt(params.postId);
+    const postId = parseInt(params?.postId);
     
     const postData = await getPost(postId);
 

@@ -23,7 +23,6 @@ type SheetDemo = (typeof SHEET_SIDES)[number]
 export function SheetDemo() {
   const {data:session} = useSession();
     
-    const url = `${session?.user?.image}`;
   return (
     <div className="grid grid-cols-2 gap-2">
       {SHEET_SIDES.map((side) => (
@@ -40,13 +39,14 @@ export function SheetDemo() {
             <div className="flex items-center">
                 <Link href='/'>
                 <Avatar>
-                    <AvatarImage src={url} alt='default-user' />
-                    <AvatarFallback>{session?.user ? (
-          <>
-            <p className="text-black">{session?.user.username || session.user.name}
-            </p>
-          </>
-        ) : null}</AvatarFallback>
+                    <AvatarImage src="https://github.com/shadcn.png" alt='default-user' />
+                    <AvatarFallback>{session?.user ? 
+                    (<>
+                    <p className="text-black">
+                      {session?.user.username || session.user.name}
+                    </p>
+                      </>) : null}
+                    </AvatarFallback>
                 </Avatar>
                 </Link>
             </div>

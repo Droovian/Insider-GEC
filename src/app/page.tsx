@@ -24,9 +24,9 @@ export default async function Home() {
                       </div>
                     </div>
 
-                    <div className="ml-64 pt-16">
+                    <div className="ml-52 pt-16">
                       <div className="flex flex-col h-screen overflow-y-auto">
-                        <div className="flex flex-wrap px-4 pt-2 pb-8">
+                        <div className="flex flex-wrap px-5 pt-2 pb-8">
                           <div className="w-full xl:w-3/4 p-4 md:w-full">
                             <GeneralFeed />
                           </div>
