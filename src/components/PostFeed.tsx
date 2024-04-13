@@ -26,7 +26,7 @@ import { Textarea } from "./ui/textarea";
 import { DialogDemo } from "./ui/modal";
 import { Comments } from "./ui/comments";
 import PostVoteClient from './post-vote/PostVoteClient';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ToastContainer,toast } from 'react-toastify';
 import { FormError } from './form-error';
 import { set } from 'zod';
@@ -52,6 +52,8 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
     const [reportSubmitted, setReportSubmitted] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const router = useRouter();
+    const searchQuery = useSearchParams().get('query') || "";
+    const categoryValue = useSearchParams().get('category') || "";
     const reportPost = async (postId?: number) => {
         try {
             setIsSubmitting(true);
@@ -85,9 +87,9 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
     })
 
     const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } = useInfiniteQuery(
-        ['posts'],
+        ['posts',searchQuery,categoryValue],
         async ({ pageParam = 1 }) => {
-            const query = `http://localhost:3000/api/getAllPosts?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}`
+            const query = `http://localhost:3000/api/getAllPosts?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}&query=${searchQuery}&category=${categoryValue}`
             const { data } = await axios.get<Post[]>(query)
             return data;
         },
