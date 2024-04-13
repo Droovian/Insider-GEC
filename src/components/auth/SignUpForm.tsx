@@ -16,7 +16,6 @@ import { Button } from '../ui/button';
 import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useToast } from '@/hooks/use-toast'
 import { useState } from 'react';
 import { FormError } from '../form-error';
 import { FormSuccess } from '../form-success';
@@ -40,7 +39,6 @@ const SignUpForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
-  const { toast } = useToast();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -74,11 +72,7 @@ const SignUpForm = () => {
         }
     }
     catch(error){
-        toast({
-            title: 'Error',
-            description: 'There was an error signing up',
-            variant: 'destructive',
-        })
+        setError("An unknown error occured!");
     }
   };
 

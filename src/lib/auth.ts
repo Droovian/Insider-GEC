@@ -4,7 +4,6 @@ import { NextAuthOptions, getServerSession } from 'next-auth'
 import  CredentialsProvider  from 'next-auth/providers/credentials'
 import * as z from "zod";
 import { compare } from 'bcrypt'
-import { getUserById } from '../../data/user'
 
 const LoginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),

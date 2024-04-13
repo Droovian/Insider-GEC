@@ -29,7 +29,6 @@ const PostVoteServer = async ({
   let _currentVote: Vote['type'] | null | undefined = undefined
 
   if (getData) {
-    // fetch data in component
     const post = await getData()
     if (!post) return notFound()
 
@@ -43,7 +42,6 @@ const PostVoteServer = async ({
       (vote) => vote.userId === session?.user?.id
     )?.type
   } else {
-    // passed as props
     _votesAmt = initialVotesAmt!
     _currentVote = initialVote
   }

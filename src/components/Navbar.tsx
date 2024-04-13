@@ -6,8 +6,6 @@ import { Button } from "./ui/button";
 import { Input } from "@/components/ui/input";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import Image from "next/image";
-import CreatePostLayout from "@/app/(posts)/create/layout";
 import { SheetDemo } from "./sidebar/Drawer";
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -42,7 +40,7 @@ export default function Navbar(){
             <div className="hidden sm:flex items-center">
                 <Link href='/'>
                 <Avatar>
-                    <AvatarImage src={url} />
+                    <AvatarImage src="https://github.com/shadcn.png"/>
                     <AvatarFallback>DN</AvatarFallback>
                 </Avatar>
                 </Link>
@@ -63,8 +61,6 @@ export default function Navbar(){
                     Search
                 </Button>
             </div>
-
-                        
 
             <div className="flex items-center space-x-10 mr-4">
                 {session?.user ? (

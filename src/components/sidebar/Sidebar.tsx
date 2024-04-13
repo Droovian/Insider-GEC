@@ -1,7 +1,7 @@
 "use client"
 import { FC } from 'react'
 import SidebarButton from './NavButton'
-import { BookHeart, Calendar, Dumbbell, GraduationCap, Home, School, Users } from 'lucide-react'
+import { BookHeart, Calendar, Dumbbell, GraduationCap, Home, School } from 'lucide-react'
 import { Button } from '../ui/button'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'

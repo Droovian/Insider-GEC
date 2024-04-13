@@ -24,12 +24,9 @@ import {
 } from "@/components/ui/drawer"
 import { Textarea } from "./ui/textarea";
 import { DialogDemo } from "./ui/modal";
-import { Comments } from "./ui/comments";
 import PostVoteClient from './post-vote/PostVoteClient';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ToastContainer,toast } from 'react-toastify';
 import { FormError } from './form-error';
-import { set } from 'zod';
 
 interface Post {
     id?: number;
@@ -124,7 +121,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
                 )
                 return (
                     <div
-                        key={post.id}
+                        key={post?.id}
                         className="hover:bg-gray-200 w-full sm:w-3/4 mx-auto mt-1"
                     >
 

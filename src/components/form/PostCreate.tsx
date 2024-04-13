@@ -11,11 +11,9 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
@@ -151,7 +149,6 @@ export default function UserForm() {
               <CldUploadWidget
                 onSuccess={(result: any) => {
                   const imageUrl = result?.info?.url;
-                  // console.log(imageUrl);
                   setImageUrl(imageUrl);
                 }}
                 uploadPreset="kp93h5mr"

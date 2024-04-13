@@ -3,7 +3,6 @@ import Provider from '@/app/context/client-provider';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/sidebar/Sidebar';
 import { Inter } from 'next/font/google';
 
 const inter = Inter({subsets: ["latin"]});
