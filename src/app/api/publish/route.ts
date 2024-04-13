@@ -4,7 +4,7 @@ import { z } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import crypto from 'crypto';
-import { ratelimit ,createRateLimiter, RateLimitConfig} from "@/lib/ratelimiting/rateLimiter";
+import { createRateLimiter, RateLimitConfig} from "@/lib/ratelimiting/rateLimiter";
 
 function generateHash(userId: string): string{
   return crypto.createHash('sha256').update(userId).digest('hex');
@@ -84,7 +84,6 @@ export async function POST(req: Request) {
           data: {
             title,
             content,
-            likes: 0,
             authorId: hashedUserId,
             published: true,
             category,

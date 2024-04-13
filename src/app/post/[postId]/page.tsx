@@ -2,6 +2,7 @@ import { getPost } from "@/lib/getPost";
 import { CldImage } from "next-cloudinary";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button";
+import { CloudImage } from "@/components/CloudImage/cloud-image";
 
 interface Comment{
     content: String,
@@ -23,10 +24,9 @@ export default async function PostDetails( { params }: { params: {postId: string
                 <p className="mb-4">{postData?.content}</p>
                 {
                     postData?.imageUrl ? (
-                        <CldImage
+                        <CloudImage
                         src={postData?.imageUrl}
                         alt="image"
-                        className="size-50"
                         />
                     ) : (
                         null
