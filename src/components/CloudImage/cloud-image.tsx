@@ -5,8 +5,7 @@ import React from "react";
 interface CloudImageProps {
     src: string;
     alt: string;
-    width: number;
-    height:number;
+   
 }
 
 export function CloudImage({src, alt} : CloudImageProps){
