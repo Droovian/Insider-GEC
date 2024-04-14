@@ -39,10 +39,9 @@ export default function Navbar(){
              
             <div className="hidden sm:flex items-center">
                 <Link href='/'>
-                <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png"/>
-                    <AvatarFallback>DN</AvatarFallback>
-                </Avatar>
+                <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+                    Insider
+                </h2>
                 </Link>
             </div>
 

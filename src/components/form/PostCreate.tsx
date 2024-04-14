@@ -35,7 +35,7 @@ export type CloudinaryUploadResult = {
 
 const formSchema = z.object({
   title: z.string().min(3).max(100),
-  content: z.string().min(10).max(300),
+  content: z.string().min(10).max(500),
   category: z.string(),
   imageUrl: z.string().optional()
 });

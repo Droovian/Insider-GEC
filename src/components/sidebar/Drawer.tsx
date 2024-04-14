@@ -46,15 +46,9 @@ export function SheetDemo() {
               <SheetTitle>
                 <div className="flex items-center">
                   <Link href='/'>
-                    <Avatar>
-                      <AvatarImage src={url} alt='default-user' />
-                      <AvatarFallback>{session?.user ? (
-                        <>
-                          <p className="text-black">{session?.user.username || session.user.name}
-                          </p>
-                        </>
-                      ) : null}</AvatarFallback>
-                    </Avatar>
+                  <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+                    Insider
+                  </h2>
                   </Link>
                 </div>
               </SheetTitle>

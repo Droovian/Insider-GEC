@@ -1,6 +1,6 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { z } from "zod";
+import * as z from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import crypto from 'crypto';
@@ -9,6 +9,13 @@ import { createRateLimiter, RateLimitConfig} from "@/lib/ratelimiting/rateLimite
 function generateHash(userId: string): string{
   return crypto.createHash('sha256').update(userId).digest('hex');
 }
+
+const createPostSchema = z.object({
+  title: z.string().min(3).max(100),
+  content: z.string().min(10).max(500),
+  category: z.string(),
+  imageUrl: z.string().optional()
+});
 
 const rateLimitConfig:RateLimitConfig = {
   windowSize: 2,
@@ -39,9 +46,18 @@ export async function POST(req: Request) {
     );
   }
 
+  const isValid = createPostSchema.safeParse({title, content, category, imageUrl});
+
+  if(!isValid?.success){
+    return NextResponse.json(
+      { message: "Invalid data entered" },
+      { status: 400 }
+    );
+  }
+
+
   try {
     if (session) {
-      console.log(session);
 
       const userName = session?.user.username || session?.user.name;
 
@@ -64,8 +80,6 @@ export async function POST(req: Request) {
       const userId = session?.user?.id;
       const hashedUserId = generateHash(userId);
 
-
-
       if (hashedUserId) {
 
         const postCount = await db.post.count({
@@ -80,7 +94,7 @@ export async function POST(req: Request) {
           );
         }
 
-        const post = await db.post.create({
+        await db.post.create({
           data: {
             title,
             content,

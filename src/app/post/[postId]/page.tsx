@@ -33,10 +33,10 @@ export default async function PostDetails( { params }: { params: {postId: string
                     </div>
                 </div>
 
-                    <div className=" h-full overflow-y-auto no-scrollbar mt-16">
+                    <div className="h-full overflow-y-auto no-scrollbar mt-16">
                     <div className="flex flex-wrap px-4 pt-0 pb-8">
                         
-                        <main className="w-full flex justify-center items-center  bg-gray-100">
+                        <main className="m-3 p-3 w-full flex justify-center items-center  bg-gray-100">
                             <div className="flex flex-col space-y-4 sm:w-1/2 mx-5 bg-white text-gray-800 shadow-md p-6 rounded-lg">
                             <div className="flex items-center mb-4">
                                 <h2 className="text-xl font-semibold">{postData?.title}</h2>
@@ -59,7 +59,7 @@ export default async function PostDetails( { params }: { params: {postId: string
                                 <PostComments postId={postId} />
                                 <section className="rounded-md mt-5">
                                 <h1 className="text-center text-xl font-semibold py-2">Comments</h1>
-                                <div className="overflow-y-scroll h-40 ">
+                                <div className="overflow-y-scroll h-72">
                                     
                                     {postData?.comments.map((comment: Comment, idx) => (
                                     <div key={idx} className="border border-gray-300 rounded-lg bg-gray-100 p-4 mb-4 flex items-start">

@@ -1,6 +1,6 @@
 "use server";
 
-import Footer from '@/app/footer';
+import Footer from '../dashboard/footer';
 import RecentPosts from '@/lib/recent-posts';
 
 interface Post {
@@ -33,9 +33,8 @@ export default async function Recent(){
           </div>
         ))}
       </div>
-    <footer>
       <Footer/>
-    </footer>  
+
     </section>
     
   </>

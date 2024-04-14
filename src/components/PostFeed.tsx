@@ -23,10 +23,10 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer"
 import { Textarea } from "./ui/textarea";
-import { DialogDemo } from "./ui/modal";
 import PostVoteClient from './post-vote/PostVoteClient';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FormError } from './form-error';
+import { MessageSquare } from "lucide-react";
 
 interface Post {
     id?: number;
@@ -54,7 +54,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
     const reportPost = async (postId?: number) => {
         try {
             setIsSubmitting(true);
-            const res = await axios.post('http://localhost:3000/api/reportPost', {
+            const res = await axios.post('/api/reportPost', {
                 postId: postId,
                 reason: reportReason
             });
@@ -86,7 +86,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
     const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } = useInfiniteQuery(
         ['posts',searchQuery,categoryValue],
         async ({ pageParam = 1 }) => {
-            const query = `http://localhost:3000/api/getAllPosts?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}&query=${searchQuery}&category=${categoryValue}`
+            const query = `/api/getAllPosts?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}&query=${searchQuery}&category=${categoryValue}`
             const { data } = await axios.get<Post[]>(query)
             return data;
         },
@@ -176,9 +176,10 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
                                     post.imageUrl ? (
                                         <div>
                                             <CldImage
-                                                className='rounded-xl'
-                                                width={100}
-                                                height={100}
+                                                className='rounded-xl mb-2 object-cover'
+                                                crop="fill"
+                                                width={200}
+                                                height={200}
                                                 src={post.imageUrl || ""}
                                                 alt='random-image'
                                             />
@@ -192,7 +193,9 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
                         </div>
                         <div className="flex items-center justify-start p-4 gap-4s">
                             <PostVoteClient postId={post.id} initialVotesAmt={votesAmt} initialVote={currentVote?.type} />
-                            <DialogDemo postId={post.id} />
+                            <Button className='rounded-full' variant='ghost'>
+                                <MessageSquare onClick={() => {router.push(`/post/${post?.id}`)}}/>
+                            </Button>
                         </div>
                         <hr />
                     </div>

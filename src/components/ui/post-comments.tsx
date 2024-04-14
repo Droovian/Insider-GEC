@@ -54,14 +54,14 @@ export const PostComments: FC<CommentProps> = ({ postId }) => {
 
   return (
         <div className="grid gap-4 py-4">
-          <div className="grid w-full gap-2">
+          <div className="grid w-full gap-2 relative">
             <Textarea
               value={comment}
               onChange={(e) => {setComment(e.target.value)}}
               placeholder="Type your message here."
             />
-          <div className="mx-auto mt-2">
-            <Button onClick={addComment}>Add comment</Button>
+          <div className="absolute bottom-2 right-2">
+            <Button variant='default' size='sm' onClick={addComment}>Add comment</Button>
           </div>
           </div>
 
