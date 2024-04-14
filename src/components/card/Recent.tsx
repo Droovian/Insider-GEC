@@ -1,5 +1,6 @@
 "use server";
 
+import Footer from '@/app/footer';
 import RecentPosts from '@/lib/recent-posts';
 
 interface Post {
@@ -16,8 +17,9 @@ export default async function Recent(){
   const data = likedPosts?.recentPosts;
   
   return (
+    <>
     <section className='w-full h-screen flex-col p-2 border-l border-gray-200'>
-      <div className='bg-gray-200 rounded-xl mt-3 w-80 h-fit mb-20 p-3'>
+      <div className='bg-gray-200 rounded-xl mt-3 w-80 h-fit mb-3 p-3'>
         <h2 className="scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0 p-4">
           What's happening?
         </h2>
@@ -31,8 +33,12 @@ export default async function Recent(){
           </div>
         ))}
       </div>
-      
+    <footer>
+      <Footer/>
+    </footer>  
     </section>
+    
+  </>
   );
 };
 
