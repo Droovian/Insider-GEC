@@ -9,6 +9,7 @@ interface TeamMemberProps {
   name: string;
   githubLink: string;
   imageSrc: string;
+  designation : string;
 }
 
 const TeamsData = () => {
@@ -22,23 +23,26 @@ const TeamsData = () => {
           name="Dhruv Naik"
           githubLink="https://github.com/droovian"
           imageSrc="/Images/dhruv.jpeg"
+          designation = "Project lead and Full Stack Developer"
         />
         <TeamMember
           name="Shivam Gadekar"
           githubLink="https://github.com/gadekar123"
           imageSrc="/Images/shivam.jpg"
+          designation = "Full Stack Developer"
         />
         <TeamMember
           name="Joel Alvares"
           githubLink="https://github.com/Introvert2000"
           imageSrc="/Images/joel.JPG"
+          designation = "Frontend Developer"
         />
       </div>
     </>
   );
 };
 
-const TeamMember = ({ name, githubLink, imageSrc }: TeamMemberProps) => {
+const TeamMember = ({ name, githubLink, imageSrc,designation }: TeamMemberProps) => {
   return (
     <motion.div
       className="flex flex-col items-center border border-white hover:border-[#FFBA25] w-1/2 rounded-lg"
@@ -46,7 +50,7 @@ const TeamMember = ({ name, githubLink, imageSrc }: TeamMemberProps) => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <div className="relative w-full h-52 md:h-72 mb-4">
+      <div className="relative w-full h-52 md:h-72 mb-2">
         <Image
           src={imageSrc}
           layout="fill"
@@ -55,21 +59,26 @@ const TeamMember = ({ name, githubLink, imageSrc }: TeamMemberProps) => {
           className="w-full h-full rounded-lg object-fit object-cover"
         />
       </div>
-      <div className="flex space-x-4">
+      <div className="flex gap-2 items-stars justify-between p-3">
+                <div className="">
+                  <h2 className="font-bold md:text-lg text-sm sm:text-xl">
+                    {name}
+                  </h2>
+                  <h3 className=" font-light text-xs sm:text-sm">
+                    {designation}
+                  </h3>
+                </div>
 
-      <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-      {name}
-    </h2>
-      <Link
-        href={githubLink}
-        className="hover:text-tangerine"
-        title="GitHub Profile link"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <FaGithub size={20} className="mt-2" />
-      </Link>
-      </div>
+                <Link
+                  href={githubLink}
+                  className="hover:text-tangerine"
+                  title="GitHub Profile link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaGithub size={20} />
+                </Link>
+              </div>
     </motion.div>
   );
 };
