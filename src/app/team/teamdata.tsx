@@ -23,7 +23,7 @@ const TeamsData = () => {
           name="Dhruv Naik"
           githubLink="https://github.com/droovian"
           imageSrc="/Images/dhruv.jpeg"
-          designation = "Project lead and Full Stack developer"
+          designation = "Project lead and Full Stack Developer"
         />
         <TeamMember
           name="Shivam Gadekar"

@@ -7,10 +7,10 @@ const Footer = () => {
       <div className="flex flex-col space-y-4">
         <ul className="list-none p-0">
           <li>
-            <Link href="/">Privacy</Link>
+            <Link href="/legal/privacy">Privacy</Link>
           </li>
           <li>
-            <Link href="/">Terms</Link>
+            <Link href="/legal/terms">Terms</Link>
           </li>
         </ul>
       </div>
