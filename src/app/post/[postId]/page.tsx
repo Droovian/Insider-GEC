@@ -3,14 +3,14 @@ import { CloudImage } from "@/components/CloudImage/cloud-image";
 import { PostComments } from "@/components/ui/post-comments";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/sidebar/Sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
+import Comment from "@/components/Comment";
 
 interface Comment{
-    content: String,
+    content: string,
     id: Number,
     postId: Number
     createdAt : Date
+    userId: string
 }
 
 export default async function PostDetails( { params }: { params: {postId: string}}){
@@ -18,7 +18,6 @@ export default async function PostDetails( { params }: { params: {postId: string
     const postId = parseInt(params?.postId);
     
     const postData = await getPost(postId);
-    console.log(postData)
 
     return (
         <>
@@ -60,21 +59,8 @@ export default async function PostDetails( { params }: { params: {postId: string
                                 <section className="rounded-md mt-5">
                                 <h1 className="text-center text-xl font-semibold py-2">Comments</h1>
                                 <div className="overflow-y-scroll h-72">
-                                    
                                     {postData?.comments.map((comment: Comment, idx) => (
-                                    <div key={idx} className="border border-gray-300 rounded-lg bg-gray-100 p-4 mb-4 flex items-start">
-                                    <div className="flex items-center mr-4">
-                                        <Avatar>
-                                            <AvatarImage src="https://github.com/shadcn.png" />
-                                            <AvatarFallback>CN</AvatarFallback>
-                                        </Avatar>
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className="text-gray-800">{comment?.content}</p>
-                                        <p className="text-xs text-gray-600 mt-1">{comment && comment.createdAt ? new Date(comment.createdAt).toDateString() : 'Invalid Date'}</p>
-                                    </div>
-                                </div>
-                                
+                                        <Comment key={idx} content={comment?.content} createdAt={comment?.createdAt} id={comment?.id} postId={comment?.postId} userId={comment?.userId} />
                                     ))}
                                 </div>
                                 </section>

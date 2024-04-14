@@ -46,6 +46,7 @@ model User {
   sessions      Session[]
   votes         Vote[]
   Report        Report[]
+  Comment       Comment[]
 }
 
 model Account {
@@ -95,7 +96,8 @@ model Comment {
   postId    Int
   content   String
   createdAt DateTime @default(now())
-
+  userId    String
+  user User @relation(fields: [userId], references: [id])
   post Post @relation(fields: [postId], references: [id])
 }
 

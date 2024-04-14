@@ -2,7 +2,6 @@ import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { NextApiRequest } from "next";
 
 export async function DELETE(request: Request){
 
@@ -10,8 +9,16 @@ export async function DELETE(request: Request){
 
    const find_id = searchParams.get('id');
 
-//    console.log(id);
+   const session = await getServerSession(authOptions);
 
+   if(!session?.user || session?.expires){
+    return NextResponse.json({
+        message: "Not Authenticated!"
+    }, {
+        status: 404
+    });
+   }
+   
     try{
     const findPost = await db.post.findUnique({
         where: {

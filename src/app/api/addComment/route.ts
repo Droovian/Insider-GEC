@@ -8,6 +8,7 @@ import { RateLimitConfig, createRateLimiter } from "@/lib/ratelimiting/rateLimit
 const CommentSchema = z.object({
     postId: z.number(),
     comment: z.string().min(10).max(100),
+    userId: z.string()
 });
 
 const rateLimitConfig:RateLimitConfig = {
@@ -33,7 +34,7 @@ export async function POST(req: Request){
 
     const session = await getServerSession(authOptions);
 
-    const { postId, comment } = await req.json();
+    const { postId, comment, userId } = await req.json();
 
     if(!comment || !postId){
         return NextResponse.json({
@@ -41,7 +42,7 @@ export async function POST(req: Request){
         }, { status: 200 })
     }
 
-    CommentSchema.parse({postId, comment});
+    CommentSchema.parse({postId, comment, userId});
 
     try{
         if(session?.user && session){
@@ -50,6 +51,7 @@ export async function POST(req: Request){
                 data: {
                     postId:postId,
                     content:comment,
+                    userId: userId
                 }
             });
 

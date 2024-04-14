@@ -57,15 +57,14 @@ const SignUpForm = () => {
     setSuccess("");
 
     try{
-        const response = await axios.post('http://localhost:3000/api/user', {
+        const response = await axios.post('/api/user', {
                 username: values.username,
                 email: values.email,
                 password: values.password
         })
 
         if(response.status >= 200 && response.status < 300){
-            setSuccess("Registered successfully!");
-            router.push('/signin');
+            setSuccess("Email verification link sent!");
         }
         else{
             setError("Failed to sign up!")

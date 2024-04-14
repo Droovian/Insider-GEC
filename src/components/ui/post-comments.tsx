@@ -7,6 +7,7 @@ import axios, { AxiosError } from "axios";
 import { FC, useState } from "react";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 interface CommentProps {
   postId?: number;
@@ -16,6 +17,10 @@ const CommentSchema = z.string().min(10).max(100);
 
 export const PostComments: FC<CommentProps> = ({ postId }) => {
 
+  const { data:session } = useSession();
+  
+  const userId = session?.user?.id;
+  
   const router = useRouter();
 
   const [comment, setComment] = useState<string>('');
@@ -30,7 +35,8 @@ export const PostComments: FC<CommentProps> = ({ postId }) => {
       CommentSchema.parse(comment);
       await axios.post('/api/addComment', {
         postId,
-        comment
+        comment,
+        userId
       });
       setSuccess(true);
       setComment('');
