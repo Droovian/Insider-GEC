@@ -38,9 +38,9 @@ export default async function PostDetails( { params }: { params: {postId: string
                         <main className="m-3 p-3 w-full flex justify-center items-center  bg-gray-100">
                             <div className="flex flex-col space-y-4 sm:w-1/2 mx-5 bg-white text-gray-800 shadow-md p-6 rounded-lg">
                             <div className="flex items-center mb-4">
-                                <h2 className="text-xl font-semibold">{postData?.title}</h2>
+                                <h2 className="text-xl mr-4 font-semibold">{postData?.title}</h2>
                                 <span className="px-4 py-1 ml-auto text-white bg-black rounded-2xl text-sm">{postData?.category}</span>
-                                <p className='font-normal text-xs ml-3'>20/20/2020</p>
+                                <p className='font-normal text-xs ml-3'>{postData && postData?.createdAt ? new Date(postData?.createdAt).toDateString() : 'Invalid Date'}</p> {/*date from db */}
                             </div>
                                 <p className="mb-4">{postData?.content}</p>
                                 {

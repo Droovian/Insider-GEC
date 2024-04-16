@@ -60,6 +60,8 @@ export default function Posts() {
     }
   }
   return (
+    <div>
+
     <div className="">
       <h1 className="text-black inline border-b  text-4xl font-extrabold tracking-tight lg:text-5xl  ">
         Your Posts...
@@ -104,15 +106,14 @@ export default function Posts() {
       ) : (
         <p>No posts available.</p>
       )}
-      <div className="mt-3">
-       
+        </div>
+        <div className="mt-3 bottom-0 h-1/6">
           <PaginationControls
             currentPage={currentPage}
             totalPages={Math.ceil(userPosts.length / 5)}
             paginate={paginate}
-          />
-        
-      </div>
-    </div>
+            />
+        </div>
+            </div>
   );
 }

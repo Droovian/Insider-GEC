@@ -8,6 +8,7 @@ import { FC, useState } from "react";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { SpinnerDotted } from 'spinners-react';
 
 interface CommentProps {
   postId?: number;
@@ -72,7 +73,7 @@ export const PostComments: FC<CommentProps> = ({ postId }) => {
           </div>
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
-          {loading && <Loader2 className="mx-auto mt-2" size={24} />}
+          {loading && <SpinnerDotted className="mx-auto mt-2" size={24} />}
           {success && <p className="text-green-500 text-sm">Comment added successfully!</p>}
 
         </div>

@@ -134,9 +134,12 @@ export default function UserForm() {
                 <SelectItem value="Relationships">Relationships</SelectItem>
                 <SelectItem value="Campus">Campus</SelectItem>
                 <SelectItem value="Council">Council</SelectItem>
-                <SelectItem value="creative-corner">creative-corner</SelectItem>
+                <SelectItem value="Creative-corner">Creative-corner</SelectItem>
                 <SelectItem value="Sports">Sports</SelectItem>
                 <SelectItem value="Hostel">Hostel</SelectItem>
+                <SelectItem value="Venting">Venting</SelectItem>
+                <SelectItem value="Food">Food</SelectItem>
+                <SelectItem value="Jobs">Jobs</SelectItem>
                 <SelectItem value="others">Others</SelectItem>
               </SelectContent>
             </Select>

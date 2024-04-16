@@ -1,7 +1,7 @@
 "use client"
 import { FC } from 'react'
 import SidebarButton from './NavButton'
-import { Bolt, BookHeart, Calendar, Drum, Dumbbell, GraduationCap, Heart, Home, Hotel, MousePointer2, School } from 'lucide-react'
+import { Angry, Bolt, BookHeart, Calendar, ChefHat, Drum, Dumbbell, GraduationCap, Heart, Home, Hotel, Mail, MousePointer2, School } from 'lucide-react'
 import { Button } from '../ui/button'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -26,6 +26,7 @@ const Sidebar: FC<SidebarProps> = ({ }) => {
                     <Link href='/my-posts'>View My Posts</Link>
                 </Button>
             </div>
+            <div className="max-h-[calc(100vh-200px)] overflow-y-auto no-scrollbar">
             <div className='mt-2 mb-2 w-full h-[1px] bg-gray-200'></div>
             <SidebarButton text='Home' icon={<Home />} onClick={() => handleClick("")} />
             <div className='mt-2 mb-2 w-full h-[1px] bg-gray-200'></div>
@@ -38,9 +39,12 @@ const Sidebar: FC<SidebarProps> = ({ }) => {
             <SidebarButton text='Relationships' icon={<Heart />} onClick={() => handleClick("Relationships")} />
             <SidebarButton text='Council' icon={<MousePointer2 />} onClick={() => handleClick("Council")} />
             <SidebarButton text='Creative-corner' icon={<Drum />} onClick={() => handleClick("Creative-Corner")} />
+            <SidebarButton text='Venting' icon={<Angry  />} onClick={() => handleClick("Venting")} />
+                  <SidebarButton text='Jobs' icon={<Mail />} onClick={() => handleClick("Jobs")} />
+                  <SidebarButton text='Food' icon={<ChefHat  />} onClick={() => handleClick("Food")} />
             <SidebarButton text='Others' icon={<Bolt />} onClick={() => handleClick("Others")} />
             <div className='mt-2 w-full h-[1px] bg-gray-200'></div>
-
+            </div>
         </div>
     )
 }
