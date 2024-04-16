@@ -3,14 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Sidebar from "@/components/sidebar/Sidebar";
 import GeneralFeed from "@/components/homepage/GeneralFeed";
-import doSomething from "./api/testing/route"; 
 import Recent from "@/components/card/Recent";
 export default async function Home() {
 
-  const session = await getServerSession(authOptions);
-
-  // await doSomething(); to be used for deletion of data ( dev purposes only )
-  console.log('session',session);
   return (
             <>
                   <div className="sm:block relative h-screen w-full text-black bg-gray-100 overflow-x-hidden no-scrollbar">
