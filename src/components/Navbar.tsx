@@ -45,10 +45,17 @@ export default function Navbar(){
                 </Link>
             </div>
 
-            <div className="sm:hidden">
+            <div className="sm:hidden mr-24">
                 <SheetDemo />
+                
              </div>    
-         
+             <div className="sm:hidden flex items-center pb-0">
+                  <Link href='/'>
+                  <h2 className="scroll-m-20  text-3xl font-semibold tracking-tight first:mt-0">
+                    Insider
+                  </h2>
+                  </Link>
+                </div>
             <div className="invisible sm:visible flex space-x-4 w-1/3 items-center">
             <Input
                     placeholder="Search for post..."
