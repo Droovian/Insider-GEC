@@ -1,13 +1,8 @@
 "use client"
 
-import React from 'react';
 import UserForm from "@/components/form/PostCreate";
 
-interface PageProps {
-    session?: { user: { email: string , username: string } }; 
-} 
-
-const MyForm: React.FC<PageProps> = ({}) => {
+const MyForm = () => {
 
   return (
     <main className="flex justify-center items-center h-screen w-full mt-5">
