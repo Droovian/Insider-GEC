@@ -63,8 +63,8 @@ export default function Posts() {
     <div>
 
     <div className="">
-      <h1 className="text-black inline border-b  text-4xl font-extrabold tracking-tight lg:text-5xl  ">
-        Your Posts...
+      <h1 className="text-black underline inline text-xl sm:text-2xl font-extrabold tracking-tight lg:text-5xl  ">
+        Your Posts
       </h1>
       {currentPosts && currentPosts.length > 0 ? (
         <ul className="flex flex-col space-y-5 mt-10 overflow-y-hidden">
@@ -73,11 +73,8 @@ export default function Posts() {
               <div className="flex justify-between">
                 <div className="flex justify-between w-full mr-32">
                   <div>
-                    <li className="text-xl font-bold">{post.title}</li>
-                    <p>{post.content}</p>
-                  </div>
-                  <div className="flex justify-center items-center">
-                    <li className="text-sm font-light px-3 py-2 bg-black text-white rounded-full rounded-tl-none">{post.category}</li>
+                    <li className="text-xl sm:text-xl font-bold">{post.title}</li>
+                    <p className="text-sm sm:text-md">{post.content}</p>
                   </div>
                 </div>
                 <div className="my-auto flex space-x-5 ">

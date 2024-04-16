@@ -68,7 +68,7 @@ export const PostComments: FC<CommentProps> = ({ postId }) => {
               placeholder="Type your message here."
             />
           <div className="absolute bottom-2 right-2">
-            <Button variant='default' size='sm' onClick={addComment}>Add comment</Button>
+            <Button variant='default' onClick={addComment} size='sm'>Add</Button>
           </div>
           </div>
 

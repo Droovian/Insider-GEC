@@ -42,6 +42,7 @@ const formSchema = z.object({
 
 export default function UserForm() {
   const [imageUrl, setImageUrl] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,7 +56,9 @@ export default function UserForm() {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
 
     try{
-      const response = await fetch('http://localhost:3000/api/publish', {
+      setLoading(true);
+
+      const response = await fetch('/api/publish', {
         method: "POST",
         headers:{
           'Content-Type': 'application/json'
@@ -69,13 +72,14 @@ export default function UserForm() {
       })
 
       if(response.ok){
+        setLoading(false);
         toast.success("Post added!");
       }
       else if( response.status === 429){
         toast.error("too many requests, try again later");
       }
       else if( response.status === 422){
-        toast.error("You have reached the maximul limit of posts, please delete some posts to continue");
+        toast.error("You have reached the maximum limit of posts, please delete some posts to continue");
       }
       else{
         toast.error('Error occurred while adding post');
@@ -170,7 +174,7 @@ export default function UserForm() {
             )}
           />
 
-        <Button type="submit" className="ml-3">Submit</Button>
+        <Button type="submit" className="ml-3" disabled={loading}>Submit</Button>
       
     </form>
   </Form>

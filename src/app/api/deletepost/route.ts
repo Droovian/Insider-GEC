@@ -3,12 +3,12 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(request: Request){
+export async function DELETE(req: Request){
 
-   const { searchParams } = new URL(request.url);
+   const { searchParams } = new URL(req.url);
 
-   const find_id = searchParams.get('id');
-
+   const findId = searchParams.get('id');
+   
    const session = await getServerSession(authOptions);
 
    if(!session?.user || session?.expires){
@@ -20,25 +20,31 @@ export async function DELETE(request: Request){
    }
    
     try{
-    const findPost = await db.post.findUnique({
-        where: {
-            id: Number(find_id)
-        }
-    })
-
-    if (!findPost) {
-        return NextResponse.json({
-            message: "Post was not found!"
-        }, {
-            status: 404
-        })
-    }
-
-        await db.post.delete({
+        const findPost = await db.post.findUnique({
             where: {
-                id: Number(find_id)
+                id: Number(findId)
+            }
+        })
+
+        if (!findPost) {
+            return NextResponse.json({
+                message: "Post was not found!"
+            }, {
+                status: 404
+            })
+        }
+
+        await db.comment.deleteMany({
+            where:{
+                postId: Number(findId)
             }
         });
+
+        await db.post.delete({
+            where:{
+                id:Number(findId)
+            }
+        })
 
         return NextResponse.json({
             message : "Post deleted successfully"
@@ -47,8 +53,12 @@ export async function DELETE(request: Request){
         })
     }
     catch(error){
+        console.log(error);
         return NextResponse.json({
             message: "Some error occured"
-        })
+        },
+    {
+        status: 500
+    });
     }
 }
