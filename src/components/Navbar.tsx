@@ -8,6 +8,7 @@ import Link from "next/link";
 import { SheetDemo } from "./sidebar/Drawer";
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { DropdownMenuDemo } from "./Dropdown";
 export default function Navbar(){
 
     const {data:session} = useSession();
@@ -68,21 +69,27 @@ export default function Navbar(){
                 </Button>
             </div>
 
-            <div className="flex items-center space-x-10 mr-4">
-                {session?.user ? (
-                    <Button onClick={() => signOut()} variant='destructive'>Sign Out</Button>
-                ) : (
-                    <>
-                        
-                        <Button variant='default' size='sm'>
-                            <Link href='/api/auth/signin'>Log In</Link>
-                        </Button>
-                        <Button variant='default' size='sm'>
-                            <Link href='/signup'>Sign Up</Link>
-                        </Button>
-                    </>
-                )}
+            <div className="flex items-center  mr-4">
+                    {session?.user ? (
+                        <Button onClick={() => signOut()} variant='destructive'>Sign Out</Button>
+                    ) : (
+                        <>
+                        <div className="hidden sm:flex">
+                            <Button className="mr-8" variant='default' size='sm'>
+                                <Link href='/api/auth/signin'>Log In</Link>
+                            </Button>
+                            <Button variant='default' size='sm'>
+                                <Link href='/signup'>Sign Up</Link>
+                            </Button>
+                        </div>
+                            <div className="sm:hidden">
+                                <DropdownMenuDemo/>
+                            </div>
+                        </>
+                    )}
+                
             </div>
+
         </header>
     )
 }
