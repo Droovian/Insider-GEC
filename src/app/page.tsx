@@ -2,11 +2,12 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/sidebar/Sidebar";
 import GeneralFeed from "@/components/homepage/GeneralFeed";
 import Recent from "@/components/card/Recent";
+import { Suspense } from "react";
 
 export default async function Home() {
 
   return (
-            <>
+        <Suspense fallback={<div>Loading...</div>}>
                   <div className="sm:block relative h-screen w-full text-black bg-gray-100 overflow-x-hidden no-scrollbar">
                     <div className="fixed top-0 w-screen bg-gray-100 z-50">
                       <Navbar/>
@@ -31,6 +32,6 @@ export default async function Home() {
                       </div>
                     </div>
                   </div>
-            </>
+           </Suspense>
   );
 }
