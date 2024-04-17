@@ -30,7 +30,6 @@ const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, init
         const cc = `votes-updated-${postId}`
         pusherClient.subscribe(channelName);
         pusherClient.bind(cc,(votes: number) => {
-            console.log("hello" + votes)
             setVotesAmt(votes)
         })
         return () => {

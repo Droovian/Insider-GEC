@@ -60,9 +60,9 @@ export const authOptions: NextAuthOptions = {
             throw new Error( JSON.stringify({ error: "Password did not match!" }))
           }
 
-          if(!existingUser?.emailVerified){
-            throw new Error( JSON.stringify({error: "Email not verified (Check your Email)"}))
-          }
+          // if(!existingUser?.emailVerified){
+          //   throw new Error( JSON.stringify({error: "Email not verified (Check your Email)"}))
+          // }
 
           return {
             id: `${existingUser.id}`,

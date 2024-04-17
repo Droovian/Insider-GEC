@@ -1,9 +1,8 @@
 import Navbar from "@/components/Navbar";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import Sidebar from "@/components/sidebar/Sidebar";
 import GeneralFeed from "@/components/homepage/GeneralFeed";
 import Recent from "@/components/card/Recent";
+
 export default async function Home() {
 
   return (

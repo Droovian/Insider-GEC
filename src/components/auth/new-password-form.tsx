@@ -18,6 +18,7 @@ import { FormError } from '../form-error';
 import { FormSuccess } from '../form-success';
 import { newPassword } from '@/lib/new-password';
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const NewPasswordSchema = z.object({
   password: z.string().min(6, {
@@ -27,7 +28,7 @@ const NewPasswordSchema = z.object({
 
 export const NewPassForm = () => {
     const searchParams = useSearchParams();
-
+    const router = useRouter();
     const token = searchParams.get("token");
 
     const [error, setError] = useState<string | undefined>("");
@@ -51,7 +52,7 @@ export const NewPassForm = () => {
                 setSuccess(data?.success);
             });
     })
-    console.log(values);
+    router.push("/");
   }
   return (
     <>
