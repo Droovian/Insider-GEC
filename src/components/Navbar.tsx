@@ -11,6 +11,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 export default function Navbar(){
 
     const {data:session} = useSession();
+    console.log(session, session?.user);
+
     const [searchQuery, setSearchQuery] = useState('');
     const router = useRouter();
     const currentPath = usePathname();
