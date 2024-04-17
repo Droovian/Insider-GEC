@@ -9,10 +9,11 @@ import { SheetDemo } from "./sidebar/Drawer";
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { DropdownMenuDemo } from "./Dropdown";
+
 export default function Navbar(){
 
     const {data:session} = useSession();
-
+    
     const [searchQuery, setSearchQuery] = useState('');
     const router = useRouter();
     const currentPath = usePathname();

@@ -9,8 +9,8 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const CreatePostLayout: React.FC<LayoutProps> = ({ children }) => {
-  const session = getServerSession(authOptions);
+const CreatePostLayout: React.FC<LayoutProps> = async({ children }) => {
+  const session = await getServerSession(authOptions);
 
   return (
     <div >

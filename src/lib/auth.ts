@@ -85,7 +85,8 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ token, session }) {
-      return {
+      
+      const data =  {
         ...session,
         user: {
           ...session.user,
@@ -93,7 +94,8 @@ export const authOptions: NextAuthOptions = {
           id: token?.sub
         }
       }
-      return session;
+     
+      return data;
     },
     redirect() {
       return '/'

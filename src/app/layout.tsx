@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   description: "Anonymous posting app for Goa College Of Engineering Students",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
-  const session = getServerSession(authOptions);
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
+  const session = await getServerSession(authOptions);
 
   return (
     <Provider session={session}>

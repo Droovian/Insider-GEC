@@ -3,13 +3,16 @@ import Provider from '@/app/context/client-provider';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import SideNav from '@/components/dashboard/sidenav';
+
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-const UserPostView: React.FC<LayoutProps> = ({ children }) => {
-  const session = getServerSession(authOptions);
-
+const UserPostView: React.FC<LayoutProps> = async({ children }) => {
+  const session = await getServerSession(authOptions);
+  
+  console.log(session);
+  
   return (
       <Provider session={session}>
         <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">

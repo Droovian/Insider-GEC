@@ -9,12 +9,11 @@ import { PostSkeleton } from "@/components/skeletons/PostSkeleton";
 import { RecentSkeleton } from "@/components/skeletons/RecentSkeleton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { getAuthSession } from "@/lib/auth";
 
 export default async function Home() {
 
-  const session = getServerSession(authOptions);
-
-  console.log(session);
+  const session = await getAuthSession();
   
   return (
 
