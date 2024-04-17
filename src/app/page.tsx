@@ -7,9 +7,15 @@ import { NavbarSkeleton } from "@/components/skeletons/NavbarSkeleton";
 import { SidebarSkeleton } from "@/components/skeletons/SidebarSkeleton";
 import { PostSkeleton } from "@/components/skeletons/PostSkeleton";
 import { RecentSkeleton } from "@/components/skeletons/RecentSkeleton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export default async function Home() {
 
+  const session = getServerSession(authOptions);
+
+  console.log(session);
+  
   return (
 
     <div className="sm:block relative h-screen w-full text-black bg-gray-100 overflow-x-hidden no-scrollbar">
