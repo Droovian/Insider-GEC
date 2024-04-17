@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useSession } from "next-auth/react";
 import { Button } from "./ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +12,6 @@ export default function Navbar(){
 
     const {data:session} = useSession();
     const [searchQuery, setSearchQuery] = useState('');
-    const url = `${session?.user?.image}`;
     const router = useRouter();
     const currentPath = usePathname();
     
