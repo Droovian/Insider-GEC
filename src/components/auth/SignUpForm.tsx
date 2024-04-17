@@ -14,7 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import axios from 'axios';
+import axios, { Axios, AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FormError } from '../form-error';
@@ -38,7 +38,7 @@ const FormSchema = z
 const SignUpForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -57,6 +57,7 @@ const SignUpForm = () => {
     setSuccess("");
 
     try{
+      setLoading(true);
         const response = await axios.post('/api/user', {
                 username: values.username,
                 email: values.email,
@@ -64,14 +65,20 @@ const SignUpForm = () => {
         })
 
         if(response.status >= 200 && response.status < 300){
+            setLoading(false);
             setSuccess("Email verification link sent!");
         }
         else{
+            setLoading(false);
             setError("Failed to sign up!")
         }
     }
     catch(error){
-        setError("An unknown error occured!");
+        setLoading(false);
+        if(error instanceof AxiosError && error.response){
+          setError(error.response.data.message);
+        }
+        // setError("An unknown error occured!");
     }
   };
 

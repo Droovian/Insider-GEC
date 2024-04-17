@@ -33,8 +33,10 @@ const SignInForm = () => {
   const searchParams = useSearchParams();
 
   const errorMessage = searchParams.get("error") || undefined;
-
+  let formattedErrorMessage = errorMessage ? errorMessage.replace(/[{}"]/g, '') : undefined;
+  formattedErrorMessage = formattedErrorMessage ? formattedErrorMessage.replace(/""/g, ' ') : undefined;
   const [error, setError] = useState<string | undefined>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<string | undefined>('');
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -44,84 +46,88 @@ const SignInForm = () => {
     },
   });
 
-  const onSubmit = async(values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
 
-    try{
-     await signIn('credentials', {
+    try {
+      setLoading(true);
+      await signIn('credentials', {
         email: values.email,
         password: values.password,
       }).then(() => {
+        setLoading(false);
         setError("");
         setSuccess("");
       }).catch((error) => {
+        setLoading(false);
         setError(error)
       });
     }
-    catch(error){
+    catch (error) {
+      setLoading(false);
       setError('Error occured during sign in');
     }
-      
+
   };
 
   return (
     <>
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-      <h1 className="scroll-m-20 text-3xl font-extrabold tracking-tight lg:text-4xl mb-5 flex justify-center">
-      GEC - Insider
-      </h1>
-        <div className='space-y-2'>
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder='mail@example.com' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type='password'
-                    placeholder='Enter your password'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        {
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
+          <h1 className="scroll-m-20 text-3xl font-extrabold tracking-tight lg:text-4xl mb-5 flex justify-center">
+            GEC - Insider
+          </h1>
+          <div className='space-y-2'>
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder='mail@example.com' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='password'
+                      placeholder='Enter your password'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          {
 
-        <FormError message={errorMessage}/>
-        }
-        <Button size='sm' className='mt-3' variant='link'>
-          <Link href="/auth/reset">
+            <FormError message={formattedErrorMessage} />
+          }
+          <Button size='sm' className='mt-3' variant='link'>
+            <Link href="/auth/reset">
               Forgot Password?
+            </Link>
+          </Button>
+          <Button className='w-full mt-6' type='submit' disabled={loading}>
+            Sign in
+          </Button>
+        </form>
+        <p className='text-center text-sm text-gray-600 mt-2'>
+          If you don&apos;t have an account, please&nbsp;
+          <Link className='text-blue-500 hover:underline' href='/signup'>
+            Sign up
           </Link>
-        </Button>
-        <Button className='w-full mt-6' type='submit'>
-          Sign in
-        </Button>
-      </form>
-      <p className='text-center text-sm text-gray-600 mt-2'>
-        If you don&apos;t have an account, please&nbsp;
-        <Link className='text-blue-500 hover:underline' href='/signup'>
-          Sign up
-        </Link>
-      </p>
-    </Form>
+        </p>
+      </Form>
 
     </>
   );

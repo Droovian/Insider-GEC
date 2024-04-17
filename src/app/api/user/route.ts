@@ -21,10 +21,21 @@ export async function POST(req: Request){
         const { email, username, password } = userSchema.parse(body);
 
         // console.log(email, username, password);
-        
-        const checkExistingUser = await db.user.findUnique({ // checking if user already exists
+        const checkUserName = await db.user.findUnique({
             where: {
                 username: username
+            }
+        });
+        if(checkUserName){
+            return NextResponse.json({
+                message: "User already exists with the entered Username",
+            }, {
+                status: 409
+            })
+        }
+        const checkExistingUser = await db.user.findUnique({ // checking if user already exists
+            where: {
+                email: email
             }
         });
 
