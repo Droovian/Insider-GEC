@@ -60,9 +60,9 @@ export const authOptions: NextAuthOptions = {
             throw new Error( JSON.stringify({ error: "Password did not match!" }))
           }
 
-          // if(!existingUser?.emailVerified){
-          //   throw new Error( JSON.stringify({error: "Email not verified (Check your Email)"}))
-          // }
+          if(!existingUser?.emailVerified){
+            throw new Error( JSON.stringify({error: "Email not verified (Check your Email)"}))
+          }
 
           return {
             id: `${existingUser.id}`,
@@ -85,7 +85,8 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ token, session }) {
-      return {
+      
+      const data =  {
         ...session,
         user: {
           ...session.user,
@@ -93,7 +94,8 @@ export const authOptions: NextAuthOptions = {
           id: token?.sub
         }
       }
-      return session;
+     
+      return data;
     },
     redirect() {
       return '/'

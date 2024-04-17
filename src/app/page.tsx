@@ -7,15 +7,23 @@ import { NavbarSkeleton } from "@/components/skeletons/NavbarSkeleton";
 import { SidebarSkeleton } from "@/components/skeletons/SidebarSkeleton";
 import { PostSkeleton } from "@/components/skeletons/PostSkeleton";
 import { RecentSkeleton } from "@/components/skeletons/RecentSkeleton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { getAuthSession } from "@/lib/auth";
+import Provider from "./context/client-provider";
 
 export default async function Home() {
 
+  const session = await getAuthSession();
+  
   return (
 
     <div className="sm:block relative h-screen w-full text-black bg-gray-100 overflow-x-hidden no-scrollbar">
       <div className="fixed top-0 w-screen bg-gray-100 z-50">
         <Suspense fallback={<NavbarSkeleton />}>
-          <Navbar />
+          <Provider session={session}>
+            <Navbar />
+          </Provider>
         </Suspense>
       </div>
 
