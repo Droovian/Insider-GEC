@@ -15,7 +15,6 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { Suspense } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -93,7 +92,7 @@ export default function UserForm() {
   };
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <>
     <Form {...form}>
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
       <FormField
@@ -157,7 +156,6 @@ export default function UserForm() {
             render={({ field }) => (
               <CldUploadWidget
                 onSuccess={(result: any) => {
-                  // console.log(result);
                   const imageUrl = result?.info?.url;
                   setImageUrl(imageUrl);
                 }}
@@ -179,6 +177,6 @@ export default function UserForm() {
     </form>
   </Form>
   <ToastContainer position="top-center" autoClose={3000} />
-  </Suspense>
+  </>
   );
 }
