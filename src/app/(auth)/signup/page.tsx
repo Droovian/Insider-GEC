@@ -4,9 +4,9 @@ import { Suspense } from "react";
 export default function SignUp(){
     return (
         <Suspense fallback={<div>Loading...</div>}>
-        <div className="w-1/2">
-            <SignUpForm/>
-        </div>
+            <div className="w-1/2">
+                <SignUpForm/>
+            </div>
         </Suspense>
     )
 }

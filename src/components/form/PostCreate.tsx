@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CldUploadWidget } from "next-cloudinary"
 import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
 import {
   Form,
   FormControl,
@@ -88,7 +89,6 @@ export default function UserForm() {
     catch(error){
       toast.error("An unexpected error occurred");
     }
-    console.log(data);
   };
 
   return (
@@ -150,6 +150,7 @@ export default function UserForm() {
         )}
       />
 
+        <Suspense>
           <FormField
             control={form.control}
             name="imageUrl"
@@ -171,7 +172,7 @@ export default function UserForm() {
               </CldUploadWidget>
             )}
           />
-
+          </Suspense>
         <Button type="submit" className="ml-3" disabled={loading}>Submit</Button>
       
     </form>
