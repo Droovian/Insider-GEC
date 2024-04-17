@@ -12,7 +12,6 @@ import { DropdownMenuDemo } from "./Dropdown";
 export default function Navbar(){
 
     const {data:session} = useSession();
-    console.log(session, session?.user);
 
     const [searchQuery, setSearchQuery] = useState('');
     const router = useRouter();
