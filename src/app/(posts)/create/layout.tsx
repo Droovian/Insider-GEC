@@ -15,11 +15,11 @@ const CreatePostLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div >
       <Navbar/>
-      <Suspense fallback={<>Loading...</>}>
         <Provider session={session}>
-          {children}
+          <Suspense fallback={<div>Loading...</div>}>
+            {children}
+          </Suspense>
         </Provider>
-      </Suspense>
     </div>
   );
 };

@@ -150,7 +150,6 @@ export default function UserForm() {
         )}
       />
 
-        <Suspense>
           <FormField
             control={form.control}
             name="imageUrl"
@@ -172,7 +171,6 @@ export default function UserForm() {
               </CldUploadWidget>
             )}
           />
-          </Suspense>
         <Button type="submit" className="ml-3" disabled={loading}>Submit</Button>
       
     </form>
