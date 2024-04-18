@@ -14,8 +14,8 @@ const CreatePostLayout: React.FC<LayoutProps> = async({ children }) => {
 
   return (
     <div >
-      <Navbar/>
         <Provider session={session}>
+          <Navbar/>
           <Suspense fallback={<div>Loading...</div>}>
             {children}
           </Suspense>

@@ -6,9 +6,10 @@ import { Input } from "@/components/ui/input";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { SheetDemo } from "./sidebar/Drawer";
-import { useEffect, useRef, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { DropdownMenuDemo } from "./Dropdown";
+import { CiSearch } from "react-icons/ci";
 
 export default function Navbar(){
 
@@ -41,16 +42,9 @@ export default function Navbar(){
             </div>
 
             <div className="sm:hidden mr-24">
-                <SheetDemo />
-                
-             </div>    
-             <div className="sm:hidden flex items-center pb-0">
-                  <Link href='/'>
-                  <h2 className="scroll-m-20  text-3xl font-semibold tracking-tight first:mt-0">
-                    Insider
-                  </h2>
-                  </Link>
-                </div>
+                <SheetDemo /> 
+             </div>  
+
             <div className="invisible sm:visible flex space-x-4 w-1/3 items-center">
             <Input
                     placeholder="Search for post..."
@@ -63,7 +57,19 @@ export default function Navbar(){
                 </Button>
             </div>
 
-            <div className="flex items-center  mr-4">
+            <div className="absolute left-32 sm:hidden">
+                <div className="flex justify-center items-center">
+                    <Input
+                        placeholder="Search..."
+                        className="text-black p-3 relative"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <CiSearch onClick={handleSearch} size={20} className="absolute right-1 cursor-pointer" />
+                </div>
+            </div>
+
+            <div className="flex items-center  mr-7">
                     {session?.user ? (
                         <Button onClick={() => signOut()} variant='destructive'>Sign Out</Button>
                     ) : (
