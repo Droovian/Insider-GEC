@@ -16,25 +16,19 @@ export default function Navbar(){
     
     const [searchQuery, setSearchQuery] = useState('');
     const router = useRouter();
-    const currentPath = usePathname();
+    const currentPath = useSearchParams().get('query');
     
-    const categoryValue = useSearchParams().get('category') || "";
+    const categoryValue = useSearchParams().get('category');
+      useEffect(() => {
+            if (currentPath && searchQuery === '') {
+                router.push('/?query=&category=');
+            }
+    }, [searchQuery]);
+
     const handleSearch = () => {
         router.push(`/?query=${searchQuery}&category=${categoryValue}`);
     };
 
-    const timerRef = useRef<number | NodeJS.Timeout | null>(null);
-    useEffect(() => {
-        if (timerRef.current) {
-            clearTimeout(timerRef.current);
-        }
-        timerRef.current = setTimeout(() => {
-            if (currentPath.includes('query') && searchQuery === '') {
-                router.push('/?query=');
-            }
-        }, 500); // 500ms delay
-    }, [searchQuery]);
-    
     return (
         <header className="w-full h-fit border-b border-gray-200 flex justify-between p-3 mx-3">
              

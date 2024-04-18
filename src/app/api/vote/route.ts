@@ -69,7 +69,7 @@ export async function PATCH(req: Request) {
           }, 0)
           const channelName = `votes-${postId}`;
           const cc = `votes-updated-${postId}`
-            pusherServer.trigger(channelName, cc, votesAmt)
+            await pusherServer.trigger(channelName, cc, votesAmt)
     
           return new Response('OK')
         }
@@ -107,7 +107,7 @@ export async function PATCH(req: Request) {
         }, 0)
         const channelName = `votes-${postId}`;
         const cc = `votes-updated-${postId}` 
-        pusherServer.trigger(channelName, cc, votesAmt)
+        await pusherServer.trigger(channelName, cc, votesAmt)
         
   
         return new Response('OK')
@@ -144,7 +144,7 @@ export async function PATCH(req: Request) {
         }, 0)
         const channelName = `votes-${postId}`;
         const cc = `votes-updated-${postId}`
-        pusherServer.trigger(channelName, cc, votesAmt)
+        await pusherServer.trigger(channelName, cc, votesAmt)
           
       }
       else{
