@@ -7,8 +7,6 @@ import { NavbarSkeleton } from "@/components/skeletons/NavbarSkeleton";
 import { SidebarSkeleton } from "@/components/skeletons/SidebarSkeleton";
 import { PostSkeleton } from "@/components/skeletons/PostSkeleton";
 import { RecentSkeleton } from "@/components/skeletons/RecentSkeleton";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { getAuthSession } from "@/lib/auth";
 import Provider from "./context/client-provider";
 
@@ -40,7 +38,9 @@ export default async function Home() {
 
           <div className="w-full sm:w-full xl:w-3/4 p-3">
             <Suspense fallback={<PostSkeleton />}>
+            <Provider session={session}>
               <GeneralFeed />
+            </Provider>
             </Suspense>
           </div>
           <div className="invisible xl:visible fixed right-5 lg:right-10">
