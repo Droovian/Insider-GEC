@@ -60,8 +60,8 @@ export default function Navbar(){
             <div className="absolute left-20 sm:hidden">
                 <div className="flex justify-center items-center">
                     <Input
-                        placeholder="Search..."
-                        className="text-black p-3 relative"
+                        placeholder=""
+                        className="w-[120px] text-black p-2 relative"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />

@@ -1,7 +1,5 @@
 import UserForm from "@/components/form/PostCreate";
 
-import { Suspense } from 'react'; 
-
 const MyForm = () => { 
 
   return (
