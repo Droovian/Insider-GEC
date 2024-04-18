@@ -13,7 +13,7 @@ import { CiSearch } from "react-icons/ci";
 
 export default function Navbar(){
 
-    const {data:session} = useSession();
+    const { data:session } = useSession();
     
     const [searchQuery, setSearchQuery] = useState('');
     const router = useRouter();
@@ -57,7 +57,7 @@ export default function Navbar(){
                 </Button>
             </div>
 
-            <div className="absolute left-32 sm:hidden">
+            <div className="absolute left-20 sm:hidden">
                 <div className="flex justify-center items-center">
                     <Input
                         placeholder="Search..."
@@ -69,7 +69,7 @@ export default function Navbar(){
                 </div>
             </div>
 
-            <div className="flex items-center  mr-7">
+            <div className="flex items-center mr-5">
                     {session?.user ? (
                         <Button onClick={() => signOut()} variant='destructive'>Sign Out</Button>
                     ) : (
