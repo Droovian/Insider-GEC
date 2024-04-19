@@ -19,10 +19,10 @@ export default function Navbar(){
     const router = useRouter();
     const currentPath = useSearchParams().get('query');
     
-    const categoryValue = useSearchParams().get('category');
+    const categoryValue = useSearchParams().get('category') || "";
       useEffect(() => {
             if (currentPath && searchQuery === '') {
-                router.push('/?query=&category=');
+                router.push(`/?query=&category=${categoryValue}`);
             }
     }, [searchQuery]);
 
@@ -57,7 +57,7 @@ export default function Navbar(){
                 </Button>
             </div>
 
-            <div className="absolute left-20 sm:hidden">
+            <div className="absolute left-20 sm:hidden flex items-center gap-x-1">
                 <div className="flex justify-center items-center">
                     <Input
                         placeholder=""
@@ -65,8 +65,12 @@ export default function Navbar(){
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                    <CiSearch onClick={handleSearch} size={20} className="absolute right-1 cursor-pointer" />
+                   
                 </div>
+                <div className=" bg-gray-300 rounded-sm p-1">
+                    <CiSearch onClick={handleSearch} size={27} className=" cursor-pointer " />
+                </div>
+                
             </div>
 
             <div className="flex items-center mr-5">

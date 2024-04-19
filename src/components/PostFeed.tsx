@@ -167,7 +167,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
                                 </DrawerContent>
                             </Drawer>
                         </div>
-                        <div className="mx-4 rounded-md" onClick={() => {
+                        <div className="mx-4 rounded-md cursor-pointer" onClick={() => {
                             router.push(`/post/${post.id}`);
                         }}>
                             <div className="p-4">
