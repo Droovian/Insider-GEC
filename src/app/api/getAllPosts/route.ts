@@ -33,7 +33,8 @@ export async function GET(req:Request){
      })
 
      const lowerCaseQuery = query?.toLowerCase();
-     if(lowerCaseQuery !== null && category !== null){
+     const lowerCaseCategory = category?.toLowerCase();
+     if(lowerCaseQuery !== null && lowerCaseCategory !== null){
         const words = lowerCaseQuery?.split(' ');
         const whereClauses: MyPostWhereInput[]= words?.map(word => ({
             title: {
@@ -45,7 +46,8 @@ export async function GET(req:Request){
             where:{
                 OR: whereClauses,
                 category : {
-                    contains: category,
+                    contains: lowerCaseCategory,
+                    mode: 'insensitive'
                 }
             },
             take: parseInt(limit),
@@ -60,7 +62,7 @@ export async function GET(req:Request){
     
         return NextResponse.json(posts);
      }
-     else if( lowerCaseQuery !== null && category === null){
+     else if( lowerCaseQuery !== null && lowerCaseCategory === null){
         const words = lowerCaseQuery?.split(' ');
         const whereClauses : MyPostWhereInput[] = words?.map(word => ({
             title: {
@@ -84,12 +86,12 @@ export async function GET(req:Request){
     
         return NextResponse.json(posts);
      }
-     else if( category !== null && lowerCaseQuery === null){
+     else if( lowerCaseCategory !== null && lowerCaseQuery === null){
        
         const posts = await db.post.findMany({
             where:{
                 category: {
-                    contains: category,
+                    contains: lowerCaseCategory,
                     mode: 'insensitive'
                 }
             },
