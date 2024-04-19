@@ -153,7 +153,7 @@ const SignUpForm = () => {
         <FormError message={error}/>
         <FormSuccess message={success}/>
 
-        <Button className='w-full mt-6' type='submit'>
+        <Button className='w-full mt-6' type='submit' disabled={loading}>
           Sign up
         </Button>
       </form>

@@ -10,6 +10,7 @@ import axios, { AxiosError } from 'axios'
 import { pusherClient } from '@/lib/pusher'
 import { ToastContainer, toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
+import { set } from 'zod'
 interface PostVoteClientProps {
     postId?: number;
     initialVotesAmt: number;
@@ -30,7 +31,12 @@ const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, init
         const cc = `votes-updated-${postId}`
         pusherClient.subscribe(channelName);
         pusherClient.bind(cc,(votes: number) => {
-            setVotesAmt(votes)
+            if(votes === undefined){
+                setVotesAmt(0)
+            }else{
+                setVotesAmt(votes)
+            }
+            
         })
         return () => {
             pusherClient.unsubscribe(String(postId))
@@ -65,12 +71,12 @@ const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, init
             // Optimistically update UI
             if (currentVote === type) {
                 setCurrentVote(undefined)
-                // if (type === 'UP') setVotesAmt((prev) => prev - 1)
-                // else if (type === 'DOWN') setVotesAmt((prev) => prev + 1)
+                if (type === 'UP') setVotesAmt((prev) => prev - 1)
+                else if (type === 'DOWN') setVotesAmt((prev) => prev + 1)
             } else {
                 setCurrentVote(type)
-                // if (type === 'UP') setVotesAmt((prev) => prev + (currentVote ? 2 : 1))
-                // else if (type === 'DOWN') setVotesAmt((prev) => prev - (currentVote ? 2 : 1))
+                if (type === 'UP') setVotesAmt((prev) => prev + (currentVote ? 2 : 1))
+                else if (type === 'DOWN') setVotesAmt((prev) => prev - (currentVote ? 2 : 1))
             }
 
          
@@ -83,7 +89,7 @@ const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, init
              <div className='flex space-x-2'>
             
             <Button onClick={() => vote('UP')} className="rounded-full" variant='ghost'>
-                <ThumbsUp className={cn({ 'text-gray-500 fill-black': currentVote === 'UP' })} />
+                <ThumbsUp className={cn({ 'text-emerald-500 fill-emerald-500': currentVote === 'UP' })} />
             </Button>
             <p className='text-center py-2 font-medium text-sm text-zinc-900'>
                 {votesAmt}
@@ -91,7 +97,7 @@ const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, init
             <Button onClick={() => vote('DOWN')} className={cn({
                 'text-emerald-500': currentVote === 'DOWN',
             })} variant='ghost' >
-                <ThumbsDown className={cn({ 'text-gray-500 fill-black': currentVote === 'DOWN' })} />
+                <ThumbsDown className={cn({ 'text-red-500 fill-red-500': currentVote === 'DOWN' })} />
             </Button>
         </div>
         </>

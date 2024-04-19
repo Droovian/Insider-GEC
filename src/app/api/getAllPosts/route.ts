@@ -3,6 +3,17 @@ import { NextResponse } from "next/server";
 import { getAuthSession } from "@/lib/auth";
 import { z } from "zod";
 
+type MyStringFilter<T> = {
+    contains?: string;
+    mode?: 'insensitive'; 
+} | undefined;
+
+
+type MyPostWhereInput = {
+    title?: MyStringFilter<string>;
+};
+
+
 export async function GET(req:Request){
 
     const url = new URL(req.url)
@@ -21,13 +32,15 @@ export async function GET(req:Request){
         category: url.searchParams.get('category'),
      })
 
-     if(query !== null && category !== null){
-        const words = query?.split(' ');
-        const whereClauses = words?.map(word => ({
+     const lowerCaseQuery = query?.toLowerCase();
+     if(lowerCaseQuery !== null && category !== null){
+        const words = lowerCaseQuery?.split(' ');
+        const whereClauses: MyPostWhereInput[]= words?.map(word => ({
             title: {
                 contains: word,
+                mode: 'insensitive'
             } ,
-        }));
+        })) || [];
         const posts = await db.post.findMany({
             where:{
                 OR: whereClauses,
@@ -47,13 +60,14 @@ export async function GET(req:Request){
     
         return NextResponse.json(posts);
      }
-     else if( query !== null && category === null){
-        const words = query?.split(' ');
-        const whereClauses = words?.map(word => ({
+     else if( lowerCaseQuery !== null && category === null){
+        const words = lowerCaseQuery?.split(' ');
+        const whereClauses : MyPostWhereInput[] = words?.map(word => ({
             title: {
                 contains: word,
+                mode: 'insensitive'
             } 
-        }));
+        })) || [];
         const posts = await db.post.findMany({
             where:{
                 OR: whereClauses,
@@ -70,7 +84,7 @@ export async function GET(req:Request){
     
         return NextResponse.json(posts);
      }
-     else if( category !== null && query === null){
+     else if( category !== null && lowerCaseQuery === null){
        
         const posts = await db.post.findMany({
             where:{
