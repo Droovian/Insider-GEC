@@ -33,10 +33,10 @@ export default async function PostDetails( { params }: { params: {postId: string
                 </div>
 
                     <div className="h-full overflow-y-auto no-scrollbar mt-16">
-                    <div className="flex flex-wrap px-4 pt-0 pb-8">
+                    <div className="flex flex-wrap px-0 pt-0 pb-8">
                         
-                        <main className="m-3 p-3 w-full flex justify-center items-center  bg-gray-100">
-                            <div className="flex flex-col space-y-4 sm:w-1/2 mx-5 bg-white text-gray-800 shadow-md p-6 rounded-lg">
+                        <main className="m-3 mt-0 mx-0 p-3 w-full flex justify-center items-center bg-gray-100">
+                            <div className="w-full px-5 space-y-4 sm:w-1/2 mx-0 bg-white text-gray-800 shadow-md p-6 rounded-lg">
                             <div className="flex items-center mb-4">
                                 <h2 className="text-md sm:text-xl mr-4 font-semibold">{postData?.title}</h2>
                                 <span className="px-2 py-1 ml-auto text-white bg-black rounded-2xl text-xs">{postData?.category}</span>
