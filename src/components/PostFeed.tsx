@@ -178,8 +178,8 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
                                             <CldImage
                                                 className='rounded-xl mb-2 object-cover'
                                                 crop="fill"
-                                                width={200}
-                                                height={200}
+                                                width={400}
+                                                height={300}
                                                 src={post.imageUrl || ""}
                                                 alt='random-image'
                                             />

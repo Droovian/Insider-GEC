@@ -19,12 +19,16 @@ const Sidebar: FC<SidebarProps> = ({ }) => {
     return (
         <div className="w-[230px] bg-gray-100 p-4 rounded-md">
             <div className='mb-3'>
+            <Link href='/create'>
                 <Button className="w-full border hover:bg-gray-200 p-2 mt-2 font-normal" variant='ghost'>
-                    <Link href='/create'>Create Post</Link>
+                    Create Post
                 </Button>
+            </Link>
+            <Link href='/my-posts'>
                 <Button className="w-full border hover:bg-gray-200 p-2 mt-2 font-normal" variant='ghost'>
-                    <Link href='/my-posts'>View My Posts</Link>
+                    View My Posts
                 </Button>
+            </Link>
             </div>
             <div className="max-h-[calc(100vh-200px)] overflow-y-auto no-scrollbar">
                 <div className='mt-2 mb-2 w-full h-[1px] bg-gray-200'></div>

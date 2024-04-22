@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CldUploadWidget } from "next-cloudinary"
 import { Button } from "@/components/ui/button";
-import { Suspense } from "react";
+import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -41,6 +41,7 @@ const formSchema = z.object({
 });
 
 export default function UserForm() {
+  const router = useRouter();
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -74,7 +75,12 @@ export default function UserForm() {
       if(response.ok){
         setLoading(false);
         toast.success("Post added!");
+
+        setTimeout(() => {
+          router.push("/");
+        }, 1000)
       }
+
       else if( response.status === 429){
         toast.error("too many requests, try again later");
       }
@@ -89,6 +95,7 @@ export default function UserForm() {
     catch(error){
       toast.error("An unexpected error occurred");
     }
+
   };
 
   return (
@@ -155,6 +162,7 @@ export default function UserForm() {
             name="imageUrl"
             render={({ field }) => (
               <CldUploadWidget
+                options={{sources: ['local']}}
                 onSuccess={(result: any) => {
                   const imageUrl = result?.info?.url;
                   setImageUrl(imageUrl);
