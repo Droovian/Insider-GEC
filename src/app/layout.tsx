@@ -11,7 +11,16 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Insider GEC",
-  description: "Anonymous posting app for Goa College Of Engineering Students",
+  description: "A safe and anonymous platform for Goa College Of Engineering students to share their thoughts and opinions without fear of judgment or exposure.",
+  keywords: [
+    "GEC Insider",
+    "Insider for GEC",
+    "Anonymous posting",
+    "Safe sharing",
+    "Goa College Of Engineering",
+    "GEC Farmagudi"
+  ],
+  metadataBase: new URL("https://gecinsider.in"),
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {

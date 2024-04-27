@@ -16,7 +16,6 @@ import {
     Drawer,
     DrawerClose,
     DrawerContent,
-    DrawerDescription,
     DrawerFooter,
     DrawerHeader,
     DrawerTitle,
@@ -27,6 +26,7 @@ import PostVoteClient from './post-vote/PostVoteClient';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FormError } from './form-error';
 import { MessageSquare } from "lucide-react";
+import Link from 'next/link';
 
 interface Post {
     id?: number;
@@ -167,9 +167,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
                                 </DrawerContent>
                             </Drawer>
                         </div>
-                        <div className="mx-4 rounded-md cursor-pointer" onClick={() => {
-                            router.push(`/post/${post.id}`);
-                        }}>
+                        <Link href={`/post/${post?.id}`} className="mx-4 rounded-md cursor-pointer">
                             <div className="p-4">
                                 <h1 className={`text-xl mb-2 font-semibold text-gray-900`}>{post.title || "Hello"}</h1>
                                 {
@@ -190,11 +188,13 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts }) => {
                                     <p className='font-normal text-sm text-gray-800'>{post.content || "content"}</p>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                         <div className="flex items-center justify-start p-4 gap-4s">
                             <PostVoteClient postId={post.id} initialVotesAmt={votesAmt} initialVote={currentVote?.type} />
                             <Button className='rounded-full' variant='ghost'>
-                                <MessageSquare onClick={() => {router.push(`/post/${post?.id}`)}}/>
+                                <Link href={`/post/${post?.id}`}>
+                                    <MessageSquare/>
+                                </Link>
                             </Button>
                         </div>
                         <hr />
