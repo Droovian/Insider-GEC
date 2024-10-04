@@ -14,25 +14,25 @@ interface Post {
 }
 
 export default function Posts() {
-  const { data: session, status } = useSession();
   const [userPosts, setUserPosts] = useState<Post[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 5;
 
   useEffect(() => {
     const fetchUserPosts = async () => {
+
+      const userName = sessionStorage?.getItem('username') || null;
+      if(!userName) { return }
       try {
-        if (status === "authenticated" && session?.user) {
-          const res = await axios.get('/api/myposts');
+          const res = await axios.get(`/api/myposts?id=${userName}`);
           setUserPosts(res.data || []);
-        }
       } catch (error) {
         console.error('Error fetching user posts:', error);
       }
     };
 
     fetchUserPosts();
-  }, [session, status]);
+  }, [userPosts]);
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;

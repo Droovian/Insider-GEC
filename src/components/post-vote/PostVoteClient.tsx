@@ -10,7 +10,7 @@ import axios, { AxiosError } from 'axios'
 import { pusherClient } from '@/lib/pusher'
 import { ToastContainer, toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
-import { set } from 'zod'
+
 interface PostVoteClientProps {
     postId?: number;
     initialVotesAmt: number;
@@ -67,8 +67,8 @@ const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, init
       
             return "something went wrong"
           },
-        onMutate: async (type: VoteType) => {
-            // Optimistically update UI
+        onMutate: (type: VoteType) => {
+
             if (currentVote === type) {
                 setCurrentVote(undefined)
                 if (type === 'UP') setVotesAmt((prev) => prev - 1)
@@ -87,19 +87,18 @@ const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, init
         <>
             <ToastContainer position='top-center' autoClose={3000}/>
              <div className='flex space-x-2'>
-            
-            <Button onClick={() => vote('UP')} className="rounded-full" variant='ghost'>
-                <ThumbsUp className={cn({ 'text-emerald-500 fill-emerald-500': currentVote === 'UP' })} />
-            </Button>
-            <p className='text-center py-2 font-medium text-sm text-zinc-900'>
-                {votesAmt}
-            </p>
-            <Button onClick={() => vote('DOWN')} className={cn({
-                'text-emerald-500': currentVote === 'DOWN',
-            })} variant='ghost' >
-                <ThumbsDown className={cn({ 'text-red-500 fill-red-500': currentVote === 'DOWN' })} />
-            </Button>
-        </div>
+                <Button onClick={() => vote('UP')} className="rounded-full" variant='ghost'>
+                    <ThumbsUp className={cn({ 'text-emerald-500 fill-emerald-500': currentVote === 'UP' })} />
+                </Button>
+                <p className='text-center py-2 font-medium text-sm text-zinc-900'>
+                    {votesAmt}
+                </p>
+                <Button onClick={() => vote('DOWN')} className={cn({
+                    'text-emerald-500': currentVote === 'DOWN',
+                })} variant='ghost' >
+                    <ThumbsDown className={cn({ 'text-red-500 fill-red-500': currentVote === 'DOWN' })} />
+                </Button>
+            </div>
         </>
        
     )

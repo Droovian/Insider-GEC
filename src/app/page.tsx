@@ -15,32 +15,40 @@ export default async function Home() {
   const session = await getAuthSession();
   
   return (
+    <>
+    
+      <section className="w-3/4 mx-auto">
+        <h1 className='font-bold text-3xl md:text-4xl text-center underline mb-4'>View your feed</h1>
+          <GeneralFeed />
+      </section>
 
-    <div className="sm:block relative h-screen w-full text-black bg-gray-100 overflow-x-hidden no-scrollbar">
-      <div className="fixed top-0 w-screen bg-gray-100 z-50">
-        <Suspense fallback={<NavbarSkeleton />}>
-          <Provider session={session}>
-            <Navbar />
-          </Provider>
-        </Suspense>
-      </div>
-
-      <div className="invisible sm:visible fixed left-0 top-0 h-screen bg-gray-100 z-40 pt-16 border-r border-gray-200">
+      <div className="invisible sm:visible fixed left-0 top-10 h-screen z-40 pt-16 border-r border-gray-200">
         <div className="w-64 p-4">
           <Suspense fallback={<SidebarSkeleton />}>
             <Sidebar />
           </Suspense>
         </div>
       </div>
+      {/* <div className="invisible sm:visible z-40 pt-16 border-r border-gray-200">
+        <div className="w-64 p-4">
+          <Suspense fallback={<SidebarSkeleton />}>
+            <Sidebar />
+          </Suspense>
+        </div>
+      </div> */}
+     
+  </>
+    // <div className="sm:block relative h-screen w-full text-black bg-gray-100 overflow-x-hidden no-scrollbar">
+      
+
+     /*
 
       <div className="sm:ml-52 pt-16">
         <div className="flex h-screen overflow-y-auto">
 
           <div className="w-full sm:w-full xl:w-3/4 p-3">
             <Suspense fallback={<PostSkeleton />}>
-            <Provider session={session}>
               <GeneralFeed />
-            </Provider>
             </Suspense>
           </div>
           <div className="invisible xl:visible fixed right-5 lg:right-10">
@@ -51,7 +59,7 @@ export default async function Home() {
 
         </div>
       </div>
-    </div>
+    </div> */
 
   );
 }

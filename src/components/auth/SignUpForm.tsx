@@ -19,22 +19,17 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FormError } from '../form-error';
 import { FormSuccess } from '../form-success';
+import { generateRandomUsername } from '@/lib/generateRandomUsername';
 
 const FormSchema = z
   .object({
     username: z.string().min(1, 'Username is required').max(100),
-    email: z.string().min(1, 'Email is required').email('Invalid email'),
-    password: z
-      .string()
-      .min(1, 'Password is required')
-      .min(8, 'Password must have than 8 characters'),
-    confirmPassword: z.string().min(1, 'Password confirmation is required'),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: 'Password do not match',
-  });
 
+const generateRandomUser = () => {
+    const gibberish = Math.random().toString(36).substring(2, 8); 
+    return `gec${gibberish}`; 
+};
 const SignUpForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -44,42 +39,17 @@ const SignUpForm = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      username: generateRandomUser(),
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+  const onSubmit = (values: z.infer<typeof FormSchema>) => {
+    setError(undefined);
+    setLoading(true);
 
-    setError("");
-    setSuccess("");
+    sessionStorage.setItem('username', values.username);
 
-    try{
-      setLoading(true);
-        const response = await axios.post('/api/user', {
-                username: values.username,
-                email: values.email,
-                password: values.password
-        })
-
-        if(response.status >= 200 && response.status < 300){
-            setLoading(false);
-            setSuccess("Email verification link sent!");
-        }
-        else{
-            setLoading(false);
-            setError("Failed to sign up!")
-        }
-    }
-    catch(error){
-        setLoading(false);
-        if(error instanceof AxiosError && error.response){
-          setError(error.response.data.message);
-        }
-        // setError("An unknown error occured!");
-    }
+    router.push('/'); 
   };
 
   return (
@@ -94,56 +64,9 @@ const SignUpForm = () => {
             name='username'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Continue with a randomly generated username...</FormLabel>
                 <FormControl>
                   <Input placeholder='johndoe' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder='mail@example.com' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type='password'
-                    placeholder='Enter your password'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='confirmPassword'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Re-Enter your password</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder='Re-Enter your password'
-                    type='password'
-                    {...field}
-                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -154,15 +77,15 @@ const SignUpForm = () => {
         <FormSuccess message={success}/>
 
         <Button className='w-full mt-6' type='submit' disabled={loading}>
-          Sign up
+          Continue
         </Button>
       </form>
-      <p className='text-center text-sm text-gray-600 mt-2'>
+      {/* <p className='text-center text-sm text-gray-600 mt-2'>
         If you don&apos;t have an account, please&nbsp;
         <Link className='text-blue-500 hover:underline' href='/signin'>
           Sign in
         </Link>
-      </p>
+      </p> */}
     </Form>
   );
 };

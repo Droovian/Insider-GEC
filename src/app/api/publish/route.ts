@@ -37,7 +37,7 @@ export async function POST(req: Request) {
           { status: 429 }
         );
       }
-  const { title, content, category, imageUrl } = await req.json();
+  const { title, content, category, imageUrl, authorId } = await req.json();
 
   if (!title || !content || !category) {
     return NextResponse.json(
@@ -55,69 +55,19 @@ export async function POST(req: Request) {
     );
   }
 
-
   try {
-    if (session) {
-
-      const userName = session?.user.username || session?.user.name;
-
-      const fetchUser = await db.user.findFirst({
-        where: {
-          OR: [
-            { username: userName },
-            { name: userName }
-          ]
-        },
-      });
-
-      if (!fetchUser) {
-        return NextResponse.json(
-            { message: "User not found" },
-            { status: 404 }
-        );
-      }
-
-      const userId = session?.user?.id;
-      const hashedUserId = generateHash(userId);
-
-      if (hashedUserId) {
-
-        const postCount = await db.post.count({
-          where: {
-            authorId: hashedUserId
-          }
-        }); 
-        if( postCount >= 20){
-          return NextResponse.json(
-            { message: "Maximum limit crossed, please delete some posts to continue" },
-            { status: 422 }
-          );
-        }
-
         await db.post.create({
           data: {
             title,
             content,
-            authorId: hashedUserId,
             published: true,
+            authorId: authorId,
             category,
             imageUrl: imageUrl
           },
         });
 
         return NextResponse.json({ message: "created post" }, { status: 200 });
-      } else {
-        return NextResponse.json(
-          { message: "User not found or has no ID" },
-          { status: 404 }
-        );
-      }
-    }
-
-    return NextResponse.json(
-      { message: "User session not found, unauthorized" },
-      { status: 401 }
-    );
   } catch (error) {
     console.error(error);
     return NextResponse.json(

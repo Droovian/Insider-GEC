@@ -3,7 +3,6 @@ import TeamsData from "./teamdata";
 import { Suspense } from "react";
 import { getAuthSession } from "@/lib/auth";
 import Provider from "../context/client-provider";
-import Loading from "../(posts)/my-posts/loading";
 
 export default async function Team() {
 
@@ -11,7 +10,6 @@ export default async function Team() {
 
   return (
     
-    <Suspense fallback={<Loading/>}>
         <div className="relative h-screen w-full text-black bg-gray-100 overflow-x-hidden no-scrollbar">
           <div className="fixed top-0 w-screen bg-gray-100 z-50">
           <Provider session={session}>
@@ -28,7 +26,7 @@ export default async function Team() {
             </div>
           </div>
         </div>
-      </Suspense>
+
       
   );
 }

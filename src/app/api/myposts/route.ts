@@ -9,28 +9,25 @@ function generateHash(userId: string): string {
 }
 
 export async function GET(req: Request) {
-  const session = await getServerSession(authOptions);
+  
+  const url = new URL(req.url);
 
-  if (session?.user) {
-    const userId = session.user.id;
-    const hashedUserId = generateHash(userId);
+  const userName  = url.searchParams.get('id');
 
-    if (hashedUserId) {
+  if(!userName){
+    return NextResponse.json({ message: 'Cannot find user' }, { status: 400 });
+  }
+
       const data = await db.post.findMany({
         where: {
-          authorId: hashedUserId
+          authorId: userName
         }
       });
 
       return NextResponse.json(data);
-    } else {
-      return NextResponse.json({
-        message: "Failed to generate hashed user ID"
-      }, { status: 500 });
-    }
-  } else {
+    
     return NextResponse.json({
       message: "User session not found, unauthorized"
     }, { status: 401 });
-  }
+  
 }

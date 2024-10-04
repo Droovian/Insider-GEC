@@ -79,11 +79,8 @@ export default function Navbar(){
                     ) : (
                         <>
                         <div className="hidden sm:flex">
-                            <Button className="mr-8" variant='default' size='sm'>
-                                <Link href='/api/auth/signin'>Log In</Link>
-                            </Button>
                             <Button variant='default' size='sm'>
-                                <Link href='/signup'>Sign Up</Link>
+                                <Link href='/signup'>Get Started</Link>
                             </Button>
                         </div>
                             <div className="sm:hidden">

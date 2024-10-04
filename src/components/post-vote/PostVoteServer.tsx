@@ -23,7 +23,6 @@ const PostVoteServer = async ({
   initialVote,
   getData,
 }: PostVoteServerProps) => {
-  const session = await getAuthSession()
 
   let _votesAmt: number = 0
   let _currentVote: Vote['type'] | null | undefined = undefined
@@ -39,7 +38,7 @@ const PostVoteServer = async ({
     }, 0)
 
     _currentVote = post.votes.find(
-      (vote) => vote.userId === session?.user?.id
+      (vote) => vote.postId === post.id
     )?.type
   } else {
     _votesAmt = initialVotesAmt!

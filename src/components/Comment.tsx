@@ -19,9 +19,7 @@ interface CommentProps{
 
 const Comment: React.FC<CommentProps> = ({ content, createdAt, userId, id }) => {
 
-    const {data: session} = useSession();
     const router = useRouter();
-    const sessionUserId = session?.user?.id;
     
     const handleCommentDeletion = async(commentId: Number) => {
         try{
@@ -46,7 +44,7 @@ const Comment: React.FC<CommentProps> = ({ content, createdAt, userId, id }) => 
                 <p className="text-xs text-gray-600 mt-1">{createdAt ? new Date(createdAt).toDateString() : 'Invalid Date'}</p>
             </div>
             {
-                sessionUserId === userId ?
+
                 <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <MdDeleteOutline />
@@ -63,7 +61,7 @@ const Comment: React.FC<CommentProps> = ({ content, createdAt, userId, id }) => 
                     <AlertDialogAction onClick={() => {handleCommentDeletion(id)}}>Continue</AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
-            </AlertDialog> : null
+            </AlertDialog> 
             }
             
         </div>

@@ -37,7 +37,8 @@ const formSchema = z.object({
   title: z.string().min(3).max(100),
   content: z.string().min(10).max(500),
   category: z.string(),
-  imageUrl: z.string().optional()
+  imageUrl: z.string().optional(),
+  authorId: z.string(),
 });
 
 export default function UserForm() {
@@ -50,7 +51,8 @@ export default function UserForm() {
       title: "",
       content: "",
       category: "",
-      imageUrl: ""
+      imageUrl: "",
+      authorId: "",
     },
   });
 
@@ -59,6 +61,7 @@ export default function UserForm() {
     try{
       setLoading(true);
 
+      const usersName = sessionStorage?.getItem('username');
       const response = await fetch('/api/publish', {
         method: "POST",
         headers:{
@@ -68,7 +71,8 @@ export default function UserForm() {
           title: data.title,
           content: data.content,
           category: data.category,
-          imageUrl: imageUrl
+          imageUrl: imageUrl,
+          authorId: usersName
         })
       })
 

@@ -17,7 +17,7 @@ const Sidebar: FC<SidebarProps> = ({ }) => {
         router.push(`/?query=${searchQuery}&category=${value}`);
     }
     return (
-        <div className="w-[230px] bg-gray-100 p-4 rounded-md">
+        <div className="w-[230px] p-4 rounded-md">
             <div className='mb-3'>
             <Link href='/create'>
                 <Button className="w-full border hover:bg-gray-200 p-2 mt-2 font-normal" variant='ghost'>
@@ -30,7 +30,7 @@ const Sidebar: FC<SidebarProps> = ({ }) => {
                 </Button>
             </Link>
             </div>
-            <div className="max-h-[calc(100vh-200px)] overflow-y-auto no-scrollbar">
+            <div className="overflow-y-auto no-scrollbar">
                 <div className='mt-2 mb-2 w-full h-[1px] bg-gray-200'></div>
                 <SidebarButton text='Home' icon={<Home />} onClick={() => handleClick("")} />
                 <div className='mt-2 mb-2 w-full h-[1px] bg-gray-200'></div>

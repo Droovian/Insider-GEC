@@ -30,6 +30,8 @@ export const PostComments: FC<CommentProps> = ({ postId }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const addComment = async () => {
+
+    const usersName = sessionStorage.getItem('username');
     try {
       setLoading(true);
       setError('');
@@ -37,7 +39,7 @@ export const PostComments: FC<CommentProps> = ({ postId }) => {
       await axios.post('/api/addComment', {
         postId,
         comment,
-        userId
+        usersName
       });
       setSuccess(true);
       setComment('');
