@@ -33,7 +33,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
               <body className="bg-gray-100">
               <Providers>
                   {/* <Navbar/> */}
-                  <div className='container h-full '>
+                  <div className='container h-full w-full'>
                     {children}
                   </div>
               </Providers>
