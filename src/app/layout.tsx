@@ -27,13 +27,13 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   const session = await getServerSession(authOptions);
 
   return (
-        <html lang="en" className="bg-gray-100">
+        <html lang="en">
           
             <TProvider>
-              <body className="bg-gray-100">
+              <body className={`${inter?.className} min-h-screen pt-12 bg-slate-50 antialiased`}>
               <Providers>
-                  {/* <Navbar/> */}
-                  <div className='container h-full '>
+                  <Navbar/>
+                  <div className='container h-full pt-12'>
                     {children}
                   </div>
               </Providers>
