@@ -28,7 +28,7 @@ export default async function Home() {
 
   {/* Sidebar */}
   <div className="hidden sm:block fixed left-0 top-16 h-screen bg-gray-100 z-40 pt-4 border-r border-gray-200">
-    <div className="w-64 p-4 overflow-y-auto">
+    <div className="w-64 p-4 pt-0 overflow-y-auto">
       <Suspense fallback={<SidebarSkeleton />}>
         <Sidebar />
       </Suspense>
