@@ -16,9 +16,9 @@ export default async function Home() {
   
   return (
 
-<div className="sm:block relative h-screen w-full text-black bg-gray-100 overflow-x-hidden no-scrollbar">
-  {/* Navbar */}
-  <div className="fixed top-0 w-screen bg-gray-100 z-50">
+<div className="relative h-screen w-full text-black bg-gray-100 overflow-x-hidden no-scrollbar">
+  {/* Fixed Navbar */}
+  <div className="fixed top-0 left-0 w-full bg-gray-100 z-50">
     <Suspense fallback={<NavbarSkeleton />}>
       <Provider session={session}>
         <Navbar />
@@ -27,8 +27,8 @@ export default async function Home() {
   </div>
 
   {/* Sidebar */}
-  <div className="hidden sm:block fixed left-0 top-0 h-screen bg-gray-100 z-40 pt-16 border-r border-gray-200">
-    <div className="w-64 p-4">
+  <div className="hidden sm:block fixed left-0 top-16 h-screen bg-gray-100 z-40 pt-4 border-r border-gray-200">
+    <div className="w-64 p-4 overflow-y-auto">
       <Suspense fallback={<SidebarSkeleton />}>
         <Sidebar />
       </Suspense>
@@ -38,7 +38,6 @@ export default async function Home() {
   {/* GeneralFeed */}
   <div className="sm:ml-64 pt-16">
     <div className="flex h-screen overflow-y-auto">
-
       {/* Main Feed Content */}
       <div className="w-full sm:w-full xl:w-3/4 p-3">
         <Suspense fallback={<PostSkeleton />}>
@@ -60,6 +59,8 @@ export default async function Home() {
     </div>
   </div>
 </div>
+
+
 
 
   );
