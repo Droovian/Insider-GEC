@@ -46,6 +46,13 @@ export async function POST(req: Request) {
     );
   }
 
+  if(!authorId){
+    return NextResponse.json(
+      { message: "You must first create an anonymous session before you proceed..." },
+      { status: 401 }
+    );
+  }
+
   const isValid = createPostSchema.safeParse({title, content, category, imageUrl});
 
   if(!isValid?.success){

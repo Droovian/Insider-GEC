@@ -76,9 +76,11 @@ export default function UserForm() {
         })
       })
 
+      const result = await response.json();
+
       if(response.ok){
         setLoading(false);
-        toast.success("Post added!");
+        toast.success(result.message || "Post created successfully");
 
         setTimeout(() => {
           router.push("/");
@@ -87,17 +89,21 @@ export default function UserForm() {
 
       else if( response.status === 429){
         toast.error("too many requests, try again later");
+        setLoading(false);
       }
       else if( response.status === 422){
         toast.error("You have reached the maximum limit of posts, please delete some posts to continue");
+        setLoading(false);
       }
       else{
-        toast.error('Error occurred while adding post');
+        toast.error(result.message || "An unexpected error occurred");
+        setLoading(false);
         
       }
     }
     catch(error){
       toast.error("An unexpected error occurred");
+      setLoading(false);
     }
 
   };
