@@ -24,7 +24,7 @@ export default function Navbar(){
             if (currentPath && searchQuery === '') {
                 router.push(`/?query=&category=${categoryValue}`);
             }
-    }, [searchQuery]);
+    }, [searchQuery, categoryValue, currentPath, router]);
 
     const handleSearch = () => {
         router.push(`/?query=${searchQuery}&category=${categoryValue}`);
