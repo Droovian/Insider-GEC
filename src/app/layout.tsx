@@ -6,34 +6,33 @@ import { authOptions } from "@/lib/auth";
 import Providers from "@/components/Providers";
 import TProvider from "@/components/TProvider";
 import Navbar from "@/components/Navbar";
+import { siteConfig } from "./site";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Insider GEC",
-  description: "A safe and anonymous platform for Goa College Of Engineering students to share their thoughts and opinions without fear of judgment or exposure.",
-  keywords: [
-    "GEC Insider",
-    "Insider for GEC",
-    "Anonymous posting",
-    "Safe sharing",
-    "Goa College Of Engineering",
-    "GEC Farmagudi"
-  ],
-  metadataBase: new URL("https://gecinsider.in"),
+  title: {
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.title}`,
+  },
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  metadataBase: siteConfig.metadataBase,
 };
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
+export default async function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   const session = await getServerSession(authOptions);
 
   return (
-        <html lang="en" className="bg-gray-100">
+        <html lang="en">
           
             <TProvider>
-              <body className="bg-gray-100">
+              <body className={`${inter?.className} min-h-screen pt-12 bg-slate-50 antialiased`}>
               <Providers>
-                  {/* <Navbar/> */}
-                  <div className='container h-full w-full'>
+                  <Navbar/>
+                  <div className='container h-full pt-12'>
                     {children}
                   </div>
               </Providers>

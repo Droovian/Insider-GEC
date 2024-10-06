@@ -135,4 +135,6 @@ const PostFeed: FC<PostFeedProps> = React.memo(({ initialPosts }) => {
     );
 });
 
+PostFeed.displayName = 'PostFeed';
+
 export default PostFeed;
