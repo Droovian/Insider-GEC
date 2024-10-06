@@ -64,7 +64,7 @@ const PostFeed: FC<PostFeedProps> = React.memo(({ initialPosts }) => {
     const posts = data?.pages.flatMap((page) => page) ?? initialPosts;
 
     return (
-        <div className="grid grid-cols-1 gap-2 mx-auto lg:w-3/4">
+        <div className="grid grid-cols-1 w-full">
             {posts.map((post) => {
                 const votesAmt = post.votes
                     ? post.votes.reduce((acc, vote) => {
@@ -81,7 +81,7 @@ const PostFeed: FC<PostFeedProps> = React.memo(({ initialPosts }) => {
                 return (
                     <div
                         key={post?.id}
-                        className="sm:w-full mx-auto mt-1 border shadow-md bg-gray-100"
+                        className="w-full sm:w-full mx-auto mt-1 border shadow-md bg-gray-100"
                     >
                         <div className="flex items-center justify-between text-sm mx-4">
                             <p className='font-light text-xs py-3'>{post?.createdAt ? new Date(post.createdAt).toDateString() : 'Invalid Date'}</p>

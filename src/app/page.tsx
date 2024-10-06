@@ -46,6 +46,7 @@ export default async function Home() {
       <div className="sm:ml-52 pt-16">
         <div className="flex h-screen overflow-y-auto">
 
+
           <div className="w-full sm:w-full xl:w-3/4 p-3">
             <Suspense fallback={<PostSkeleton />}>
               <GeneralFeed />
@@ -60,6 +61,8 @@ export default async function Home() {
         </div>
       </div>
     </div> */
+
+
 
   );
 }
